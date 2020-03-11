@@ -1,0 +1,9 @@
+#!/bin/sh
+
+## the platform-sync container performs 
+## the required actions to post metadata
+if [[ "$TOOL_PACKAGE" == anaconda-platform-sync ]]; then
+  exit 0
+fi
+
+/opt/continuum/anaconda/envs/lab_launch/bin/python /opt/continuum/scripts/pre-push.py
