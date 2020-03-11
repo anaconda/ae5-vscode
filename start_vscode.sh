@@ -30,7 +30,8 @@ export NODE_EXTRA_CA_CERTS=$OCLL/ssl/cacert.pem
 ## Git configs to allow push without arguments
 git config push.default upstream 
 git branch -u origin/master
-git config push.followTags true
+git config alias.push "git push --tags"
+git config remote.origin.tagOpt --tags
 
 ## configure pre-push hook to POST revision metadata
 cp $OC/scripts/pre-push $OCP/.git/hooks

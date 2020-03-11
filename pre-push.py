@@ -33,13 +33,17 @@ def cli():
     parser = argparse.ArgumentParser(description='POST revision metadata')
     parser.add_argument('tag', nargs='?', help='Git tag')
     parser.add_argument('--dry-run', action='store_true', help='Do not POST the metadata. Useful to check for errors.')
-    parser.add_argument('--allow-lw-tags', action='store_true', help='Allow lightweight tags otherwise throw RuntimeError.')
+    parser.add_argument('--allow-annotated-tags', action='store_true', help='Allow annotated tags otherwise throw RuntimeError.')
     parser.add_argument('-v', '--verbose', action='store_true', help='Print more.')
     return parser
 
 
-def main():
-    args = cli().parse_args()
+def main(cli_args: list = None):
+    if cli_args is not None:
+        args = cli().parse_args(cli_args)
+    else:
+        args = cli().parse_args()
+
 
     if args.verbose:
         print(f'-- Parsed arguments: {args}')
@@ -55,7 +59,7 @@ def main():
         print(f'-- The tag to POST: {tag}')
 
     # borrow token from .git/config
-    config = configparser.ConfigParser()
+    config = configparser.ConfigParser(strict=False)
     config.read('/opt/continuum/project/.git/config')
     _,bearer_token = config['http']['extraHeader'].split(':')
 
@@ -95,12 +99,12 @@ def main():
 
     ## The project has been configured with push.followTags=true.
     ## Only annotated tags will be automatically pushed.
-    if (not is_annotated(tag)) and (not args.allow_lw_tags):
-        msg = f"""Tag {tag} is not an "annotated tag".
+    if (is_annotated(tag)) and (not args.allow_annotated_tags):
+        msg = f"""Tag {tag} is an "annotated tag".
 Please create it again by running
 
 git tag -d {tag}
-git tag -a -m "Version: {tag}" {tag}
+git tag -a {tag}
 """
         raise RuntimeError(msg)
 
