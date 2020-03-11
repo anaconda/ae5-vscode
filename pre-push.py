@@ -13,8 +13,8 @@ import requests
 import subprocess
 import sys
 
-from pprint import pprint
 from anaconda_project.project import Project
+from pprint import pprint
 
 VERSIONS_URL = f'{os.environ["TOOL_PROJECT_URL"]}/versions'
 
