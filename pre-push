@@ -6,11 +6,16 @@ if [[ "$TOOL_PACKAGE" == anaconda-platform-sync ]]; then
   exit 0
 fi
 
+PYTHON=/opt/continuum/anaconda/envs/lab_launch/bin/python
+OCS=/opt/continuum/scripts
+
 HAS_TAGS=0
 DRY_RUN=""
 VERBOSE=""
+
+## read git push command line arguments
 while read -d $'\0' arg ; do
-    if [[ "$arg" == '--tags' ]] ; then
+    if [[ "$arg" == '--tags' ]] || [[ "$arg" == '--tag' ]] ; then
         HAS_TAGS=1
     fi
     if [[ "$arg" == '--dry-run' ]]; then
@@ -21,12 +26,16 @@ while read -d $'\0' arg ; do
     fi
 done < /proc/$PPID/cmdline
 
+### AE5 cannot accept annotated tags, rewrite them before allowing git push
+$PYTHON $OCS/retag.py $DRY_RUN $VERBOSE
+
 if [ "$HAS_TAGS" -eq "1" ]; then
     ## silent exit on git push --tags
     exit 0
 else
     git push --tags
+    $PYTHON $OCS/pre-push.py $DRY_RUN $VERBOSE
 fi
 
 
-/opt/continuum/anaconda/envs/lab_launch/bin/python /opt/continuum/project/pre-push.py $DRY_RUN $VERBOSE
+

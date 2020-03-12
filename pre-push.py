@@ -18,22 +18,11 @@ from pprint import pprint
 
 VERSIONS_URL = f'{os.environ["TOOL_PROJECT_URL"]}/versions'
 
-def is_annotated(tag: str):
-    '''check that the supplied tag is an "annotated tag"
-
-    Annotated tags are created using
-
-    git tag -a -m <msg> <tag>'''
-
-    ref = subprocess.check_output(f'git cat-file -t {tag}', shell=True).decode().strip()
-    return ref == 'tag'
-
 
 def cli():
     parser = argparse.ArgumentParser(description='POST revision metadata')
     parser.add_argument('tag', nargs='?', help='Git tag')
     parser.add_argument('--dry-run', action='store_true', help='Do not POST the metadata. Useful to check for errors.')
-    parser.add_argument('--allow-annotated-tags', action='store_true', help='Allow annotated tags otherwise throw RuntimeError.')
     parser.add_argument('-v', '--verbose', action='store_true', help='Print more.')
     return parser
 
@@ -96,17 +85,6 @@ def main(cli_args: list = None):
             print(f'-- Tag {tag} has already been created.')
             print(f'-- Silent termination.')
         sys.exit(0)
-
-    ## The project has been configured with push.followTags=true.
-    ## Only annotated tags will be automatically pushed.
-    if (is_annotated(tag)) and (not args.allow_annotated_tags):
-        msg = f"""Tag {tag} is an "annotated tag".
-Please create it again by running
-
-git tag -d {tag}
-git tag -a {tag}
-"""
-        raise RuntimeError(msg)
 
     project = Project('.')
     body = {'data':{'type':'version','attributes':{'name':tag,'metadata':project.publication_info()}}}
