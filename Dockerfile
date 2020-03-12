@@ -28,7 +28,7 @@ RUN set -ex \
            cp start_vscode.sh /opt/continuum/scripts; \
            cp merge_vscode_settings.py /opt/continuum/scripts; \
        fi \
-    && cp pre-push pre-push.py /opt/continuum/scripts \
+    && cp pre-push pre-push.py retag.py /opt/continuum/scripts \
     && chmod +x /opt/continuum/scripts/*.sh \
     && chown anaconda:anaconda /opt/continuum/scripts/*.sh \
     && chown anaconda:anaconda /opt/continuum/scripts/merge_vscode_settings.py \
