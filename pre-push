@@ -1,9 +1,32 @@
 #!/bin/sh
 
-## the platform-sync container performs 
+## the platform-sync container performs
 ## the required actions to post metadata
 if [[ "$TOOL_PACKAGE" == anaconda-platform-sync ]]; then
   exit 0
 fi
 
-/opt/continuum/anaconda/envs/lab_launch/bin/python /opt/continuum/scripts/pre-push.py
+HAS_TAGS=0
+DRY_RUN=""
+VERBOSE=""
+while read -d $'\0' arg ; do
+    if [[ "$arg" == '--tags' ]] ; then
+        HAS_TAGS=1
+    fi
+    if [[ "$arg" == '--dry-run' ]]; then
+	DRY_RUN="--dry-run"
+    fi
+    if [[ "$arg" == "-v" ]] || [[ "$arg" == "--verbose" ]]; then
+	VERBOSE='-v'
+    fi
+done < /proc/$PPID/cmdline
+
+if [ "$HAS_TAGS" -eq "1" ]; then
+    ## silent exit on git push --tags
+    exit 0
+else
+    git push --tags
+fi
+
+
+/opt/continuum/anaconda/envs/lab_launch/bin/python /opt/continuum/project/pre-push.py $DRY_RUN $VERBOSE
