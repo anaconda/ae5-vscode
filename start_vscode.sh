@@ -33,7 +33,7 @@ git branch -u origin/master
 
 ## configure pre-push hook to POST revision metadata
 cp $OC/scripts/pre-push $OCP/.git/hooks
-chmod 755 $OCP/.git/hook/pre-push
+chmod 755 $OCP/.git/hooks/pre-push
 
 args=($OCLB/code-server --auth none --user-data-dir $OCV)
 [[ $TOOL_PORT ]] && args+=(--port $TOOL_PORT)
