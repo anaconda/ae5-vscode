@@ -1,0 +1,143 @@
+git push --dry-run -v
+Pushing to https://internal.training.anaconda.com/platform/git/anaconda/adefuscoanacondacom-18e5117331e144e7ab045242c263a681.git
+-- Parsed arguments: Namespace(dry_run=True, tags=[], verbose=True)
+-- All known tags: {'lw', '0.1.0', '0.2.0', 'tag'}
+-- Tags not on origin/master: {'lw', '0.2.0', 'tag'}
+Everything up-to-date
+-- Parsed arguments: Namespace(dry_run=True, tags=[], verbose=True)
+-- All known tags: {'lw', '0.2.0', '0.1.0', 'tag'}
+-- Retrieved bearer token from .git/config
+{'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ3S0k0dWhVSmtwRFhHb2NYY1ZrSVRUYVE0SS01WE9PZ2FfX2ZLY1U3OHlFIn0.eyJqdGkiOiIwMDMxMzM5My03ODUyLTQzMDYtODNmZi0wMmU2NDU3MDFjOTQiLCJleHAiOjE1ODUzMjI3NzgsIm5iZiI6MCwiaWF0IjoxNTg1MzE5MTc4LCJpc3MiOiJodHRwczovL2ludGVybmFsLnRyYWluaW5nLmFuYWNvbmRhLmNvbS9hdXRoL3JlYWxtcy9BbmFjb25kYVBsYXRmb3JtIiwiYXVkIjoiYW5hY29uZGEtcGxhdGZvcm0iLCJzdWIiOiI1MmNjNTUyNy1jNDlmLTQyOTgtYmU2ZC0yMzQxMzQ5M2FjMzYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhbmFjb25kYS1wbGF0Zm9ybSIsImF1dGhfdGltZSI6MTU4NTMxOTAzNCwic2Vzc2lvbl9zdGF0ZSI6ImIyZjhjYTg4LWNmZDAtNGZkMS05MTljLWY3MzcwMjg3YTU5ZCIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9pbnRlcm5hbC50cmFpbmluZy5hbmFjb25kYS5jb20iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFlLWNyZWF0b3IiLCJhZS1kZXBsb3llciIsImFlLXVwbG9hZGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIG9mZmxpbmVfYWNjZXNzIEFuYWNvbmRhX3RlbXBsYXRlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJncnAiOlsiZXZlcnlvbmUiXSwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRlZnVzY29AYW5hY29uZGEuY29tIiwiZW1haWwiOiJhZGVmdXNjb0BhbmFjb25kYS5jb20ifQ.S-nQyc-A5Q6Q9GLBCV-eVacBkSJDXNq3uHaty2t4l5-Feow2IebFn2N7uPRLvTWOnpyrpHCAFjHHmkUNsPwa8KaT7-9eJb8uc2KpH9NBNrsHfG3ZyN9ysKbuYA_EzpkiGnGz4VDisMWTItv3N3fTxYRaygN85TV0F7I5VXvReuMWcFlaXarbop0jNOSXVfJn6EYA3b1pfFRtjqn_ruEFQIvPfkWzeHkgmmz47zdSMgB-blIAiAi8zttjd_B1dyEztaGjBHUG1ps7bTd4X1n_rlhwbXUPKsA4PrHJQxFvUhsIvzMsNE968hOKPabya0jyY6xNTC_yvPUIQZyRoo5--Q', 'Content-Type': 'application/vnd.api+json'}
+
+-- Project version URL: https://internal.training.anaconda.com/platform/storage/api/v1/projects/18e5117331e144e7ab045242c263a681/versions
+-- Checking if {'lw', '0.2.0', '0.1.0', 'tag'} have already been posted
+-- Known version tags
+{'0.1.0'}
+
+-- Version tags to post
+{'lw', '0.2.0', 'tag'}
+
+-- The metadata to be posted:
+{'data': {'attributes': {'metadata': {'anaconda_project_version': '0.8.3',
+                                      'commands': {'lw': {'default': True,
+                                                          'description': 'python '
+                                                                         '-m '
+                                                                         'http.server '
+                                                                         '8086',
+                                                          'env_spec': 'anaconda50_py36',
+                                                          'supports_http_options': False,
+                                                          'unix': 'python -m '
+                                                                  'http.server '
+                                                                  '8086'}},
+                                      'description': 'A comprehensive project '
+                                                     'template that contains '
+                                                     'all of the packages '
+                                                     'available in the '
+                                                     'Anaconda Distribution '
+                                                     'v5.0.1 for Python 3.6. '
+                                                     'Get started with the '
+                                                     'most popular and '
+                                                     'powerful packages in '
+                                                     'data science.',
+                                      'env_specs': {'anaconda50_py36': {'channels': [],
+                                                                        'description': 'anaconda50_py36',
+                                                                        'downloads': {},
+                                                                        'locked': False,
+                                                                        'packages': ['python=3.6.3'],
+                                                                        'platforms': ['linux-64'],
+                                                                        'services': {},
+                                                                        'variables': {}}},
+                                      'name': 'Anaconda 3.6 (v5.0.1)',
+                                      'url_friendly_name': 'Anaconda-3-6--v5-0-1-'},
+                         'name': 'lw'},
+          'type': 'version'}}
+ -- Dry Run POST request
+requests.post(https://internal.training.anaconda.com/platform/storage/api/v1/projects/18e5117331e144e7ab045242c263a681/versions,
+              headers={'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ3S0k0dWhVSmtwRFhHb2NYY1ZrSVRUYVE0SS01WE9PZ2FfX2ZLY1U3OHlFIn0.eyJqdGkiOiIwMDMxMzM5My03ODUyLTQzMDYtODNmZi0wMmU2NDU3MDFjOTQiLCJleHAiOjE1ODUzMjI3NzgsIm5iZiI6MCwiaWF0IjoxNTg1MzE5MTc4LCJpc3MiOiJodHRwczovL2ludGVybmFsLnRyYWluaW5nLmFuYWNvbmRhLmNvbS9hdXRoL3JlYWxtcy9BbmFjb25kYVBsYXRmb3JtIiwiYXVkIjoiYW5hY29uZGEtcGxhdGZvcm0iLCJzdWIiOiI1MmNjNTUyNy1jNDlmLTQyOTgtYmU2ZC0yMzQxMzQ5M2FjMzYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhbmFjb25kYS1wbGF0Zm9ybSIsImF1dGhfdGltZSI6MTU4NTMxOTAzNCwic2Vzc2lvbl9zdGF0ZSI6ImIyZjhjYTg4LWNmZDAtNGZkMS05MTljLWY3MzcwMjg3YTU5ZCIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9pbnRlcm5hbC50cmFpbmluZy5hbmFjb25kYS5jb20iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFlLWNyZWF0b3IiLCJhZS1kZXBsb3llciIsImFlLXVwbG9hZGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIG9mZmxpbmVfYWNjZXNzIEFuYWNvbmRhX3RlbXBsYXRlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJncnAiOlsiZXZlcnlvbmUiXSwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRlZnVzY29AYW5hY29uZGEuY29tIiwiZW1haWwiOiJhZGVmdXNjb0BhbmFjb25kYS5jb20ifQ.S-nQyc-A5Q6Q9GLBCV-eVacBkSJDXNq3uHaty2t4l5-Feow2IebFn2N7uPRLvTWOnpyrpHCAFjHHmkUNsPwa8KaT7-9eJb8uc2KpH9NBNrsHfG3ZyN9ysKbuYA_EzpkiGnGz4VDisMWTItv3N3fTxYRaygN85TV0F7I5VXvReuMWcFlaXarbop0jNOSXVfJn6EYA3b1pfFRtjqn_ruEFQIvPfkWzeHkgmmz47zdSMgB-blIAiAi8zttjd_B1dyEztaGjBHUG1ps7bTd4X1n_rlhwbXUPKsA4PrHJQxFvUhsIvzMsNE968hOKPabya0jyY6xNTC_yvPUIQZyRoo5--Q', 'Content-Type': 'application/vnd.api+json'},
+              data={"data": {"type": "version", "attributes": {"name": "lw", "metadata": {"name": "Anaconda 3.6 (v5.0.1)", "url_friendly_name": "Anaconda-3-6--v5-0-1-", "description": "A comprehensive project template that contains all of the packages available in the Anaconda Distribution v5.0.1 for Python 3.6. Get started with the most popular and powerful packages in data science.", "anaconda_project_version": "0.8.3", "commands": {"lw": {"description": "python -m http.server 8086", "unix": "python -m http.server 8086", "default": true, "env_spec": "anaconda50_py36", "supports_http_options": false}}, "env_specs": {"anaconda50_py36": {"packages": ["python=3.6.3"], "channels": [], "description": "anaconda50_py36", "locked": false, "platforms": ["linux-64"], "downloads": {}, "variables": {}, "services": {}}}}}}}
+
+-- The metadata to be posted:
+{'data': {'attributes': {'metadata': {'anaconda_project_version': '0.8.3',
+                                      'commands': {'nb': {'default': True,
+                                                          'description': 'Notebook '
+                                                                         'auto.ipynb',
+                                                          'env_spec': 'anaconda50_py36',
+                                                          'notebook': 'auto.ipynb',
+                                                          'supports_http_options': True}},
+                                      'description': 'A comprehensive project '
+                                                     'template that contains '
+                                                     'all of the packages '
+                                                     'available in the '
+                                                     'Anaconda Distribution '
+                                                     'v5.0.1 for Python 3.6. '
+                                                     'Get started with the '
+                                                     'most popular and '
+                                                     'powerful packages in '
+                                                     'data science.',
+                                      'env_specs': {'anaconda50_py36': {'channels': [],
+                                                                        'description': 'anaconda50_py36',
+                                                                        'downloads': {},
+                                                                        'locked': False,
+                                                                        'packages': ['python=3.6.3'],
+                                                                        'platforms': ['linux-64'],
+                                                                        'services': {},
+                                                                        'variables': {}}},
+                                      'name': 'Anaconda 3.6 (v5.0.1)',
+                                      'url_friendly_name': 'Anaconda-3-6--v5-0-1-'},
+                         'name': '0.2.0'},
+          'type': 'version'}}
+ -- Dry Run POST request
+requests.post(https://internal.training.anaconda.com/platform/storage/api/v1/projects/18e5117331e144e7ab045242c263a681/versions,
+              headers={'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ3S0k0dWhVSmtwRFhHb2NYY1ZrSVRUYVE0SS01WE9PZ2FfX2ZLY1U3OHlFIn0.eyJqdGkiOiIwMDMxMzM5My03ODUyLTQzMDYtODNmZi0wMmU2NDU3MDFjOTQiLCJleHAiOjE1ODUzMjI3NzgsIm5iZiI6MCwiaWF0IjoxNTg1MzE5MTc4LCJpc3MiOiJodHRwczovL2ludGVybmFsLnRyYWluaW5nLmFuYWNvbmRhLmNvbS9hdXRoL3JlYWxtcy9BbmFjb25kYVBsYXRmb3JtIiwiYXVkIjoiYW5hY29uZGEtcGxhdGZvcm0iLCJzdWIiOiI1MmNjNTUyNy1jNDlmLTQyOTgtYmU2ZC0yMzQxMzQ5M2FjMzYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhbmFjb25kYS1wbGF0Zm9ybSIsImF1dGhfdGltZSI6MTU4NTMxOTAzNCwic2Vzc2lvbl9zdGF0ZSI6ImIyZjhjYTg4LWNmZDAtNGZkMS05MTljLWY3MzcwMjg3YTU5ZCIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9pbnRlcm5hbC50cmFpbmluZy5hbmFjb25kYS5jb20iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFlLWNyZWF0b3IiLCJhZS1kZXBsb3llciIsImFlLXVwbG9hZGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIG9mZmxpbmVfYWNjZXNzIEFuYWNvbmRhX3RlbXBsYXRlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJncnAiOlsiZXZlcnlvbmUiXSwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRlZnVzY29AYW5hY29uZGEuY29tIiwiZW1haWwiOiJhZGVmdXNjb0BhbmFjb25kYS5jb20ifQ.S-nQyc-A5Q6Q9GLBCV-eVacBkSJDXNq3uHaty2t4l5-Feow2IebFn2N7uPRLvTWOnpyrpHCAFjHHmkUNsPwa8KaT7-9eJb8uc2KpH9NBNrsHfG3ZyN9ysKbuYA_EzpkiGnGz4VDisMWTItv3N3fTxYRaygN85TV0F7I5VXvReuMWcFlaXarbop0jNOSXVfJn6EYA3b1pfFRtjqn_ruEFQIvPfkWzeHkgmmz47zdSMgB-blIAiAi8zttjd_B1dyEztaGjBHUG1ps7bTd4X1n_rlhwbXUPKsA4PrHJQxFvUhsIvzMsNE968hOKPabya0jyY6xNTC_yvPUIQZyRoo5--Q', 'Content-Type': 'application/vnd.api+json'},
+              data={"data": {"type": "version", "attributes": {"name": "0.2.0", "metadata": {"name": "Anaconda 3.6 (v5.0.1)", "url_friendly_name": "Anaconda-3-6--v5-0-1-", "description": "A comprehensive project template that contains all of the packages available in the Anaconda Distribution v5.0.1 for Python 3.6. Get started with the most popular and powerful packages in data science.", "anaconda_project_version": "0.8.3", "commands": {"nb": {"description": "Notebook auto.ipynb", "notebook": "auto.ipynb", "default": true, "env_spec": "anaconda50_py36", "supports_http_options": true}}, "env_specs": {"anaconda50_py36": {"packages": ["python=3.6.3"], "channels": [], "description": "anaconda50_py36", "locked": false, "platforms": ["linux-64"], "downloads": {}, "variables": {}, "services": {}}}}}}}
+
+-- The metadata to be posted:
+{'data': {'attributes': {'metadata': {'anaconda_project_version': '0.8.3',
+                                      'commands': {'lw': {'default': True,
+                                                          'description': 'python '
+                                                                         '-m '
+                                                                         'http.server '
+                                                                         '8086',
+                                                          'env_spec': 'anaconda50_py36',
+                                                          'supports_http_options': False,
+                                                          'unix': 'python -m '
+                                                                  'http.server '
+                                                                  '8086'},
+                                                   'tag': {'description': 'python '
+                                                                          '-m '
+                                                                          'http.server '
+                                                                          '8086',
+                                                           'env_spec': 'anaconda50_py36',
+                                                           'supports_http_options': False,
+                                                           'unix': 'python -m '
+                                                                   'http.server '
+                                                                   '8086'}},
+                                      'description': 'A comprehensive project '
+                                                     'template that contains '
+                                                     'all of the packages '
+                                                     'available in the '
+                                                     'Anaconda Distribution '
+                                                     'v5.0.1 for Python 3.6. '
+                                                     'Get started with the '
+                                                     'most popular and '
+                                                     'powerful packages in '
+                                                     'data science.',
+                                      'env_specs': {'anaconda50_py36': {'channels': [],
+                                                                        'description': 'anaconda50_py36',
+                                                                        'downloads': {},
+                                                                        'locked': False,
+                                                                        'packages': ['python=3.6.3'],
+                                                                        'platforms': ['linux-64'],
+                                                                        'services': {},
+                                                                        'variables': {}}},
+                                      'name': 'Anaconda 3.6 (v5.0.1)',
+                                      'url_friendly_name': 'Anaconda-3-6--v5-0-1-'},
+                         'name': 'tag'},
+          'type': 'version'}}
+ -- Dry Run POST request
+requests.post(https://internal.training.anaconda.com/platform/storage/api/v1/projects/18e5117331e144e7ab045242c263a681/versions,
+              headers={'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ3S0k0dWhVSmtwRFhHb2NYY1ZrSVRUYVE0SS01WE9PZ2FfX2ZLY1U3OHlFIn0.eyJqdGkiOiIwMDMxMzM5My03ODUyLTQzMDYtODNmZi0wMmU2NDU3MDFjOTQiLCJleHAiOjE1ODUzMjI3NzgsIm5iZiI6MCwiaWF0IjoxNTg1MzE5MTc4LCJpc3MiOiJodHRwczovL2ludGVybmFsLnRyYWluaW5nLmFuYWNvbmRhLmNvbS9hdXRoL3JlYWxtcy9BbmFjb25kYVBsYXRmb3JtIiwiYXVkIjoiYW5hY29uZGEtcGxhdGZvcm0iLCJzdWIiOiI1MmNjNTUyNy1jNDlmLTQyOTgtYmU2ZC0yMzQxMzQ5M2FjMzYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhbmFjb25kYS1wbGF0Zm9ybSIsImF1dGhfdGltZSI6MTU4NTMxOTAzNCwic2Vzc2lvbl9zdGF0ZSI6ImIyZjhjYTg4LWNmZDAtNGZkMS05MTljLWY3MzcwMjg3YTU5ZCIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9pbnRlcm5hbC50cmFpbmluZy5hbmFjb25kYS5jb20iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFlLWNyZWF0b3IiLCJhZS1kZXBsb3llciIsImFlLXVwbG9hZGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIG9mZmxpbmVfYWNjZXNzIEFuYWNvbmRhX3RlbXBsYXRlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJncnAiOlsiZXZlcnlvbmUiXSwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRlZnVzY29AYW5hY29uZGEuY29tIiwiZW1haWwiOiJhZGVmdXNjb0BhbmFjb25kYS5jb20ifQ.S-nQyc-A5Q6Q9GLBCV-eVacBkSJDXNq3uHaty2t4l5-Feow2IebFn2N7uPRLvTWOnpyrpHCAFjHHmkUNsPwa8KaT7-9eJb8uc2KpH9NBNrsHfG3ZyN9ysKbuYA_EzpkiGnGz4VDisMWTItv3N3fTxYRaygN85TV0F7I5VXvReuMWcFlaXarbop0jNOSXVfJn6EYA3b1pfFRtjqn_ruEFQIvPfkWzeHkgmmz47zdSMgB-blIAiAi8zttjd_B1dyEztaGjBHUG1ps7bTd4X1n_rlhwbXUPKsA4PrHJQxFvUhsIvzMsNE968hOKPabya0jyY6xNTC_yvPUIQZyRoo5--Q', 'Content-Type': 'application/vnd.api+json'},
+              data={"data": {"type": "version", "attributes": {"name": "tag", "metadata": {"name": "Anaconda 3.6 (v5.0.1)", "url_friendly_name": "Anaconda-3-6--v5-0-1-", "description": "A comprehensive project template that contains all of the packages available in the Anaconda Distribution v5.0.1 for Python 3.6. Get started with the most popular and powerful packages in data science.", "anaconda_project_version": "0.8.3", "commands": {"lw": {"description": "python -m http.server 8086", "unix": "python -m http.server 8086", "default": true, "env_spec": "anaconda50_py36", "supports_http_options": false}, "tag": {"description": "python -m http.server 8086", "unix": "python -m http.server 8086", "env_spec": "anaconda50_py36", "supports_http_options": false}}, "env_specs": {"anaconda50_py36": {"packages": ["python=3.6.3"], "channels": [], "description": "anaconda50_py36", "locked": false, "platforms": ["linux-64"], "downloads": {}, "variables": {}, "services": {}}}}}}}
+
+To https://internal.training.anaconda.com/platform/git/anaconda/adefuscoanacondacom-18e5117331e144e7ab045242c263a681.git
+   06acacd..a3b48b2  adefusco@anaconda.com-8974de07a4cc4255b9567cfb9d423fea -> master
