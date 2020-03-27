@@ -12,7 +12,7 @@ git tag lw
 
 echo "annotated" > index.html
 git add index.html
-git commit "forgot to tag"
+git commit -m "forgot to tag"
 
 anaconda-project add-command tag --type unix "python -m http.server 8086"
 git add anaconda-project.yml

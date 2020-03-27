@@ -43,15 +43,15 @@ def main(cli_args: list = None):
 
     if args.verbose:
         print(f'-- All known tags: {all_tags}')
-    
+
     remote_tags = set(subprocess.check_output("git tag --merged origin/master", shell=True).decode().splitlines())
-    
+
     remaining_tags = all_tags - remote_tags
-    
+
     if args.verbose:
         print(f'-- Tags not on origin/master: {remaining_tags}')
 
-    for tag in remaining_tags:           
+    for tag in remaining_tags:
         if is_annotated(tag):
             commit = subprocess.check_output(f'git rev-parse $(git rev-parse {tag})^{{}}', shell=True).decode().strip()
             if args.verbose:
@@ -65,8 +65,7 @@ def main(cli_args: list = None):
                 ret = subprocess.check_output(f'git tag {tag} {commit}', shell=True)
                 if args.verbose:
                     print(f'-- Lightweight tag {tag} created.')
-        
+
 
 if __name__ == '__main__':
     main()
-	
