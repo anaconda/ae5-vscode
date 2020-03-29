@@ -33,7 +33,7 @@ if [ "$HAS_TAGS" -eq "1" ]; then
     ## silent exit on git push --tags
     exit 0
 else
-    git push --tags
+    git push --tags $DRY_RUN $VERBOSE
     $PYTHON $OCS/pre-push.py $DRY_RUN $VERBOSE
 fi
 
