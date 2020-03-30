@@ -1,5 +1,7 @@
-FROM leader.telekube.local:5000/ae-editor:5.3.1-22.g6cafcc9c5-rstudio
+FROM leader.telekube.local:5000/ae-editor:5.4.0-46.g640c57da1
 COPY . /aesrc/vscode/
+COPY code-server2.1698-vsc1.41.1-linux-x86_64.tar.gz .
+COPY ms-python-release.vsix .
 RUN set -ex \
     && rm -f /usr/bin/git /usr/bin/git-* \
     && for fname in /opt/continuum/anaconda/envs/lab_launch/bin/{git,git-*}; do \
@@ -17,7 +19,9 @@ RUN set -ex \
     && mv code-server*/code-server \
           /opt/continuum/anaconda/envs/lab_launch/bin \
     && mv vscode /opt/continuum/.vscode \
+    && mv project.code-workspace /opt/continuum \
     && chown -fR anaconda:anaconda /opt/continuum/.vscode \
+    && chown -fR anaconda:anaconda /opt/continuum/project.code-workspace \
     && su anaconda -c \
           "/opt/continuum/anaconda/envs/lab_launch/bin/code-server \
           --user-data-dir /opt/continuum/.vscode \
