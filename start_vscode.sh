@@ -15,16 +15,10 @@ SETTINGS="/var/run/secrets/user_credentials/vscode_settings"
 
 export CONDA_EXE=$OCA/bin/conda
 export CONDA_DESIRED_ENV=$(cd $OCP && $OCLB/anaconda-project list-env-specs </dev/null | grep -A1 ^= | tail -1)
-if [ "$CONDA_DESIRED_ENV" ]; then
-    echo "| Target environment: $CONDA_DESIRED_ENV"
-    source $OCA/bin/activate $CONDA_DESIRED_ENV || \
-        echo "| ERROR: Environment activation failed"
-else
-    echo "| Missing or corrupt anaconda-project.yml file"
-fi
-echo "| Prefix: $CONDA_PREFIX"
+ENV_PREFIX="$ANACONDA_PROJECT_ENVS_PATH/$CONDA_DESIRED_ENV"
+echo "| Prefix: $ENV_PREFIX"
 
-sed -E -i 's@("python.pythonPath":\s*")[^"]*(")@\1'"$CONDA_PREFIX/bin/python"'\2@' $OC/project.code-workspace
+sed -E -i 's@("python.pythonPath":\s*")[^"]*(")@\1'"$ENV_PREFIX/bin/python"'\2@' $OC/project.code-workspace
 echo "| Workspace Settings file $OC/project.code-workspace:"
 echo "|---"
 sed 's@^@|  @' $OC/project.code-workspace
