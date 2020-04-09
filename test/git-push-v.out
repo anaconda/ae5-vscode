@@ -1,66 +1,38 @@
-Pushing to https://internal.training.anaconda.com/platform/git/anaconda/adefuscoanacondacom-395e740e9fc84e3097a29ae40915ecb7.git
+Pushing to https://demo.training.anaconda.com/platform/git/anaconda/instructor-b9fbb17342384022b7a168a2cbf7027c.git
 -- Parsed arguments: Namespace(dry_run=False, tags=[], verbose=True)
--- All known tags: {'0.1.0', 'tag', '0.2.0', 'lw'}
--- Tags not on origin/master: {'tag', '0.2.0', 'lw'}
--- Annotated tag tag associated with commit 00e1bf44064caed0a422a353ab7c82e8b2727f4e to replace
--- Annotated tag tag deleted.
--- Lightweight tag tag created.
+-- All known tags: {'atag', '0.2.0', '0.1.0', 'lw'}
+-- Tags not on origin/master: {'atag', '0.2.0', 'lw'}
+-- Annotated tag atag associated with commit ff5e96b5bd75ef5eb8eba2e493ec66e3f155619f to replace
+-- Annotated tag atag deleted.
+-- Lightweight tag atag created.
+Pushing to https://demo.training.anaconda.com/platform/git/anaconda/instructor-b9fbb17342384022b7a168a2cbf7027c.git
+-- Parsed arguments: Namespace(dry_run=False, tags=[], verbose=True)
+-- All known tags: {'0.1.0', 'lw', 'atag', '0.2.0'}
+-- Tags not on origin/master: {'lw', 'atag', '0.2.0'}
 Enumerating objects: 22, done.
 Counting objects: 100% (22/22), done.
 Delta compression using up to 16 threads
 Compressing objects: 100% (17/17), done.
 Writing objects: 100% (20/20), 17.16 KiB | 8.58 MiB/s, done.
 Total 20 (delta 9), reused 0 (delta 0)
-To https://internal.training.anaconda.com/platform/git/anaconda/adefuscoanacondacom-395e740e9fc84e3097a29ae40915ecb7.git
+POST git-receive-pack (17923 bytes)
+To https://demo.training.anaconda.com/platform/git/anaconda/instructor-b9fbb17342384022b7a168a2cbf7027c.git
+ = [up to date]      0.1.0 -> 0.1.0
  * [new tag]         0.2.0 -> 0.2.0
+ * [new tag]         atag -> atag
  * [new tag]         lw -> lw
- * [new tag]         tag -> tag
 -- Parsed arguments: Namespace(dry_run=False, tags=[], verbose=True)
--- All known tags: {'0.1.0', '0.2.0', 'lw', 'tag'}
+-- All known tags: ['0.1.0', 'lw', 'atag', '0.2.0']
 -- Retrieved bearer token from .git/config
-{'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ3S0k0dWhVSmtwRFhHb2NYY1ZrSVRUYVE0SS01WE9PZ2FfX2ZLY1U3OHlFIn0.eyJqdGkiOiI5MTBjODk0OC1iNzFmLTQwYjYtYmJhZS1jMTZhZTg1NTI5ZWQiLCJleHAiOjE1ODUzMjk5MDcsIm5iZiI6MCwiaWF0IjoxNTg1MzI2MzA3LCJpc3MiOiJodHRwczovL2ludGVybmFsLnRyYWluaW5nLmFuYWNvbmRhLmNvbS9hdXRoL3JlYWxtcy9BbmFjb25kYVBsYXRmb3JtIiwiYXVkIjoiYW5hY29uZGEtcGxhdGZvcm0iLCJzdWIiOiI1MmNjNTUyNy1jNDlmLTQyOTgtYmU2ZC0yMzQxMzQ5M2FjMzYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhbmFjb25kYS1wbGF0Zm9ybSIsImF1dGhfdGltZSI6MTU4NTMyNTY4OCwic2Vzc2lvbl9zdGF0ZSI6ImRlMGM4YzQxLWE3NjQtNDM2NS1iM2Q0LWY5NzBhODZjMjg1ZCIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9pbnRlcm5hbC50cmFpbmluZy5hbmFjb25kYS5jb20iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFlLWNyZWF0b3IiLCJhZS1kZXBsb3llciIsImFlLXVwbG9hZGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIG9mZmxpbmVfYWNjZXNzIEFuYWNvbmRhX3RlbXBsYXRlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJncnAiOlsiZXZlcnlvbmUiXSwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRlZnVzY29AYW5hY29uZGEuY29tIiwiZW1haWwiOiJhZGVmdXNjb0BhbmFjb25kYS5jb20ifQ.n-xj2dK6mDK1SuWZrsxUHrCyyR6zE-CWhau2xqL-nrwsfmIKWf0-1h5_3rEfxfUUs_3yUIevbN56k4XQgtKd9uVDNrlqFvZ6XIZnaT_czLmv7Bj1GTTvnLj1B6NpH6HlDP0ztWl8m_1iXG5_yJOqDPeBsYpAX9N4Qq5ntCNax47fX2sNUQP5vEAsHbpyRDMqtYGiTLYXCK065lkgoOhutzJ62c3m3blnAghwLMjnx2keXMWRFP6ptp97Rq7V2BMKPAfed2bpO-02uxJR_z60FNlh-dKnR-QlW1InYQh0T0dEdCIYuO-W6qHUlfxLEEADaS14LBumyYAJewuteXiw1A', 'Content-Type': 'application/vnd.api+json'}
+{'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ3S0k0dWhVSmtwRFhHb2NYY1ZrSVRUYVE0SS01WE9PZ2FfX2ZLY1U3OHlFIn0.eyJqdGkiOiJhZDQ1MjE3YS0zYjhiLTQyMTItYjAzNi01YjkzNDgwYjMzOTMiLCJleHAiOjE1ODY0MzQ4NzIsIm5iZiI6MCwiaWF0IjoxNTg2NDMzMDcyLCJpc3MiOiJodHRwczovL2RlbW8udHJhaW5pbmcuYW5hY29uZGEuY29tL2F1dGgvcmVhbG1zL0FuYWNvbmRhUGxhdGZvcm0iLCJhdWQiOiJhbmFjb25kYS1wbGF0Zm9ybSIsInN1YiI6ImQyMWY4MzM4LWRjZWQtNGVjZS04ZTgwLTUwNTZlY2M5MDJjMiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFuYWNvbmRhLXBsYXRmb3JtIiwiYXV0aF90aW1lIjoxNTg2NDMxOTkzLCJzZXNzaW9uX3N0YXRlIjoiNWVlZWJhMWItMDk5MS00NTlhLWJmODctYzY4NDM2NDdhZjM4IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2RlbW8udHJhaW5pbmcuYW5hY29uZGEuY29tIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJhZS1jcmVhdG9yIiwiYWUtZGVwbG95ZXIiLCJhZS11cGxvYWRlciIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50Iiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgb2ZmbGluZV9hY2Nlc3MgZW1haWwgQW5hY29uZGFfdGVtcGxhdGUgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZ3JwIjpbImV2ZXJ5b25lIl0sIm5hbWUiOiJJbnN0cnVjdG9yIFVzZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJpbnN0cnVjdG9yIiwiZ2l2ZW5fbmFtZSI6Ikluc3RydWN0b3IiLCJmYW1pbHlfbmFtZSI6IlVzZXIiLCJlbWFpbCI6Imluc3RydWN0b3JAZXhhbXBsZS5jb20ifQ.F0N_NL3puMcjku12onyC4J0_evxFe_kpUVRFXd8j1SOdLTpeZ9I0wyKTz-iHgITaIxqQQG_C4tVtn5JNB69swLcaQlUdftaLJc7Dn9_6GhiOWcGs3_U27w3yWZvFe6VHcQESdIZUxgGtuEsxi-wRbOeYGizs4F4-nfBisgSJfn5JsRQvE8jPLeqQJmehx5aPCI1u-A3douuzPBuW7IzThiZ4q52SkBQnJm-GAjH4odzsgVOHj0SzODaxDgLAMtBjXadvYQgZBpucsrSSvR97FHWcrdnZ7MjwnQXwxehc_w92LVXIWvGkAppAlOlUlzzOgH4ueyyhKOcwg1XOD5XxGQ', 'Content-Type': 'application/vnd.api+json'}
 
--- Project version URL: https://internal.training.anaconda.com/platform/storage/api/v1/projects/395e740e9fc84e3097a29ae40915ecb7/versions
--- Checking if {'0.1.0', '0.2.0', 'lw', 'tag'} have already been posted
+-- Project version URL: https://demo.training.anaconda.com/platform/storage/api/v1/projects/b9fbb17342384022b7a168a2cbf7027c/versions
+-- Checking if ['0.1.0', 'lw', 'atag', '0.2.0'] have already been posted
 -- Known version tags
-{'0.1.0'}
+['0.1.0']
 
 -- Version tags to post
-{'0.2.0', 'lw', 'tag'}
-
--- The metadata to be posted:
-{'data': {'attributes': {'metadata': {'anaconda_project_version': '0.8.3',
-                                      'commands': {'nb': {'default': True,
-                                                          'description': 'Notebook '
-                                                                         'auto.ipynb',
-                                                          'env_spec': 'anaconda50_py36',
-                                                          'notebook': 'auto.ipynb',
-                                                          'supports_http_options': True}},
-                                      'description': 'A comprehensive project '
-                                                     'template that contains '
-                                                     'all of the packages '
-                                                     'available in the '
-                                                     'Anaconda Distribution '
-                                                     'v5.0.1 for Python 3.6. '
-                                                     'Get started with the '
-                                                     'most popular and '
-                                                     'powerful packages in '
-                                                     'data science.',
-                                      'env_specs': {'anaconda50_py36': {'channels': [],
-                                                                        'description': 'anaconda50_py36',
-                                                                        'downloads': {},
-                                                                        'locked': False,
-                                                                        'packages': ['python=3.6.3'],
-                                                                        'platforms': ['linux-64'],
-                                                                        'services': {},
-                                                                        'variables': {}}},
-                                      'name': 'Anaconda 3.6 (v5.0.1)',
-                                      'url_friendly_name': 'Anaconda-3-6--v5-0-1-'},
-                         'name': '0.2.0'},
-          'type': 'version'}}
--- POST request returned
-<Response [201]>
-Created
+['lw', 'atag', '0.2.0']
 
 -- The metadata to be posted:
 {'data': {'attributes': {'metadata': {'anaconda_project_version': '0.8.3',
@@ -141,7 +113,41 @@ Created
                                                                         'variables': {}}},
                                       'name': 'Anaconda 3.6 (v5.0.1)',
                                       'url_friendly_name': 'Anaconda-3-6--v5-0-1-'},
-                         'name': 'tag'},
+                         'name': 'atag'},
+          'type': 'version'}}
+-- POST request returned
+<Response [201]>
+Created
+
+-- The metadata to be posted:
+{'data': {'attributes': {'metadata': {'anaconda_project_version': '0.8.3',
+                                      'commands': {'nb': {'default': True,
+                                                          'description': 'Notebook '
+                                                                         'auto.ipynb',
+                                                          'env_spec': 'anaconda50_py36',
+                                                          'notebook': 'auto.ipynb',
+                                                          'supports_http_options': True}},
+                                      'description': 'A comprehensive project '
+                                                     'template that contains '
+                                                     'all of the packages '
+                                                     'available in the '
+                                                     'Anaconda Distribution '
+                                                     'v5.0.1 for Python 3.6. '
+                                                     'Get started with the '
+                                                     'most popular and '
+                                                     'powerful packages in '
+                                                     'data science.',
+                                      'env_specs': {'anaconda50_py36': {'channels': [],
+                                                                        'description': 'anaconda50_py36',
+                                                                        'downloads': {},
+                                                                        'locked': False,
+                                                                        'packages': ['python=3.6.3'],
+                                                                        'platforms': ['linux-64'],
+                                                                        'services': {},
+                                                                        'variables': {}}},
+                                      'name': 'Anaconda 3.6 (v5.0.1)',
+                                      'url_friendly_name': 'Anaconda-3-6--v5-0-1-'},
+                         'name': '0.2.0'},
           'type': 'version'}}
 -- POST request returned
 <Response [201]>
@@ -153,7 +159,7 @@ Delta compression using up to 16 threads
 Compressing objects: 100% (17/17), done.
 Writing objects: 100% (20/20), 17.12 KiB | 8.56 MiB/s, done.
 Total 20 (delta 9), reused 0 (delta 0)
-POST git-receive-pack (17681 bytes)
-To https://internal.training.anaconda.com/platform/git/anaconda/adefuscoanacondacom-395e740e9fc84e3097a29ae40915ecb7.git
-   3c5a4a7..4e827ac  adefusco@anaconda.com-73d574480cf04c74937ef47090f08595 -> master
+POST git-receive-pack (17686 bytes)
+To https://demo.training.anaconda.com/platform/git/anaconda/instructor-b9fbb17342384022b7a168a2cbf7027c.git
+   793bed5..7c5e4e4  instructor-f2c6963551b3427c8f3ec95e3f3738be -> master
 updating local tracking ref 'refs/remotes/origin/master'

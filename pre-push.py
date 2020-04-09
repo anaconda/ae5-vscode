@@ -41,9 +41,9 @@ def main(cli_args: list = None):
 
     # Determine the tag to POST
     if not args.tags:
-        all_tags = set(subprocess.check_output("git tag", shell=True).decode().splitlines())
+        all_tags = subprocess.check_output("git tag --sort=creatordate", shell=True).decode().splitlines()
     else:
-        all_tags = set(args.tags)
+        all_tags = args.tags
 
     if args.verbose:
         print(f'-- All known tags: {all_tags}')
@@ -71,9 +71,9 @@ def main(cli_args: list = None):
     ## post tags (either from UI or this script)
     res = requests.get(VERSIONS_URL, headers=headers)
     res.raise_for_status()
-    posted_tags = set([v['id'] for v in res.json()['data']])
+    posted_tags = [v['id'] for v in res.json()['data']]
 
-    remaining_tags = all_tags - posted_tags
+    remaining_tags = [t for t in all_tags if t not in posted_tags]
 
     if args.verbose:
         print(f"""-- Known version tags

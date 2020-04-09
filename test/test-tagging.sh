@@ -17,7 +17,7 @@ git commit -m "forgot to tag"
 anaconda-project add-command tag --type unix "python -m http.server 8086"
 git add anaconda-project.yml
 git commit -m "this is annotated"
-git tag -a -m "msg" tag
+git tag -a -m "msg" atag
 
 anaconda-project remove-command tag
 anaconda-project remove-command lw
@@ -30,5 +30,3 @@ anaconda-project add-command nb --type notebook auto.ipynb
 git add auto.ipynb anaconda-project.yml
 git commit -m "notebook"
 git tag 0.2.0
-
-
