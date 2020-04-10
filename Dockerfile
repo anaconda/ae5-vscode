@@ -19,9 +19,7 @@ RUN set -ex \
     && mv code-server*/code-server \
           /opt/continuum/anaconda/envs/lab_launch/bin \
     && mv vscode /opt/continuum/.vscode \
-    && mv project.code-workspace /opt/continuum \
     && chown -fR anaconda:anaconda /opt/continuum/.vscode \
-    && chown -fR anaconda:anaconda /opt/continuum/project.code-workspace \
     && su anaconda -c \
           "/opt/continuum/anaconda/envs/lab_launch/bin/code-server \
           --user-data-dir /opt/continuum/.vscode \

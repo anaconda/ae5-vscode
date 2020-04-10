@@ -18,10 +18,10 @@ export CONDA_DESIRED_ENV=$(cd $OCP && $OCLB/anaconda-project list-env-specs </de
 ENV_PREFIX="$ANACONDA_PROJECT_ENVS_PATH/$CONDA_DESIRED_ENV"
 echo "| Prefix: $ENV_PREFIX"
 
-sed -E -i 's@("python.pythonPath":\s*")[^"]*(")@\1'"$ENV_PREFIX/bin/python"'\2@' $OC/project.code-workspace
-echo "| Workspace Settings file $OC/project.code-workspace:"
+sed -E -i 's@("python.pythonPath":\s*")[^"]*(")@\1'"$ENV_PREFIX/bin/python"'\2@' $OCV/project.code-workspace
+echo "| Workspace Settings file $OCV/project.code-workspace:"
 echo "|---"
-sed 's@^@|  @' $OC/project.code-workspace
+sed 's@^@|  @' $OCV/project.code-workspace
 echo "|---"
 
 if [ -f "$SETTINGS" ]; then
@@ -40,7 +40,7 @@ export NODE_EXTRA_CA_CERTS=$OCLL/ssl/cacert.pem
 args=($OCLB/code-server --auth none --user-data-dir $OCV)
 [[ $TOOL_PORT ]] && args+=(--port $TOOL_PORT)
 [[ $TOOL_ADDRESS ]] && args+=(--host $TOOL_ADDRESS)
-args+=($OC/project.code-workspace)
+args+=($OCV/project.code-workspace)
 
 echo "| Command line: ${args[@]}"
 echo "+-- END: AE5 VSCode Launcher ---"
