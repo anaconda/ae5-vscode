@@ -19,7 +19,9 @@ RUN set -ex \
     && mv code-server*/code-server \
           /opt/continuum/anaconda/envs/lab_launch/bin \
     && mv vscode /opt/continuum/.vscode \
+    && mv admin_settings.json /opt/continuum \
     && chown -fR anaconda:anaconda /opt/continuum/.vscode \
+    && chown -fR anaconda:anaconda /opt/continuum/admin_settings.json \
     && su anaconda -c \
           "/opt/continuum/anaconda/envs/lab_launch/bin/code-server \
           --user-data-dir /opt/continuum/.vscode \
@@ -28,7 +30,9 @@ RUN set -ex \
            cp start_*.sh startup.sh build_condarc.py run_tool.py /opt/continuum/scripts; \
        else \
            cp start_vscode.sh /opt/continuum/scripts; \
+           cp merge_vscode_settings.py /opt/continuum/scripts; \
        fi \
     && chmod +x /opt/continuum/scripts/*.sh \
     && chown anaconda:anaconda /opt/continuum/scripts/*.sh \
+    && chown anaconda:anaconda /opt/continuum/scripts/merge_vscode_settings.py \
     && rm -f /aesrc/vscode/{*.tar.bz2,*.visx}

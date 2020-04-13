@@ -4,7 +4,6 @@ echo "+-- START: AE5 VSCode Launcher ---"
 
 OC=/opt/continuum
 OCV=$OC/.vscode
-OCVU=$OCV/User
 OCA=$OC/anaconda
 OCP=$OC/project
 OCAB=$OCA/bin
@@ -24,16 +23,8 @@ echo "|---"
 sed 's@^@|  @' $OCV/project.code-workspace
 echo "|---"
 
-if [ -f "$SETTINGS" ]; then
-    echo "Found VSCode settings secret $SETTINGS"
-    echo "  Copying to $OCVU/settings.json"
-    cp $SETTINGS $OCVU/settings.json
-
-    echo "| User Settings file $OCVU/settings.json:"
-    echo "|---"
-    sed 's@^@|  @' $OCVU/settings.json
-    echo "|---"
-fi
+pip install jsonmerge
+python /opt/continuum/scripts/merge_vscode_settings.py $SETTINGS
 
 export NODE_EXTRA_CA_CERTS=$OCLL/ssl/cacert.pem
 
