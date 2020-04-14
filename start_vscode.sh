@@ -26,6 +26,8 @@ echo "|---"
 python /opt/continuum/scripts/merge_vscode_settings.py $SETTINGS
 
 export NODE_EXTRA_CA_CERTS=$OCLL/ssl/cacert.pem
+export BOKEH_ALLOW_WS_ORIGIN=$TOOL_HOST          ## allows bokeh apps to work with proxy
+export XDG_DATA_HOME=$OCV                        ## implement last-visited in coder.json
 
 ## Git configs to allow push without arguments
 git config push.default upstream 
@@ -40,9 +42,10 @@ cp $OC/scripts/post-commit $OCP/.git/hooks
 chmod 755 $OCP/.git/hooks/post-commit
 
 args=($OCLB/code-server --auth none --user-data-dir $OCV)
+args+=(--disable-updates)
+args+=(--disable-telemetry)
 [[ $TOOL_PORT ]] && args+=(--port $TOOL_PORT)
 [[ $TOOL_ADDRESS ]] && args+=(--host $TOOL_ADDRESS)
-args+=($OCV/project.code-workspace)
 
 echo "| Command line: ${args[@]}"
 echo "+-- END: AE5 VSCode Launcher ---"
