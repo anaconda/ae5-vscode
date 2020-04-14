@@ -1,4 +1,5 @@
-FROM leader.telekube.local:5000/ae-editor:5.4.0-46.g640c57da1
+ARG WORKSPACE=leader.telekube.local:5000/ae-editor:5.4.0-46.g640c57da1
+FROM $WORKSPACE
 COPY . /aesrc/vscode/
 RUN set -ex \
     && rm -f /usr/bin/git /usr/bin/git-* \
