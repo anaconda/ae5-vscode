@@ -56,7 +56,7 @@ if os.path.exists(user_settings_path):
 
 try:
    project_json = json.loads(admin_settings)
-except JSONDecodeError as e:
+except json.decoder.JSONDecodeError as e:
    print("Could not parse JSON in %s." % admin_settings_path)
    with open(json_parse_error, 'w') as f:
       f.write(admin_parse_failure_msg.format(admin_settings_path=admin_settings_path))
@@ -67,10 +67,10 @@ invalid_user = False
 if user_settings is not None:
    try:
       user_json = json.loads(user_settings)
-   except json.JSONDecodeError as e:
+   except json.decoder.JSONDecodeError as e:
       print("WARNING: Invalid JSON supplied by user. Skipping settings merge.")
       with open(json_parse_error, 'w') as f:
-         f.write(user_parse_failure_msg.format(user_settings_path))
+         f.write(user_parse_failure_msg.format(user_settings_path=user_settings_path))
       invalid_user = True
 
 if (user_settings is None) or invalid_user:
