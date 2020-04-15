@@ -81,7 +81,7 @@ if (user_settings is None) or invalid_user:
             % (user_settings_path, merged_settings_path))
       f.write(merged_settings)
 else:
-   merged_json = jsonmerge.merge(project_json, user_json)
+   merged_json = jsonmerge.merge(user_json, project_json)
    with open(merged_settings_path, 'w') as f:
       print('Writing merged settings to %s' % merged_settings_path)
       f.write(json.dumps(merged_json, indent=4, sort_keys=True))
