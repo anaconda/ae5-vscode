@@ -19,7 +19,6 @@ corresponding error message is written (by default) to
 import sys
 import os
 import json
-import jsonmerge
 
 user_settings_path = sys.argv[1]
 
@@ -81,7 +80,7 @@ if (user_settings is None) or invalid_user:
             % (user_settings_path, merged_settings_path))
       f.write(merged_settings)
 else:
-   merged_json = jsonmerge.merge(user_json, project_json)
+   user_json.update(project_json)
    with open(merged_settings_path, 'w') as f:
       print('Writing merged settings to %s' % merged_settings_path)
-      f.write(json.dumps(merged_json, indent=4, sort_keys=True))
+      f.write(json.dumps(user_json, indent=4, sort_keys=True))
