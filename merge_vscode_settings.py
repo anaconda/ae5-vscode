@@ -27,7 +27,7 @@ OC = "/opt/continuum"
 admin_settings_filename = 'admin_settings.json'
 json_parse_error_filename = 'SETTINGS_PARSE_ERROR'
 
-admin_settings_path = os.path.join(OC, admin_settings_filename)
+admin_settings_path = os.path.join(OC, '.vscode', admin_settings_filename)
 merged_settings_path = os.path.join(OC, '.vscode', 'User', 'settings.json')
 json_parse_error = os.path.join(OC, '.vscode', json_parse_error_filename)
 

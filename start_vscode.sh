@@ -23,7 +23,6 @@ echo "|---"
 sed 's@^@|  @' $OCV/project.code-workspace
 echo "|---"
 
-pip install jsonmerge
 python /opt/continuum/scripts/merge_vscode_settings.py $SETTINGS
 
 export NODE_EXTRA_CA_CERTS=$OCLL/ssl/cacert.pem
