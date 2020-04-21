@@ -1,4 +1,4 @@
-FROM leader.telekube.local:5000/ae-editor:5.3.1-22.g6cafcc9c5-rstudio
+FROM leader.telekube.local:5000/ae-editor:5.4.0-46.g640c57da1
 COPY . /aesrc/vscode/
 RUN set -ex \
     && rm -f /usr/bin/git /usr/bin/git-* \
@@ -26,7 +26,9 @@ RUN set -ex \
            cp start_*.sh startup.sh build_condarc.py run_tool.py /opt/continuum/scripts; \
        else \
            cp start_vscode.sh /opt/continuum/scripts; \
+           cp merge_vscode_settings.py /opt/continuum/scripts; \
        fi \
     && chmod +x /opt/continuum/scripts/*.sh \
     && chown anaconda:anaconda /opt/continuum/scripts/*.sh \
+    && chown anaconda:anaconda /opt/continuum/scripts/merge_vscode_settings.py \
     && rm -f /aesrc/vscode/{*.tar.bz2,*.visx}
