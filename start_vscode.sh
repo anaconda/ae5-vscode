@@ -27,6 +27,18 @@ python /opt/continuum/scripts/merge_vscode_settings.py $SETTINGS
 
 export NODE_EXTRA_CA_CERTS=$OCLL/ssl/cacert.pem
 
+## Git configs to allow push without arguments
+git config push.default upstream 
+git branch -u origin/master
+
+## configure pre-push hook to POST revision metadata
+cp $OC/scripts/pre-push $OCP/.git/hooks
+chmod 755 $OCP/.git/hooks/pre-push
+
+## post-commit message to reminder user to tag and push
+cp $OC/scripts/post-commit $OCP/.git/hooks
+chmod 755 $OCP/.git/hooks/post-commit
+
 args=($OCLB/code-server --auth none --user-data-dir $OCV)
 [[ $TOOL_PORT ]] && args+=(--port $TOOL_PORT)
 [[ $TOOL_ADDRESS ]] && args+=(--host $TOOL_ADDRESS)

@@ -1,0 +1,50 @@
+#!/bin/bash
+
+## the platform-sync container performs
+## the required actions to post metadata
+if [[ "$TOOL_PACKAGE" == "anaconda-platform-sync" ]]; then
+  exit 0
+fi
+
+PYTHON=/opt/continuum/anaconda/envs/lab_launch/bin/python
+OCS=/opt/continuum/scripts
+
+HAS_TAGS=0
+DRY_RUN=""
+VERBOSE=""
+
+## process git push
+push_command=$(ps -ocommand= -p $PPID)
+
+with_tags="^(--tags|--follow-tags)"
+is_dry_run="^(--dry-run|-n)"
+is_destructive='^(--force|--delete|-f|-d)'
+is_verbose="^(--verbose|-v)"
+
+for arg in $push_command; do
+  if [[ $arg =~ $is_destructive ]]; then
+    echo "Force push and delete are disabled. You may wish to use 'git revert' instead."
+    exit 1
+  fi
+  if [[ $arg =~ $is_dry_run ]]; then
+    DRY_RUN="--dry-run"
+  fi
+  if [[ $arg =~ $is_verbose ]]; then
+    VERBOSE="-v"
+  fi
+  if [[ $arg =~ $with_tags ]]; then
+    HAS_TAGS=1
+  fi
+done
+
+### AE5 cannot accept annotated tags, rewrite them before allowing git push
+$PYTHON $OCS/retag.py $DRY_RUN $VERBOSE
+
+if [ "$HAS_TAGS" -eq "1" ]; then
+    ## silent exit on git push --tags
+    exit 0
+else
+    $PYTHON $OCS/pre-push.py $DRY_RUN $VERBOSE
+    git push --no-verify --tags $DRY_RUN $VERBOSE
+fi
+
