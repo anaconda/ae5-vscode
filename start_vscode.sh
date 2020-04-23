@@ -35,6 +35,10 @@ git branch -u origin/master
 cp $OC/scripts/pre-push $OCP/.git/hooks
 chmod 755 $OCP/.git/hooks/pre-push
 
+## post-commit message to reminder user to tag and push
+cp $OC/scripts/post-commit $OCP/.git/hooks
+chmod 755 $OCP/.git/hooks/post-commit
+
 args=($OCLB/code-server --auth none --user-data-dir $OCV)
 [[ $TOOL_PORT ]] && args+=(--port $TOOL_PORT)
 [[ $TOOL_ADDRESS ]] && args+=(--host $TOOL_ADDRESS)
