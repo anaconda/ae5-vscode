@@ -3,6 +3,6 @@
 echo
 echo "This commit has been made locally to this editor session."
 echo "Please remember to run 'git push' to persist this change."
-echo "If you wish to deploy this revision remember to also run 'git tag <tag-name>' before running 'git push'."
+echo "If you wish to deploy this revision, you will also need to run 'git tag <tag-name>' before running 'git push'."
 echo
 exit 0
