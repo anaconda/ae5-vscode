@@ -8,14 +8,14 @@ RUN set -ex \
        done \
     && cd /aesrc/vscode \
     && if [ ! -f code-server-3.1.0-linux-x86_64.tar.gz ]; then \
-          curl -O -L https://github.com/cdr/code-server/releases/download/3.1.0/code-server-3.1.0-linux-x86_64.tar.gz; \
+          curl -O -L https://github.com/cdr/code-server/releases/download/3.1.1/code-server-3.1.1-linux-x86_64.tar.gz; \
        fi \
     && if [ ! -f ms-python-release.vsix ]; then \
-          curl -O -L https://github.com/microsoft/vscode-python/releases/download/2020.3.71659/ms-python-release.vsix; \
+          curl -O -L https://github.com/microsoft/vscode-python/releases/download/2020.4.74986/ms-python-release.vsix; \
        fi \
-    && tar xfz code-server-3.1.0-linux-x86_64.tar.gz \
+    && tar xfz code-server-3.1.1-linux-x86_64.tar.gz \
     && chown -fR anaconda:anaconda code-server* \
-    && mv code-server-3.1.0-linux-x86_64 /opt/continuum/code-server \
+    && mv code-server-3.1.1-linux-x86_64 /opt/continuum/code-server \
     && ln -s "/opt/continuum/code-server/code-server" \
           /opt/continuum/anaconda/envs/lab_launch/bin \
     && mv vscode /opt/continuum/.vscode \
