@@ -15,8 +15,8 @@ RUN set -ex \
        fi \
     && tar xfz code-server-3.1.1-linux-x86_64.tar.gz \
     && chown -fR anaconda:anaconda code-server* \
-    && mv code-server-3.1.1-linux-x86_64 /opt/continuum/code-server \
-    && ln -s "/opt/continuum/code-server/code-server" \
+    && mv code-server-3.1.1-linux-x86_64 /opt/continuum/anaconda/envs/lab_launch/lib/code-server \
+    && ln -s "/opt/continuum/anaconda/envs/lab_launch/lib/code-server/code-server" \
           /opt/continuum/anaconda/envs/lab_launch/bin \
     && mv vscode /opt/continuum/.vscode \
     && chown -fR anaconda:anaconda /opt/continuum/.vscode \
