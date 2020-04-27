@@ -45,5 +45,5 @@ RUN set -ex \
     && chown -R anaconda:anaconda /opt/continuum/scripts/* \
     ##
     ## Cleanup
-    && rm -rf /aesrc/downloads \
+    && rm -rf /aesrc/vscode/downloads \
     && rm -f /aesrc/vscode/{"*.tar.bz2", "*.tar.gz", "*.visx"}
