@@ -1,4 +1,5 @@
-FROM leader.telekube.local:5000/ae-editor:5.4.0-46.g640c57da1
+ARG WORKSPACE=leader.telekube.local:5000/ae-editor:5.4.0-46.g640c57da1
+FROM $WORKSPACE
 COPY . /aesrc/vscode/
 RUN set -ex \
     && rm -f /usr/bin/git /usr/bin/git-* \
@@ -6,15 +7,16 @@ RUN set -ex \
            ln -s $fname /usr/bin/; \
        done \
     && cd /aesrc/vscode \
-    && if [ ! -f code-server2.1698-vsc1.41.1-linux-x86_64.tar.gz ]; then \
-          curl -O -L https://github.com/cdr/code-server/releases/download/2.1698/code-server2.1698-vsc1.41.1-linux-x86_64.tar.gz; \
+    && if [ ! -f code-server-3.1.0-linux-x86_64.tar.gz ]; then \
+          curl -O -L https://github.com/cdr/code-server/releases/download/3.1.1/code-server-3.1.1-linux-x86_64.tar.gz; \
        fi \
     && if [ ! -f ms-python-release.vsix ]; then \
-          curl -O -L https://github.com/microsoft/vscode-python/releases/download/2020.2.64397/ms-python-release.vsix; \
+          curl -O -L https://github.com/microsoft/vscode-python/releases/download/2020.4.74986/ms-python-release.vsix; \
        fi \
-    && tar xfz code-server2.1698-vsc1.41.1-linux-x86_64.tar.gz \
+    && tar xfz code-server-3.1.1-linux-x86_64.tar.gz \
     && chown -fR anaconda:anaconda code-server* \
-    && mv code-server*/code-server \
+    && mv code-server-3.1.1-linux-x86_64 /opt/continuum/anaconda/envs/lab_launch/lib/code-server \
+    && ln -s "/opt/continuum/anaconda/envs/lab_launch/lib/code-server/code-server" \
           /opt/continuum/anaconda/envs/lab_launch/bin \
     && mv vscode /opt/continuum/.vscode \
     && chown -fR anaconda:anaconda /opt/continuum/.vscode \
