@@ -2,26 +2,12 @@
 
 code-server.tar.gz:
   - url: https://github.com/cdr/code-server/releases/download/3.1.1/code-server-3.1.1-linux-x86_64.tar.gz
-    title: 'Code Server 3.1.1'
+    title: 'Code Server 3.1.1' #optional title
 
 extensions:
   - url: https://github.com/microsoft/vscode-python/releases/download/2020.4.74986/ms-python-release.vsix
-    title: 'MS Python'
-    files:
-      - ms-python-release.vsix
-
   - url: https://github.com/VSCodeVim/Vim/releases/download/v1.12.4/vim-1.12.4.vsix
-    title: 'ViM'
-    files:
-      - vim-1.12.4.vsix
-
   - url: https://github.com/eamodio/vscode-gitlens/releases/download/v10.2.1/gitlens-10.2.1.vsix
-    title: 'GitLens'
-    files:
-      - gitlens-10.2.1.vsix
-
   - url: https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.1.vsix
-    title: 'AE5 Session'
-    files:
-      - ae5-session-0.3.1.vsix
+    title: 'AE5 Sesssion' #optional title
 
