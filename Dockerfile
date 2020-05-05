@@ -31,6 +31,9 @@ RUN set -ex \
           --install-extension $ext"; \
        done \
     ##
+    ## extension post-install
+    && /opt/continuum/anaconda/envs/lab_launch/bin/python download.py --post-install \
+    ##
     ## Choose the right startup script
     && if [ ! -f /opt/continuum/scripts/start_user.sh ]; then \
            cp start_*.sh startup.sh build_condarc.py run_tool.py /opt/continuum/scripts; \
