@@ -1,6 +1,7 @@
 ARG WORKSPACE
 FROM $WORKSPACE
 COPY . /aesrc/vscode/
+ARG AIRGAPPED=FALSE
 RUN set -ex \
     && rm -f /usr/bin/git /usr/bin/git-* \
     && for fname in /opt/continuum/anaconda/envs/lab_launch/bin/{git,git-*}; do \
@@ -10,7 +11,14 @@ RUN set -ex \
     && cd /aesrc/vscode \
     ##
     ## Download code-server and extensions
-    && /opt/continuum/anaconda/envs/lab_launch/bin/python download.py \
+    && if [[ "$AIRGAPPED" == "TRUE" ]]; then \
+         curl -O http://localhost:8000/downloads.tar.bz2; \
+         bunzip2 downloads.tar.bz2; \
+         tar xf downloads.tar; \
+         rm downloads.tar; \
+       else \
+         /opt/continuum/anaconda/envs/lab_launch/bin/python download.py; \
+       fi \
     ##
     ## install code-server
     && tar xfz downloads/code-server.tar.gz \

@@ -9,15 +9,27 @@ import threading
 def start_server(path, port=8000):
     '''Start a simple webserver serving path on port'''
     os.chdir(path)
+    print("Starting localhost server on port {}".format(port))
     httpd = HTTPServer(('', port), SimpleHTTPRequestHandler)
     httpd.serve_forever()
 
 
-def docker_build(base_editor, suffix='vscode', push=False):
+def docker_build(base_editor, suffix='vscode', push=False, airgapped=False):
     vscode_image = '{}-{}'.format(base_editor, suffix)
-    subprocess.check_call('docker build --network=host --build-arg WORKSPACE={base_editor} -t {vscode_image} .'
-                            .format(base_editor=base_editor, vscode_image=vscode_image),
-                          shell=True)
+
+    build_args = [
+        "--build-arg WORKSPACE={}".format(base_editor)
+    ]
+
+    if airgapped:
+        build_args.append('--build-arg AIRGAPPED=TRUE')
+
+    cmd = ("docker build --network host {build_args} -t {vscode_image} ."
+            .format(build_args=' '.join(build_args), vscode_image=vscode_image)
+          )
+    print(cmd)
+
+    subprocess.check_call(cmd, shell=True)
 
     if push:
         subprocess.check_call('docker push {}'.format(vscode_image), shell=True)
@@ -38,9 +50,12 @@ def cli():
 
 def main(args):
     if args.airgapped:
+        if not os.path.exists('downloads.tar.bz2'):
+            raise RuntimeError('The downloads.tar.bz2 file is missing')
+
         daemon = threading.Thread(name='daemon_server',
                                   target=start_server,
-                                  args=('downloads'))
+                                  args=('.',))
         daemon.setDaemon(True) # Set as a daemon so it will be killed once the main thread is dead.
         daemon.start()
     
@@ -51,7 +66,7 @@ def main(args):
                                                    shell=True)
         base_editor = 'leader.telekube.local:5000/ae-editor:{}'.format(platform_version.decode().strip().split('=')[1])
     
-    docker_build(base_editor, args.suffix, args.push)
+    docker_build(base_editor, args.suffix, args.push, args.airgapped)
 
 
 if __name__ == '__main__':
