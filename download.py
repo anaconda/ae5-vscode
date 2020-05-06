@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
 from __future__ import print_function, absolute_import, division
-import argparse
-import subprocess
 
 # -*- coding: utf-8 -*-
 """
@@ -30,6 +28,9 @@ import sys
 import time
 import tarfile
 import zipfile
+import argparse
+import subprocess
+import shutil
 
 import os
 import yaml
@@ -266,11 +267,22 @@ def main(args):
                 if args.post_install:
                     _post_install(downloads[0])
 
+    if args.archive:
+        print("Creating downloads.tar.bz2")
+        with tarfile.open('downloads.tar.bz2', 'w:bz2') as z:
+            z.add('downloads/', 'downloads')
+
+        print("Removing downloads/ directory")
+        shutil.rmtree('downloads')
+
 def cli():
     parser = argparse.ArgumentParser(description='Download files defined in a manifest')
     parser.add_argument('-f', '--file', help='The manifset YAML file',
                         default='manifest.yml', type=argparse.FileType('r'))
 
+    parser.add_argument('--archive',
+                        help='Archive the downloads directory to downloads.tar.bz2 and remove the downloads directory',
+                        action='store_true')
     parser.add_argument('--post-install', help='Run post_install scripts', action='store_true')
     return parser
 
