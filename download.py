@@ -28,6 +28,9 @@ import sys
 import time
 import tarfile
 import zipfile
+import argparse
+import subprocess
+import shutil
 
 import os
 import yaml
@@ -173,6 +176,9 @@ class DirectoryContext(object):
 def _process_file(dataset, output_file):
     requires_download = False
 
+    if not dataset.get('title', False):
+        dataset['title'] = output_file
+
     if path.exists(output_file):
         print('Skipping {0}'.format(dataset['title']))
         return
@@ -193,21 +199,17 @@ def _process_dataset(dataset, output_dir):
 
     with DirectoryContext(output_dir) as d:
 
-        requires_download = False
+        output_path = path.split(dataset['url'])[1]
 
-        for f in dataset.get('files', []):
-            if not path.exists(f):
-                requires_download = True
-                break
+        if not dataset.get('title', False):
+            dataset['title'] = output_path
 
-        if not requires_download:
-            print('Skipping {0}'.format(dataset['title']))
+        if path.exists(output_path):
+            print('Skipping download {0}'.format(dataset['title']))
             return
-
 
         print('Downloading {0}'.format(dataset['title']))
         r = requests.get(dataset['url'], stream=True)
-        output_path = path.split(dataset['url'])[1]
         with open(output_path, 'wb') as f:
             total_length = int(r.headers.get('content-length'))
             for chunk in bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1):
@@ -233,29 +235,57 @@ def _process_dataset(dataset, output_dir):
                 zipf.extractall()
             os.remove(output_path)
 
-def main():
+def _post_install(dataset):
+    post_install = dataset.get('post_install', False)
+    if not post_install:
+        return
+    else:
+        print('{} post install'.format(dataset['title']))
+        for line in post_install:
+            subprocess.check_call(line, shell=True)
+
+def main(args):
+    info = ordered_load(args.file)
 
     here = contrib_dir = path.abspath(path.join(path.split(__file__)[0]))
-    info_file = path.join(here, 'manifest.yml')
 
-    with open(info_file) as f:
-        info = ordered_load(f.read())
+    if not path.exists(path.join(here, 'downloads')):
+        os.makedirs(path.join(here, 'downloads'))
 
+    with DirectoryContext(path.join(here,'downloads')):
+        for topic, downloads in info.items():
+            if len(downloads) > 1:
+                # topic becomes a directory
+                for d in downloads:
+                    _process_dataset(d, topic)
+                    if args.post_install:
+                        _post_install(d)
 
-        if not path.exists('downloads'):
-            os.makedirs('downloads')
+            elif len(downloads) == 1:
+                # topic becomes the filename
+                _process_file(downloads[0], topic)
+                if args.post_install:
+                    _post_install(downloads[0])
 
-        with DirectoryContext(path.join(here,'downloads')):
-            for topic, downloads in info.items():
-                if len(downloads) > 1:
-                    # topic becomes a directory
-                    for d in downloads:
-                        _process_dataset(d, topic)
+    if args.archive:
+        print("Creating downloads.tar.bz2")
+        with tarfile.open('downloads.tar.bz2', 'w:bz2') as z:
+            z.add('downloads/', 'downloads')
 
-                elif len(downloads) == 1:
-                    # topic becomes the filename
-                    _process_file(downloads[0], topic)
+        print("Removing downloads/ directory")
+        shutil.rmtree('downloads')
 
+def cli():
+    parser = argparse.ArgumentParser(description='Download files defined in a manifest')
+    parser.add_argument('-f', '--file', help='The manifset YAML file',
+                        default='manifest.yml', type=argparse.FileType('r'))
+
+    parser.add_argument('--archive',
+                        help='Archive the downloads directory to downloads.tar.bz2 and remove the downloads directory',
+                        action='store_true')
+    parser.add_argument('--post-install', help='Run post_install scripts', action='store_true')
+    return parser
 
 if __name__ == '__main__':
-    main()
+    args=cli().parse_args()
+    main(args)

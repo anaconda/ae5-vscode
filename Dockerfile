@@ -1,6 +1,7 @@
-ARG WORKSPACE=leader.telekube.local:5000/ae-editor:5.4.0-46.g640c57da1
+ARG WORKSPACE
 FROM $WORKSPACE
 COPY . /aesrc/vscode/
+ARG AIRGAPPED=FALSE
 RUN set -ex \
     && rm -f /usr/bin/git /usr/bin/git-* \
     && for fname in /opt/continuum/anaconda/envs/lab_launch/bin/{git,git-*}; do \
@@ -10,7 +11,14 @@ RUN set -ex \
     && cd /aesrc/vscode \
     ##
     ## Download code-server and extensions
-    && /opt/continuum/anaconda/envs/lab_launch/bin/python download.py \
+    && if [[ "$AIRGAPPED" == "TRUE" ]]; then \
+         curl -O http://localhost:8000/downloads.tar.bz2; \
+         bunzip2 downloads.tar.bz2; \
+         tar xf downloads.tar; \
+         rm downloads.tar; \
+       else \
+         /opt/continuum/anaconda/envs/lab_launch/bin/python download.py; \
+       fi \
     ##
     ## install code-server
     && tar xfz downloads/code-server.tar.gz \
@@ -30,6 +38,9 @@ RUN set -ex \
           --user-data-dir /opt/continuum/.vscode \
           --install-extension $ext"; \
        done \
+    ##
+    ## extension post-install
+    && /opt/continuum/anaconda/envs/lab_launch/bin/python download.py --post-install \
     ##
     ## Choose the right startup script
     && if [ ! -f /opt/continuum/scripts/start_user.sh ]; then \
