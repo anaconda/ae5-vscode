@@ -5,7 +5,7 @@ code-server.tar.gz:
   - url: https://github.com/cdr/code-server/releases/download/3.2.0/code-server-3.2.0-linux-x86_64.tar.gz
 
 extensions:
-  - url: https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.3.vsix
+  - url: https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.1.vsix
 
   - url: https://github.com/microsoft/vscode-python/releases/download/2020.4.74986/ms-python-release.vsix
     post_install:
