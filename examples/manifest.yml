@@ -32,6 +32,9 @@ extensions:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/gitlens-10.2.1.vsix
     sha256: bd78a915960e1cf4abd372717e76810b10bc83f97cf26ecaa698fdc5cecf67cc
 
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/VisualStudioExptTeam.vscodeintellicode-1.2.6.vsix
+    sha256: 18ac028e3afa452b9047bfc9401605b9d79cec78b33d9757e72c28753d6bf920
+
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/mssql-1.9.0.vsix
     sha256: 6f23ccd99439d11604ca3a18449c344140b7e4235c5a61d7974ccb08d7af57a5
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/mssql-1.9.0-centos.7-x64.vsix
