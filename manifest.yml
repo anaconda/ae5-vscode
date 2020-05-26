@@ -1,26 +1,41 @@
 patch_python_extension.py:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/patch_python_extension.py
-
+    sha256: 5c3a1b9cd086b6aaea3b76ce305e9efb41821cf487781d2dd1ea218384dc95de
+    
 code-server.tar.gz:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/code-server-3.2.0-linux-x86_64.tar.gz
-
+    sha256: a8157e8766d6a0e255c72db25e8677a57adb8d889d653e78750b4d26a6ff7400
+ 
 sqltoolsservice.tar.gz:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/microsoft.sqltools.servicelayer-rhel-x64-netcoreapp2.2.tar.gz
-
+    sha256: e070fd572bc22c5a6f7986e41fdaf9809e499feff6ef4249c568610e8d364e0a
+    
 rpms:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/icu-50.2-4.el7_7.x86_64.rpm
+    sha256: 2ca61582c7174625804c4b53eee75b38c60c2bb5c9a674b1b614fa0914467dee
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/libicu-50.2-4.el7_7.x86_64.rpm
+    sha256: 385bbe52268984f42689f2c26b6a6901a940c33b8ca68f7e0d1ca03524f209ae
 
 extensions:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/ae5-session-0.3.1.vsix
+    sha256: 412264942db710e52506974ca9e4c99dd681be3fb6707fb55a4cfabf1f941167
+    
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/mechatroner.rainbow-csv-1.7.0.vsix
+    sha256: b760e6eccf603b3083541ba8dde72bc8150feb87fdb9165dedc21af745deaac
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/stkb.rewrap-1.9.1.vsix
+    sha256: 59cd0b477cb00359e0f0bcf80a077289461592923fda03a78cfa7160450d25bf
+      
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/DavidAnson.vscode-markdownlint-0.34.0.vsix
+    sha256: f8b2ce974645c982c03f933c3d27fb740a62071d29fde852baff35f12aea53cb
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/HookyQR.beautify-1.5.0.vsix
+    sha256: b1480742dbc8369aa10f348d7d27c589e6d9bd7d00e62e5255903fdeb67213b0
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/gitlens-10.2.1.vsix
+    sha256: bd78a915960e1cf4abd372717e76810b10bc83f97cf26ecaa698fdc5cecf67cc
 
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/mssql-1.9.0.vsix
+    sha256: 6f23ccd99439d11604ca3a18449c344140b7e4235c5a61d7974ccb08d7af57a5
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/mssql-1.9.0-centos.7-x64.vsix
+    sha256: 91d4f50a42f7f8ae1c03333904bd43b0f3e0e6a617eefb2ed529179e35187595
     post_install:
      - "rpm -i rpms/libicu*rpm"
      - "rpm -i rpms/icu*.rpm"
@@ -28,5 +43,6 @@ extensions:
      - "tar xvzf sqltoolsservice.tar.gz -C /opt/continuum/.vscode/extensions/ms-mssql.mssql-1.9.0/sqltoolsservice/2.0.0-release.49/CentOS"
 
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/ms-python-release-2020.4.74986.vsix
+    sha256: 94cf292de01af43aebf28e9cba566c743f2389b23e018e2c64d82562b188697f
     post_install:
       - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py"
