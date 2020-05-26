@@ -31,6 +31,7 @@ import zipfile
 import argparse
 import subprocess
 import shutil
+import hashlib
 
 import os
 import yaml
@@ -159,6 +160,21 @@ def ordered_load(stream, Loader=yaml.Loader, object_pairs_hook=OrderedDict):
         construct_mapping)
     return yaml.load(stream, OrderedLoader)
 
+
+def verify_sha256(filename, dataset):
+    "Verify the SHA256 sum if declared in the manifest"
+    if 'sha256' not in dataset:
+        return
+
+    with open(filename, 'rb') as f:
+        m = hashlib.sha256()
+        m.update(f.read())
+        file_digest = m.digest().hex()
+    if dataset['sha256'] != str(file_digest):
+        print("The declared SHA256 sum %r does not match the digest "
+              "of the downloaded file %r" % (dataset['sha256'], file_digest))
+        sys.exit(1)
+
 class DirectoryContext(object):
     """
     Context Manager for changing directories
@@ -192,6 +208,9 @@ def _process_file(dataset, output_file):
                 f.write(chunk)
                 f.flush()
 
+    verify_sha256(output_file, dataset)
+
+
 def _process_dataset(dataset, output_dir):
 
     if not path.exists(output_dir):
@@ -216,6 +235,8 @@ def _process_dataset(dataset, output_dir):
                 if chunk:
                     f.write(chunk)
                     f.flush()
+
+        verify_sha256(output_path, dataset)
 
         # extract content
         if output_path.endswith("tar.gz"):
