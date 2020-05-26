@@ -21,7 +21,7 @@ extensions:
     sha256: 412264942db710e52506974ca9e4c99dd681be3fb6707fb55a4cfabf1f941167
     
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/mechatroner.rainbow-csv-1.7.0.vsix
-    sha256: b760e6eccf603b3083541ba8dde72bc8150feb87fdb9165dedc21af745deaac
+    sha256: b760e6eccf603b3083541ba8dde72bc8150feb87fdb9165dedc21af745deaac4
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/stkb.rewrap-1.9.1.vsix
     sha256: 59cd0b477cb00359e0f0bcf80a077289461592923fda03a78cfa7160450d25bf
       
