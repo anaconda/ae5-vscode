@@ -21,7 +21,7 @@ extensions:
     sha256: 412264942db710e52506974ca9e4c99dd681be3fb6707fb55a4cfabf1f941167
     
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/mechatroner.rainbow-csv-1.7.0.vsix
-    sha256: b760e6eccf603b3083541ba8dde72bc8150feb87fdb9165dedc21af745deaac
+    sha256: b760e6eccf603b3083541ba8dde72bc8150feb87fdb9165dedc21af745deaac4
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/stkb.rewrap-1.9.1.vsix
     sha256: 59cd0b477cb00359e0f0bcf80a077289461592923fda03a78cfa7160450d25bf
       
@@ -31,6 +31,9 @@ extensions:
     sha256: b1480742dbc8369aa10f348d7d27c589e6d9bd7d00e62e5255903fdeb67213b0
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/gitlens-10.2.1.vsix
     sha256: bd78a915960e1cf4abd372717e76810b10bc83f97cf26ecaa698fdc5cecf67cc
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/VisualStudioExptTeam.vscodeintellicode-1.2.6.vsix
+    sha256: 18ac028e3afa452b9047bfc9401605b9d79cec78b33d9757e72c28753d6bf920
 
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/mssql-1.9.0.vsix
     sha256: 6f23ccd99439d11604ca3a18449c344140b7e4235c5a61d7974ccb08d7af57a5
