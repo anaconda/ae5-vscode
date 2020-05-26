@@ -1,0 +1,32 @@
+patch_python_extension.py:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/patch_python_extension.py
+
+code-server.tar.gz:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/code-server-3.2.0-linux-x86_64.tar.gz
+
+sqltoolsservice.tar.gz:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/microsoft.sqltools.servicelayer-rhel-x64-netcoreapp2.2.tar.gz
+
+rpms:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/icu-50.2-4.el7_7.x86_64.rpm
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/libicu-50.2-4.el7_7.x86_64.rpm
+
+extensions:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/ae5-session-0.3.1.vsix
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/mechatroner.rainbow-csv-1.7.0.vsix
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/stkb.rewrap-1.9.1.vsix
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/DavidAnson.vscode-markdownlint-0.34.0.vsix
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/HookyQR.beautify-1.5.0.vsix
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/gitlens-10.2.1.vsix
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/mssql-1.9.0.vsix
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/mssql-1.9.0-centos.7-x64.vsix
+    post_install:
+     - "rpm -i rpms/libicu*rpm"
+     - "rpm -i rpms/icu*.rpm"
+     - "mkdir -p /opt/continuum/.vscode/extensions/ms-mssql.mssql-1.9.0/sqltoolsservice/2.0.0-release.49/CentOS"
+     - "tar xvzf sqltoolsservice.tar.gz -C /opt/continuum/.vscode/extensions/ms-mssql.mssql-1.9.0/sqltoolsservice/2.0.0-release.49/CentOS"
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/ms-python-release-2020.4.74986.vsix
+    post_install:
+      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py"
