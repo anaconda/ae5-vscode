@@ -9,7 +9,7 @@ extensions:
 
   - url: https://github.com/microsoft/vscode-python/releases/download/2020.4.74986/ms-python-release.vsix
     post_install:
-      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py"
+      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/.vscode/extensions/ms-python.python-2020.4.74986 --preparing-env"
 
 
 
