@@ -1,6 +1,6 @@
 patch_python_extension.py:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/patch_python_extension.py
-    sha256: 5c3a1b9cd086b6aaea3b76ce305e9efb41821cf487781d2dd1ea218384dc95de
+    sha256: 9ea080b07fac8135e2aa95f0cf6290aca07a1f981d7c955d96cb0706882a6778
     
 code-server.tar.gz:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/code-server-3.2.0-linux-x86_64.tar.gz
