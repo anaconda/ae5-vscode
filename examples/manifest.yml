@@ -1,6 +1,6 @@
 patch_python_extension.py:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/patch_python_extension.py
-    sha256: 5c3a1b9cd086b6aaea3b76ce305e9efb41821cf487781d2dd1ea218384dc95de
+    sha256: 9ea080b07fac8135e2aa95f0cf6290aca07a1f981d7c955d96cb0706882a6778
     
 code-server.tar.gz:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/code-server-3.2.0-linux-x86_64.tar.gz
@@ -48,4 +48,4 @@ extensions:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/ms-python-release-2020.4.74986.vsix
     sha256: 94cf292de01af43aebf28e9cba566c743f2389b23e018e2c64d82562b188697f
     post_install:
-      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py"
+      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/.vscode/extensions/ms-python.python-2020.4.74986 --preparing-env"
