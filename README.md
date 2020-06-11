@@ -22,7 +22,7 @@ consider the contents as a baseline installation. It is typical for customers to
 add more extension to the example manifest along with appropriate post-install
 steps.
 
-```
+```yaml
 patch_python_extension.py:
   - url: https://ae5-vscode.s3.amazonaws.com/patch_python_extension.py
 
