@@ -13,9 +13,8 @@ that require customer installation.
 Customization of the VSCode installation is provided through the `manifest.yml`
 file. 
 
-The manifest defines the version of [code-server]() to be installed along with
-VSCode extensions. It is important that the [ae5-session]() extension be installed
-even if you do not wish to install the Python extension. 
+The manifest defines the version of [code-server](https://github.com/cdr/code-server) to be installed along with
+VSCode extensions. It is recommended that both the [ae5-session](https://github.com/Anaconda-Platform/vscode-ae5-session) and Python extensions are installed.
 
 This repository contains an example file called `manifest.yml.example`. You can
 consider the contents as a baseline installation. It is typical for customers to
