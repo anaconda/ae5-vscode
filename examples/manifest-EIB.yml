@@ -1,0 +1,47 @@
+# Updates code-server to 3.4.1 and ms-python extension to 2020.6.89148
+
+patch_python_extension.py:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/patch_python_extension.py
+    sha256: 9ea080b07fac8135e2aa95f0cf6290aca07a1f981d7c955d96cb0706882a6778
+   
+code-server.tar.gz:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/code-server-3.4.1-linux-amd64.tar.gz
+    sha256: afdb89f4dc7201c03cb35d4f8dc1ccb6060bd0da324a6789089de264d3406817
+extensions:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/ae5-session-0.3.1.vsix
+    sha256: 412264942db710e52506974ca9e4c99dd681be3fb6707fb55a4cfabf1f941167
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/gitlens-10.2.1.vsix
+    sha256: bd78a915960e1cf4abd372717e76810b10bc83f97cf26ecaa698fdc5cecf67cc
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/42Crunch.vscode-openapi-3.3.0.vsix
+    sha256:  a5e19ae7e4a81f6d8783715823df83b457bed3ef89447deb05db0b7d65254a4d
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/zoellner.openapi-preview-1.7.0.vsix
+    sha256: 1e647e3730da0583ae025498f5c8cc2f49e938df61b6b2dab1d3e060568e02d3
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/jflbr.jwt-decoder-1.2.0.vsix
+    sha256: da0a838e906a6479641b005fbf023390e195c2c9a238d0d1b3d673307ba0247e
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/DotJoshJohnson.xml-2.5.0.vsix
+    sha256: 8af1b6d2cb5d214592ba6a2a40595616a67111d56ceb05b3e17a38ec5e6f2eba
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/TomasHubelbauer.zip-file-system-2.0.0.vsix
+    sha256: 843d694764d59e139a6610bc1d2cfe10e675dd2b4f646079f721aa773ccf88d3
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/aaron-bond.better-comments-2.0.5.vsix
+    sha256: fb1a70648e206909a62c15fbe1da52ed8486d427bf9ef152a9bf58941a8f3373
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/eriklynd.json-tools-1.0.2.vsix
+    sha256: eed06385ca82527c0e5f08e12caf2262d5c7fe6cba013a56be0adf0cd8bcb73c
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/mitchdenny.ecdc-1.3.0.vsix
+    sha256: 2450c5635a6ba1cea98852592ae6f878e352f6e0b0185ddf7536e5f663e77142
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/redhat.vscode-yaml-0.8.0.vsix
+    sha256: e0e777babaa01c2955378d200540ecb555bfb8bc4524948c7a6b30222a2fbe21
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/shd101wyy.markdown-preview-enhanced-0.5.12.vsix
+    sha256: 259fee5f9c8ff840619f31e237e5b9a857150118cfe21ac58e47ddd3a4aa8c94
+
+  # Requires SWI Prolog (swiprolog command)
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/arthurwang.vsc-prolog-0.8.23.vsix
+    sha256: 0dad9d0a9aee56accfde0d611f4f93cafbc46b5c04c065e0bdc988abd07fd9c4
+
+  # Works when latency is low, requires graphviz
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/EFanZh.graphviz-preview-1.4.0.vsix
+    sha256: 1f8fc7f2dcb2df64f28dc8475c93eb3db4a3d41e184e8f71613330f1e15cadd8
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/ms-python-release-2020.6.89148.vsix
+    sha256: 3dd114ae62a7aa8b71609b42fbab2a11e4f335a878848b0376fef67f321c10f1
+    post_install:
+      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/.vscode/extensions/ms-python.python-2020.6.89148 --preparing-env"
