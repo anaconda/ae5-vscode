@@ -42,7 +42,6 @@ cp $OC/scripts/post-commit $OCP/.git/hooks
 chmod 755 $OCP/.git/hooks/post-commit
 
 args=($OCLB/code-server --auth none --user-data-dir $OCV)
-args+=(--disable-updates)
 args+=(--disable-telemetry)
 [[ $TOOL_PORT ]] && args+=(--port $TOOL_PORT)
 [[ $TOOL_ADDRESS ]] && args+=(--host $TOOL_ADDRESS)

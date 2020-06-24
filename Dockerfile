@@ -24,7 +24,7 @@ RUN set -ex \
     && tar xfz downloads/code-server.tar.gz \
     && chown -fR anaconda:anaconda code-server-* \
     && mv code-server-* /opt/continuum/anaconda/envs/lab_launch/lib/code-server \
-    && ln -s "/opt/continuum/anaconda/envs/lab_launch/lib/code-server/code-server" \
+    && ln -s "/opt/continuum/anaconda/envs/lab_launch/lib/code-server/bin/code-server" \
           /opt/continuum/anaconda/envs/lab_launch/bin \
     ##
     ## Move in the user-data-dir
