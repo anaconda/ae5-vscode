@@ -42,5 +42,7 @@ extensions:
     sha256: 1f8fc7f2dcb2df64f28dc8475c93eb3db4a3d41e184e8f71613330f1e15cadd8
 
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/ms-python-release-2020.5.86806.vsix
+    sha256: a4191fefc0e027fbafcd87134ac89a8b1afef4fd8b9dc35f14d6ee7bdf186348
+
     post_install:
       - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/.vscode/extensions/ms-python.python-2020.5.86806 --preparing-env"
