@@ -1,15 +1,18 @@
 patch_python_extension.py:
-  - url: https://ae5-vscode.s3.amazonaws.com/patch_python_extension.py
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/patch_python_extension.py
+    sha256: 9ea080b07fac8135e2aa95f0cf6290aca07a1f981d7c955d96cb0706882a6778
 
 code-server.tar.gz:
-  - url: https://github.com/cdr/code-server/releases/download/3.2.0/code-server-3.2.0-linux-x86_64.tar.gz
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/code-server-3.4.1-linux-amd64.tar.gz
+    sha256: afdb89f4dc7201c03cb35d4f8dc1ccb6060bd0da324a6789089de264d3406817
 
 extensions:
-  - url: https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.1.vsix
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/ae5-session-0.3.1.vsix
+    sha256: 412264942db710e52506974ca9e4c99dd681be3fb6707fb55a4cfabf1f941167
 
-  - url: https://github.com/microsoft/vscode-python/releases/download/2020.4.74986/ms-python-release.vsix
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/ms-python-release-2020.6.89148.vsix
+    sha256: 3dd114ae62a7aa8b71609b42fbab2a11e4f335a878848b0376fef67f321c10f1
     post_install:
-      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/.vscode/extensions/ms-python.python-2020.4.74986 --preparing-env"
-
+      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/.vscode/extensions/ms-python.python-2020.6.89148 --preparing-env"
 
 
