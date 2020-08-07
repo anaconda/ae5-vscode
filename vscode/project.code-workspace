@@ -7,7 +7,5 @@
   "settings":
     {
       "python.pythonPath": "/opt/continuum/anaconda/envs/anaconda50_py36/bin/python",
-      "terminal.integrated.shellArgs.linux": ["--init-file", "activate-env-spec.sh"],
-      "python.terminal.activateEnvironment": false
     }
 }
