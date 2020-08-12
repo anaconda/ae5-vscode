@@ -24,7 +24,7 @@ def docker_build(base_editor, suffix='vscode', push=False, airgapped=False):
     if airgapped:
         build_args.append('--build-arg AIRGAPPED=TRUE')
 
-    cmd = ("docker build --network host {build_args} -t {vscode_image} ."
+    cmd = ("docker build --no-cache --network host {build_args} -t {vscode_image} ."
             .format(build_args=' '.join(build_args), vscode_image=vscode_image)
           )
     print(cmd)

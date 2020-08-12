@@ -23,6 +23,8 @@ echo "|---"
 sed 's@^@|  @' $OCV/project.code-workspace
 echo "|---"
 
+sed -E -i 's@lab_launch@'"$CONDA_DESIRED_ENV"'@' $OCV/activate-env-spec.sh
+
 python /opt/continuum/scripts/merge_vscode_settings.py $SETTINGS
 
 export NODE_EXTRA_CA_CERTS=$OCLL/ssl/cacert.pem
