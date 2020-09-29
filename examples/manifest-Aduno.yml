@@ -1,0 +1,62 @@
+# This manifest was built and tests on commit 3be407f
+
+patch_python_extension.py:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/patch_python_extension.py
+    sha256: 9ea080b07fac8135e2aa95f0cf6290aca07a1f981d7c955d96cb0706882a6778
+   
+code-server.tar.gz:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/code-server-3.4.1-linux-amd64.tar.gz
+    sha256: afdb89f4dc7201c03cb35d4f8dc1ccb6060bd0da324a6789089de264d3406817
+
+sqltoolsservice.tar.gz:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/microsoft.sqltools.servicelayer-rhel-x64-netcoreapp2.2.tar.gz
+    sha256: e070fd572bc22c5a6f7986e41fdaf9809e499feff6ef4249c568610e8d364e0a
+
+rpms:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/icu-50.2-4.el7_7.x86_64.rpm
+    sha256: 2ca61582c7174625804c4b53eee75b38c60c2bb5c9a674b1b614fa0914467dee
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/libicu-50.2-4.el7_7.x86_64.rpm
+    sha256: 385bbe52268984f42689f2c26b6a6901a940c33b8ca68f7e0d1ca03524f209ae
+    
+extensions:
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/ae5-session-0.3.1.vsix
+    sha256: 412264942db710e52506974ca9e4c99dd681be3fb6707fb55a4cfabf1f941167
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/ms-python-release-2020.5.86806.vsix
+    sha256: a4191fefc0e027fbafcd87134ac89a8b1afef4fd8b9dc35f14d6ee7bdf186348
+    post_install:
+      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/.vscode/extensions/ms-python.python-2020.5.86806 --preparing-env"
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/gitlens-10.2.1.vsix
+    sha256: bd78a915960e1cf4abd372717e76810b10bc83f97cf26ecaa698fdc5cecf67cc
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/VisualStudioExptTeam.vscodeintellicode-1.2.6.vsix
+    sha256: 18ac028e3afa452b9047bfc9401605b9d79cec78b33d9757e72c28753d6bf920
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/marvhen.reflow-markdown-2.1.0.vsix
+    sha256: 4efc47d3a33f0f04512f70fe4ca40a21bd80cb20e68c5ca3e09bef587cfe29f9
+  
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/njpwerner.autodocstring-0.5.3.vsix
+    sha256: daf95e3187a40132562c74dd89230718ffd761f97fb7bbc35650626b529ec4d9
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/samuelcolvin.jinjahtml-0.15.0.vsix
+    sha256: 5ac9a0eb14d09ba71ca05891cc5cac193224269f245d1d72f94a37faef52b2a2
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/redhat.vscode-yaml-0.10.1.vsix
+    sha256: fd8063d2b4bb9f0c069c194dd7b57eb05fe28fb316c28c91dab0157f2fc76750
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/streetsidesoftware.code-spell-checker-1.9.0.vsix
+    sha256: 231c37e1270ca6cedb8b52f04251e6dfa2396335b1f648219945c94bf6fa8045
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/DavidAnson.vscode-markdownlint-0.34.0.vsix
+    sha256: f8b2ce974645c982c03f933c3d27fb740a62071d29fde852baff35f12aea53cb
+
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/mssql-1.9.0.vsix
+    sha256: 6f23ccd99439d11604ca3a18449c344140b7e4235c5a61d7974ccb08d7af57a5
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/mssql-1.9.0-centos.7-x64.vsix
+    sha256: 91d4f50a42f7f8ae1c03333904bd43b0f3e0e6a617eefb2ed529179e35187595
+    post_install:
+     - "rpm -i rpms/libicu*rpm"
+     - "rpm -i rpms/icu*.rpm"
+     - "mkdir -p /opt/continuum/.vscode/extensions/ms-mssql.mssql-1.9.0/sqltoolsservice/2.0.0-release.49/CentOS"
+     - "tar xvzf sqltoolsservice.tar.gz -C /opt/continuum/.vscode/extensions/ms-mssql.mssql-1.9.0/sqltoolsservice/2.0.0-release.49/CentOS"
