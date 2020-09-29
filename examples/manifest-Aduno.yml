@@ -1,4 +1,4 @@
-# Updates code-server to 3.4.1 and ms-python extension to 2020.5.86806
+# This manifest was built and tests on commit 3be407f
 
 patch_python_extension.py:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/patch_python_extension.py
