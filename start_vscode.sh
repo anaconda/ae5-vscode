@@ -32,16 +32,16 @@ export BOKEH_ALLOW_WS_ORIGIN=$TOOL_HOST          ## allows bokeh apps to work wi
 export XDG_DATA_HOME=$OCV                        ## implement last-visited in coder.json
 
 ## Git configs to allow push without arguments
-git config push.default upstream 
-git branch -u origin/master
+# git config push.default upstream 
+# git branch -u origin/master
 
 ## configure pre-push hook to POST revision metadata
-cp $OC/scripts/pre-push $OCP/.git/hooks
-chmod 755 $OCP/.git/hooks/pre-push
+# cp $OC/scripts/pre-push $OCP/.git/hooks
+# chmod 755 $OCP/.git/hooks/pre-push
 
 ## post-commit message to reminder user to tag and push
-cp $OC/scripts/post-commit $OCP/.git/hooks
-chmod 755 $OCP/.git/hooks/post-commit
+# cp $OC/scripts/post-commit $OCP/.git/hooks
+# chmod 755 $OCP/.git/hooks/post-commit
 
 args=($OCLB/code-server --auth none --user-data-dir $OCV)
 args+=(--disable-telemetry)

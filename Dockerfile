@@ -3,10 +3,10 @@ FROM $WORKSPACE
 COPY . /aesrc/vscode/
 ARG AIRGAPPED=FALSE
 RUN set -ex \
-    && rm -f /usr/bin/git /usr/bin/git-* \
-    && for fname in /opt/continuum/anaconda/envs/lab_launch/bin/{git,git-*}; do \
-           ln -s $fname /usr/bin/; \
-       done \
+    # && rm -f /usr/bin/git /usr/bin/git-* \
+    # && for fname in /opt/continuum/anaconda/envs/lab_launch/bin/{git,git-*}; do \
+    #        ln -s $fname /usr/bin/; \
+    #    done \
     ##
     && cd /aesrc/vscode \
     ##
@@ -49,8 +49,8 @@ RUN set -ex \
            cp start_vscode.sh /opt/continuum/scripts; \
        fi \
     ##
-    && cp merge_vscode_settings.py /opt/continuum/scripts \
-    && cp post-commit pre-push pre-push.py retag.py /opt/continuum/scripts \
+    # && cp merge_vscode_settings.py /opt/continuum/scripts \
+    # && cp post-commit pre-push pre-push.py retag.py /opt/continuum/scripts \
     ##
     && chmod +x /opt/continuum/scripts/*.sh \
     && chown -R anaconda:anaconda /opt/continuum/scripts/* \

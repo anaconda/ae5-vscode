@@ -218,10 +218,11 @@ def _process_dataset(dataset, output_dir):
 
     with DirectoryContext(output_dir) as d:
 
-        output_path = path.split(dataset['url'])[1]
-
         if not dataset.get('title', False):
+            output_path = path.split(dataset['url'])[1]
             dataset['title'] = output_path
+        else:
+            output_path = dataset['title']
 
         if path.exists(output_path):
             print('Skipping download {0}'.format(dataset['title']))
