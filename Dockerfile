@@ -2,6 +2,7 @@ ARG WORKSPACE
 FROM $WORKSPACE
 COPY . /aesrc/vscode/
 ARG AIRGAPPED=FALSE
+USER root
 RUN set -ex \
     # && rm -f /usr/bin/git /usr/bin/git-* \
     # && for fname in /opt/continuum/anaconda/envs/lab_launch/bin/{git,git-*}; do \
@@ -22,14 +23,14 @@ RUN set -ex \
     ##
     ## install code-server
     && tar xfz downloads/code-server.tar.gz \
-    && chown -fR anaconda:anaconda code-server-* \
+    && chown -fR anaconda code-server-* \
     && mv code-server-* /opt/continuum/anaconda/envs/lab_launch/lib/code-server \
     && ln -s "/opt/continuum/anaconda/envs/lab_launch/lib/code-server/bin/code-server" \
           /opt/continuum/anaconda/envs/lab_launch/bin \
     ##
     ## Move in the user-data-dir
     && mv vscode /opt/continuum/.vscode \
-    && chown -fR anaconda:anaconda /opt/continuum/.vscode \
+    && chown -fR anaconda /opt/continuum/.vscode \
     ##
     ## install extensions
     && for ext in downloads/extensions/*.vsix; do \
@@ -53,7 +54,7 @@ RUN set -ex \
     # && cp post-commit pre-push pre-push.py retag.py /opt/continuum/scripts \
     ##
     && chmod +x /opt/continuum/scripts/*.sh \
-    && chown -R anaconda:anaconda /opt/continuum/scripts/* \
+    && chown -R anaconda /opt/continuum/scripts/* \
     ##
     ## Cleanup
     && rm -rf /aesrc/vscode/downloads \
