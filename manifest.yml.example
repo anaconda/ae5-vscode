@@ -1,18 +1,20 @@
-# Updates code-server to 3.4.1 and ms-python extension to 2020.5.86806
+# Updates code-server to 3.9.1 and ms-python extension to 2021.3.658691958
 
 patch_python_extension.py:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/patch_python_extension.py
     sha256: 9ea080b07fac8135e2aa95f0cf6290aca07a1f981d7c955d96cb0706882a6778
    
 code-server.tar.gz:
-  - url: https://ae5-vscode-extensions.s3.amazonaws.com/code-server-3.4.1-linux-amd64.tar.gz
-    sha256: afdb89f4dc7201c03cb35d4f8dc1ccb6060bd0da324a6789089de264d3406817
+  - url: https://github.com/cdr/code-server/releases/download/v3.9.1/code-server-3.9.1-linux-amd64.tar.gz
+    sha256: f2648a4387c5a5be8666fb82a7b8a58274c45b91942251ab337e202e078ae8a5
 extensions:
   - url: https://ae5-vscode-extensions.s3.amazonaws.com/ae5-session-0.3.1.vsix
     sha256: 412264942db710e52506974ca9e4c99dd681be3fb6707fb55a4cfabf1f941167
 
-  - url: https://ae5-vscode-extensions.s3.amazonaws.com/ms-python-release-2020.5.86806.vsix
-    sha256: a4191fefc0e027fbafcd87134ac89a8b1afef4fd8b9dc35f14d6ee7bdf186348
-
+  - url: https://ae5-vscode.s3.amazonaws.com/ms-python-2021.2.633441544.vsix
+    sha256: 11f89b561a0821b25d7cb612cad40c064e95676986497bcf658b0dca7f78e7e8
     post_install:
-      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/.vscode/extensions/ms-python.python-2020.5.86806 --preparing-env"
+      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/.vscode/extensions/ms-python.python-2021.2.633441544 --preparing-env"
+
+  - url: https://ae5-vscode.s3.amazonaws.com/ms-toolsai.jupyter-2021.2.0.vsix
+    sha256: 0dfee50320c2ed4fe4042ac2331bbabd007ff385eb01ffeac09e106d48698391
