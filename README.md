@@ -23,17 +23,23 @@ steps.
 
 ```yaml
 patch_python_extension.py:
-  - url: https://ae5-vscode.s3.amazonaws.com/patch_python_extension.py
-
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/patch_python_extension.py
+    sha256: 9ea080b07fac8135e2aa95f0cf6290aca07a1f981d7c955d96cb0706882a6778
+   
 code-server.tar.gz:
-  - url: https://github.com/cdr/code-server/releases/download/3.2.0/code-server-3.2.0-linux-x86_64.tar.gz
-
+  - url: https://github.com/cdr/code-server/releases/download/v3.9.1/code-server-3.9.1-linux-amd64.tar.gz
+    sha256: f2648a4387c5a5be8666fb82a7b8a58274c45b91942251ab337e202e078ae8a5
 extensions:
-  - url: https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.1.vsix
+  - url: https://ae5-vscode-extensions.s3.amazonaws.com/ae5-session-0.3.1.vsix
+    sha256: 412264942db710e52506974ca9e4c99dd681be3fb6707fb55a4cfabf1f941167
 
-  - url: https://github.com/microsoft/vscode-python/releases/download/2020.4.74986/ms-python-release.vsix
+  - url: https://github.com/microsoft/vscode-python/releases/download/2021.2.633441544/ms-python-release.vsix
+    sha256: 11f89b561a0821b25d7cb612cad40c064e95676986497bcf658b0dca7f78e7e8
     post_install:
-      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/.vscode/extensions/ms-python.python-2020.4.74986 --preparing-env"
+      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/.vscode/extensions/ms-python.python-2021.2.633441544 --preparing-env"
+
+  - url: https://ae5-vscode.s3.amazonaws.com/ms-toolsai.jupyter-2021.2.0.vsix
+    sha256: 0dfee50320c2ed4fe4042ac2331bbabd007ff385eb01ffeac09e106d48698391
 ```
 
 
@@ -43,9 +49,10 @@ extensions:
 
 1. Copy this repository to `/opt/anaconda/vscode` on the AE Master node
     1. If installing on an airgapped system run the `python download.py --archive` first and copy `downloads.tar.gz` along with the repository
+1. Enter the gravity environment by running `sudo gravity enter`
+1. Install Miniconda if it not already available
 1. Run `python build.py` and take note of the name of the Docker image. See below for `build.py` options.
    ```
-   sudo gravity enter
    cd /opt/anaconda/vscode
    python build.py --push
    ```
@@ -64,23 +71,20 @@ extensions:
          workspace:
            icon: fa-anaconda
            label: workspace
-           url: https://aip.anaconda.com/platform/workspace/api/v1
+           url: http://anaconda-enterprise-ap-workspace
            options:
              workspace:
                tools:
                  notebook:
                    default: true
                    label: Jupyter Notebook
-                   packages: [notebook]
                  jupyterlab:
                    label: JupyterLab
-                   packages: [jupyterlab]
+                 zeppelin:
+                   label: Apache Zeppelin
                  vscode:
                    label: VSCode
-                   packages: [vscode]
-                 anaconda-platform-sync:
-                   label: Anaconda Project Sync
-                   packages: [anaconda-platform-sync]
+                   hidden: false
        ```
     1. Once you have verified the correct formatting, click the "Apply" button.
 1. Restart the UI pod
