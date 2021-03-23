@@ -50,7 +50,7 @@ RUN set -ex \
            cp start_vscode.sh /opt/continuum/scripts; \
        fi \
     ##
-    # && cp merge_vscode_settings.py /opt/continuum/scripts \
+    && cp merge_vscode_settings.py /opt/continuum/scripts \
     # && cp post-commit pre-push pre-push.py retag.py /opt/continuum/scripts \
     ##
     && chmod +x /opt/continuum/scripts/*.sh \
@@ -58,4 +58,4 @@ RUN set -ex \
     ##
     ## Cleanup
     && rm -rf /aesrc/vscode/downloads \
-    && rm -f /aesrc/vscode/{"*.tar.bz2", "*.tar.gz", "*.visx"}
+    && rm -f /aesrc/vscode/{"*.tar.bz2", "*.tar.gz", "*.visx", "examples"}
