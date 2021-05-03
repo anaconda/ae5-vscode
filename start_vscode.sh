@@ -13,15 +13,19 @@ OCLB=$OCLL/bin
 SETTINGS="/var/run/secrets/user_credentials/vscode_settings"
 
 export CONDA_EXE=$OCA/bin/conda
-export CONDA_DESIRED_ENV=$(cd $OCP && $OCLB/anaconda-project list-env-specs </dev/null | grep -A1 ^= | tail -1)
-ENV_PREFIX="$ANACONDA_PROJECT_ENVS_PATH/$CONDA_DESIRED_ENV"
+export CONDA_DESIRED_ENV=$(cd $OCP && python $OC/scripts/default_env_spec.py)
+ENV_PREFIX=$(cd $OCP && python $OC/scripts/default_env_spec_prefix.py)
 echo "| Prefix: $ENV_PREFIX"
 
-sed -E -i 's@("python.pythonPath":\s*")[^"]*(")@\1'"$ENV_PREFIX/bin/python"'\2@' $OCV/project.code-workspace
-echo "| Workspace Settings file $OCV/project.code-workspace:"
-echo "|---"
-sed 's@^@|  @' $OCV/project.code-workspace
-echo "|---"
+if [ ! -f $OCP/.vscode/project.code-workspace ]; then
+	mkdir -p $OCP/.vscode
+	cp /aesrc/vscode/project.code-workspace $OCP/.vscode/project.code-workspace
+	sed -E -i 's@("python.pythonPath":\s*")[^"]*(")@\1'"$ENV_PREFIX/bin/python"'\2@' $OCP/.vscode/project.code-workspace
+	echo "| Workspace Settings file $OCP/project.code-workspace:"
+	echo "|---"
+	sed 's@^@|  @' $OCP/.vscode/project.code-workspace
+	echo "|---"
+fi
 
 sed -E -i 's@lab_launch@'"$CONDA_DESIRED_ENV"'@' $OCV/activate-env-spec.sh
 

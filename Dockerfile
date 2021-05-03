@@ -24,14 +24,15 @@ RUN set -ex \
           /opt/continuum/anaconda/envs/lab_launch/bin \
     ##
     ## Move in the user-data-dir
-    && mv vscode /opt/continuum/.vscode \
-    && chown -fR anaconda /opt/continuum/.vscode \
+    && rm -rf /opt/continuum/scripts/skeletons/user/home/.vscode \
+    && mv vscode /opt/continuum/scripts/skeletons/user/home/.vscode \
+    && chown -fR anaconda:0 /opt/continuum/scripts/skeletons/user/home/.vscode \
     ##
     ## install extensions
     && for ext in downloads/extensions/*.vsix; do \
         su anaconda -c \
           "/opt/continuum/anaconda/envs/lab_launch/bin/code-server \
-          --user-data-dir /opt/continuum/.vscode \
+          --user-data-dir /opt/continuum/scripts/skeletons/user/home/.vscode \
           --install-extension $ext"; \
        done \
     ##
@@ -46,6 +47,8 @@ RUN set -ex \
        fi \
     ##
     && cp merge_vscode_settings.py /opt/continuum/scripts \
+    && cp default_env_spec.py /opt/continuum/scripts \
+    && cp default_env_spec_prefix.py /opt/continuum/scripts \
     ##
     && chmod +x /opt/continuum/scripts/*.sh \
     && chown -R anaconda /opt/continuum/scripts/* \
