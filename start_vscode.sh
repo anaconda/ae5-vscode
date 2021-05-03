@@ -10,7 +10,12 @@ OCAB=$OCA/bin
 OCLL=$OCA/envs/lab_launch
 OCLB=$OCLL/bin
 
-SETTINGS="/var/run/secrets/user_credentials/vscode_settings"
+SETTINGS=$OCV/User/settings.json
+###
+# If not using persistent storage replace the above
+# with this path for users to keep their settings in
+# a secret
+#SETTINGS="/var/run/secrets/user_credentials/vscode_settings"
 
 export CONDA_EXE=$OCA/bin/conda
 export CONDA_DESIRED_ENV=$(cd $OCP && python $OC/scripts/default_env_spec.py)
@@ -29,7 +34,13 @@ fi
 
 sed -E -i 's@lab_launch@'"$CONDA_DESIRED_ENV"'@' $OCV/activate-env-spec.sh
 
-python /opt/continuum/scripts/merge_vscode_settings.py $SETTINGS
+# Only merge admin settings if the settings file is empty
+# This effectively means "on-first-run" of any project with
+# VSCode
+if [ ! -s "$SETTINGS" ]; then
+	cp $OCV/admin_settings.json $SETTINGS
+	#python /opt/continuum/scripts/merge_vscode_settings.py $SETTINGS
+fi
 
 export NODE_EXTRA_CA_CERTS=$OCLL/ssl/cacert.pem
 export BOKEH_ALLOW_WS_ORIGIN=$TOOL_HOST          ## allows bokeh apps to work with proxy
