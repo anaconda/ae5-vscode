@@ -1,7 +1,6 @@
 {
   "lastVisited": {
-    "path": "/opt/continuum/project/.vscode/project.code-workspace",
-    "workspace": true,
-    "url": "/opt/continuum/project/.vscode/project.code-workspace"
+    "workspace": false,
+    "url": "/opt/continuum/project"
   }
 }

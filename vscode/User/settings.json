@@ -1,0 +1,14 @@
+{
+  "git.path": "/opt/continuum/anaconda/bin/git",
+  "git.ignoreLegacyWarning": true,
+  "python.condaPath": "/opt/continuum/anaconda/bin/conda",
+  "python.disableInstallationCheck": true,
+  "python.dataScience.askForKernelRestart": false,
+  "extensions.autoCheckUpdates": false,
+  "extensions.autoUpdate": false,
+  "workbench.startupEditor": "none",
+  "terminal.integrated.inheritEnv": false,
+  "terminal.integrated.shellArgs.linux": ["--init-file", "/opt/continuum/scripts/activate-env-spec.sh"],
+  "python.terminal.activateEnvironment": false,
+  "workbench.colorTheme": "Default Dark+"
+}

@@ -5,6 +5,8 @@ ARG AIRGAPPED=FALSE
 USER root
 RUN set -ex \
     && cd /aesrc/vscode \
+    ## jq is very helpful
+    && /opt/continuum/anaconda/bin/conda install -n lab_launch jq -y \
     ##
     ## Download code-server and extensions
     && if [[ "$AIRGAPPED" == "TRUE" ]]; then \
@@ -46,7 +48,9 @@ RUN set -ex \
            cp start_vscode.sh /opt/continuum/scripts; \
        fi \
     ##
-    && cp merge_vscode_settings.py /opt/continuum/scripts \
+    #&& cp merge_vscode_settings.py /opt/continuum/scripts \
+    && cp activate-env-spec.sh /opt/continuum/scripts \
+    && cp apply_python_path.py /opt/continuum/scripts \
     && cp default_env_spec.py /opt/continuum/scripts \
     && cp default_env_spec_prefix.py /opt/continuum/scripts \
     ##

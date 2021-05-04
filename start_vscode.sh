@@ -10,7 +10,7 @@ OCAB=$OCA/bin
 OCLL=$OCA/envs/lab_launch
 OCLB=$OCLL/bin
 
-SETTINGS=$OCV/User/settings.json
+#SETTINGS=$OCV/User/settings.json
 ###
 # If not using persistent storage replace the above
 # with this path for users to keep their settings in
@@ -21,26 +21,27 @@ export CONDA_EXE=$OCA/bin/conda
 export CONDA_DESIRED_ENV=$(cd $OCP && python $OC/scripts/default_env_spec.py)
 ENV_PREFIX=$(cd $OCP && python $OC/scripts/default_env_spec_prefix.py)
 echo "| Prefix: $ENV_PREFIX"
+python $OC/scripts/apply_python_path.py $ENV_PREFIX/bin/python
 
-if [ ! -f $OCP/.vscode/project.code-workspace ]; then
-	mkdir -p $OCP/.vscode
-	cp /aesrc/vscode/project.code-workspace $OCP/.vscode/project.code-workspace
-	sed -E -i 's@("python.pythonPath":\s*")[^"]*(")@\1'"$ENV_PREFIX/bin/python"'\2@' $OCP/.vscode/project.code-workspace
-	echo "| Workspace Settings file $OCP/project.code-workspace:"
-	echo "|---"
-	sed 's@^@|  @' $OCP/.vscode/project.code-workspace
-	echo "|---"
-fi
+#if [ ! -f $OCP/.vscode/project.code-workspace ]; then
+#	mkdir -p $OCP/.vscode
+#	cp /aesrc/vscode/project.code-workspace $OCP/.vscode/project.code-workspace
+#	sed -E -i 's@("python.pythonPath":\s*")[^"]*(")@\1'"$ENV_PREFIX/bin/python"'\2@' $OCP/.vscode/project.code-workspace
+#	echo "| Workspace Settings file $OCP/project.code-workspace:"
+#	echo "|---"
+#	sed 's@^@|  @' $OCP/.vscode/project.code-workspace
+#	echo "|---"
+#fi
 
-sed -E -i 's@lab_launch@'"$CONDA_DESIRED_ENV"'@' $OCV/activate-env-spec.sh
+#sed -E -i 's@lab_launch@'"$CONDA_DESIRED_ENV"'@' $OCV/activate-env-spec.sh
 
 # Only merge admin settings if the settings file is empty
 # This effectively means "on-first-run" of any project with
 # VSCode
-if [ ! -s "$SETTINGS" ]; then
-	cp $OCV/admin_settings.json $SETTINGS
+#if [ ! -s "$SETTINGS" ]; then
+#	cp $OCV/admin_settings.json $SETTINGS
 	#python /opt/continuum/scripts/merge_vscode_settings.py $SETTINGS
-fi
+#fi
 
 export NODE_EXTRA_CA_CERTS=$OCLL/ssl/cacert.pem
 export BOKEH_ALLOW_WS_ORIGIN=$TOOL_HOST          ## allows bokeh apps to work with proxy
