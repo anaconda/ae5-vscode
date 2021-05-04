@@ -11,7 +11,7 @@ def _dump(settings, SETTINGS_PATH):
         json.dump(settings, f)
 
 if os.path.exists(SETTINGS_PATH):
-    with open(settings_path, 'r') as f:
+    with open(SETTINGS_PATH, 'r') as f:
         settings = json.load(f)
 
     if 'python.pythonPath' in settings:
