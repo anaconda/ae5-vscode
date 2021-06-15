@@ -46,6 +46,7 @@ python $OC/scripts/apply_python_path.py $ENV_PREFIX/bin/python
 export NODE_EXTRA_CA_CERTS=$OCLL/ssl/cacert.pem
 export BOKEH_ALLOW_WS_ORIGIN=$TOOL_HOST          ## allows bokeh apps to work with proxy
 export XDG_DATA_HOME=$OCV                        ## implement last-visited in coder.json
+export XDG_CONFIG_HOME=$OCV                      ## everything goes in ~/.vscode
 
 ## Git configs to allow push without arguments
 # git config push.default upstream 
@@ -59,8 +60,9 @@ export XDG_DATA_HOME=$OCV                        ## implement last-visited in co
 # cp $OC/scripts/post-commit $OCP/.git/hooks
 # chmod 755 $OCP/.git/hooks/post-commit
 
-args=($OCLB/code-server --auth none --user-data-dir $OCV)
+args=($OCLB/code-server --auth none --user-data-dir $OCV --config $OCV/config.yaml)
 args+=(--disable-telemetry)
+args+=(--log debug)
 [[ $TOOL_PORT ]] && args+=(--port $TOOL_PORT)
 [[ $TOOL_ADDRESS ]] && args+=(--host $TOOL_ADDRESS)
 
