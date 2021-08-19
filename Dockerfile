@@ -20,7 +20,7 @@ RUN set -ex \
     ##
     ## install code-server
     && tar xfz downloads/code-server.tar.gz \
-    && chown -fR anaconda code-server-* \
+    && chown -fR anaconda:0 code-server-* \
     && mv code-server-* /opt/continuum/anaconda/envs/lab_launch/lib/code-server \
     && ln -s "/opt/continuum/anaconda/envs/lab_launch/lib/code-server/bin/code-server" \
           /opt/continuum/anaconda/envs/lab_launch/bin \
@@ -37,6 +37,7 @@ RUN set -ex \
           --user-data-dir /opt/continuum/scripts/skeletons/user/home/.vscode \
           --install-extension $ext"; \
        done \
+    && ls -l /opt/continuum/scripts/skeletons/user/home/.vscode/extensions \
     ##
     ## extension post-install
     && /opt/continuum/anaconda/envs/lab_launch/bin/python download.py --post-install \
@@ -55,7 +56,7 @@ RUN set -ex \
     && cp default_env_spec_prefix.py /opt/continuum/scripts \
     ##
     && chmod +x /opt/continuum/scripts/*.sh \
-    && chown -R anaconda /opt/continuum/scripts/* \
+    && chown -R anaconda:0 /opt/continuum/scripts/* \
     ##
     ## Cleanup
     && rm -rf /aesrc/vscode/downloads \
