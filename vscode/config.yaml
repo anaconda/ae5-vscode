@@ -1,0 +1,2 @@
+bind-addr: 0.0.0.0:7050
+auth: none
