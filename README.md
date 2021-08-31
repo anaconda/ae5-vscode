@@ -23,23 +23,24 @@ steps.
 
 ```yaml
 patch_python_extension.py:
-  - url: https://ae5-vscode-extensions.s3.amazonaws.com/patch_python_extension.py
+  - url: https://ae5-vscode.s3.amazonaws.com/patch_python_extension.py
     sha256: 9ea080b07fac8135e2aa95f0cf6290aca07a1f981d7c955d96cb0706882a6778
    
 code-server.tar.gz:
-  - url: https://github.com/cdr/code-server/releases/download/v3.9.1/code-server-3.9.1-linux-amd64.tar.gz
-    sha256: f2648a4387c5a5be8666fb82a7b8a58274c45b91942251ab337e202e078ae8a5
+  - url: https://ae5-vscode.s3.amazonaws.com/code-server-3.9.3-linux-amd64.tar.gz
+    sha256: eba42eaf868c2144795b1ac54929e3b252ae35403bf8553b3412a5ac4f365a41
+
 extensions:
-  - url: https://ae5-vscode-extensions.s3.amazonaws.com/ae5-session-0.3.1.vsix
+  - url: https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.1.vsix
     sha256: 412264942db710e52506974ca9e4c99dd681be3fb6707fb55a4cfabf1f941167
 
-  - url: https://github.com/microsoft/vscode-python/releases/download/2021.2.633441544/ms-python-release.vsix
-    sha256: 11f89b561a0821b25d7cb612cad40c064e95676986497bcf658b0dca7f78e7e8
-    post_install:
-      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/.vscode/extensions/ms-python.python-2021.2.633441544 --preparing-env"
+  - url: https://ae5-vscode.s3.amazonaws.com/ms-toolsai.jupyter-2021.3.0.vsix
+    sha256: 33843b2af436d999ee08f62c2719d12718a2e9d8bee6068c14d43fe04d20b083
 
-  - url: https://ae5-vscode.s3.amazonaws.com/ms-toolsai.jupyter-2021.2.0.vsix
-    sha256: 0dfee50320c2ed4fe4042ac2331bbabd007ff385eb01ffeac09e106d48698391
+  - url: https://ae5-vscode.s3.amazonaws.com/ms-python-2021.5.926500501.vsix
+    sha256: 637a1de6d5494eb56922c7498b6d4cdaafd68a56160382c0d7e14d0fc20feb42
+    post_install:
+      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/scripts/skeletons/user/home/.vscode/extensions/ms-python.python-2021.5.926500501 --preparing-env"
 ```
 
 
@@ -65,7 +66,7 @@ extensions:
     1. Launch a web browser, log into the Op Center, and navigate to the "Configuration" tab.
     1. Edit the `anaconda-enterprise-anaconda-platform.yml` config map
     1. Search for the `anaconda-workspace:` section of this file
-    1. Add the VSCode workspace tool so that the section of the file looks like
+    1. Enable the VSCode workspace tool so that the section of the file looks like
        ``` 
        anaconda-workspace:
          workspace:
@@ -83,7 +84,7 @@ extensions:
                  zeppelin:
                    label: Apache Zeppelin
                  vscode:
-                   label: VSCode
+                   label: Visual Studio Code
                    hidden: false
        ```
     1. Once you have verified the correct formatting, click the "Apply" button.

@@ -60,7 +60,7 @@ export XDG_CONFIG_HOME=$OCV                      ## everything goes in ~/.vscode
 # cp $OC/scripts/post-commit $OCP/.git/hooks
 # chmod 755 $OCP/.git/hooks/post-commit
 
-args=($OCLB/code-server --auth none --user-data-dir $OCV --config $OCV/config.yaml)
+args=($OCLB/code-server --auth none --user-data-dir $OCV --bind-addr 0.0.0.0:7050) 
 args+=(--disable-telemetry)
 args+=(--log debug)
 [[ $TOOL_PORT ]] && args+=(--port $TOOL_PORT)

@@ -1,20 +1,20 @@
-# Updates code-server to 3.11.1 and ms-python extension to 2021.8.11...
-
 patch_python_extension.py:
-  - url: https://ae5-vscode-extensions.s3.amazonaws.com/patch_python_extension.py
+  - url: https://ae5-vscode.s3.amazonaws.com/patch_python_extension.py
     sha256: 9ea080b07fac8135e2aa95f0cf6290aca07a1f981d7c955d96cb0706882a6778
    
 code-server.tar.gz:
-  - url: https://github.com/cdr/code-server/releases/download/v3.11.1/code-server-3.11.1-linux-amd64.tar.gz
-    sha256: d34b0b79582196d59d44ac971aabb7f15cb05d837318b94f62470dc8475665e9
+  - url: https://ae5-vscode.s3.amazonaws.com/code-server-3.9.3-linux-amd64.tar.gz
+    sha256: eba42eaf868c2144795b1ac54929e3b252ae35403bf8553b3412a5ac4f365a41
+
 extensions:
-  - url: https://ae5-vscode-extensions.s3.amazonaws.com/ae5-session-0.3.1.vsix
+  - url: https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.1.vsix
     sha256: 412264942db710e52506974ca9e4c99dd681be3fb6707fb55a4cfabf1f941167
 
-  - url: https://ae5-vscode.s3.amazonaws.com/ms-python.python-2021.8.1105858891.vsix
-    sha256: 1b0d7b6d3728bd9a8a696af1c7a84a44105d0784afedd929c14f3e1971d16851
-    post_install:
-      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/scripts/skeletons/user/home/.vscode/extensions/ms-python.python-2021.8.1105858891 --preparing-env"
+  - url: https://ae5-vscode.s3.amazonaws.com/ms-toolsai.jupyter-2021.3.0.vsix
+    sha256: 33843b2af436d999ee08f62c2719d12718a2e9d8bee6068c14d43fe04d20b083
 
-  - url: https://ae5-vscode.s3.amazonaws.com/ms-toolsai.jupyter-2021.6.99.vsix
-    sha256: 3be3ac65f00be7596cb80b91ef99ddb23e62b077eee15f913b10afc6b147029b
+  - url: https://ae5-vscode.s3.amazonaws.com/ms-python-2021.5.926500501.vsix
+    sha256: 637a1de6d5494eb56922c7498b6d4cdaafd68a56160382c0d7e14d0fc20feb42
+    post_install:
+      - "/opt/continuum/anaconda/envs/lab_launch/bin/python patch_python_extension.py /opt/continuum/scripts/skeletons/user/home/.vscode/extensions/ms-python.python-2021.5.926500501 --preparing-env"
+

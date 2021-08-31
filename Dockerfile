@@ -37,27 +37,19 @@ RUN set -ex \
           --user-data-dir /opt/continuum/scripts/skeletons/user/home/.vscode \
           --install-extension $ext"; \
        done \
-    && ls -l /opt/continuum/scripts/skeletons/user/home/.vscode/extensions \
     ##
     ## extension post-install
     && /opt/continuum/anaconda/envs/lab_launch/bin/python download.py --post-install \
     ##
-    ## Choose the right startup script
-    && if [ ! -f /opt/continuum/scripts/start_user.sh ]; then \
-           cp start_*.sh startup.sh build_condarc.py run_tool.py /opt/continuum/scripts; \
-       else \
-           cp start_vscode.sh /opt/continuum/scripts; \
-       fi \
-    ##
-    #&& cp merge_vscode_settings.py /opt/continuum/scripts \
-    && cp activate-env-spec.sh /opt/continuum/scripts \
-    && cp apply_python_path.py /opt/continuum/scripts \
-    && cp default_env_spec.py /opt/continuum/scripts \
-    && cp default_env_spec_prefix.py /opt/continuum/scripts \
-    ##
-    && chmod +x /opt/continuum/scripts/*.sh \
-    && chown -R anaconda:0 /opt/continuum/scripts/* \
+    ## copy new script files
+    && SCRIPTS=(start_vscode.sh activate-env-spec.sh apply_python_path.py default_env_spec.py default_env_spec_prefix.py) \
+    && for scpt in ${SCRIPTS[@]}; do \
+         cp $scpt /opt/continuum/scripts/$scpt; \
+         chown anaconda:0 /opt/continuum/scripts/$scpt;  \
+         chmod +x /opt/continuum/scripts/$scpt; \
+       done \
     ##
     ## Cleanup
     && rm -rf /aesrc/vscode/downloads \
-    && rm -f /aesrc/vscode/{"*.tar.bz2", "*.tar.gz", "*.visx", "examples"}
+    && rm -f /aesrc/vscode/{"*.tar.bz2", "*.tar.gz", "*.visx", "examples"} \
+    && rm -rf /opt/continuum/.local
