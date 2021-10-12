@@ -113,3 +113,45 @@ optional arguments:
 Secondly, an airgap install procedure is enabled whereby a `downloads.tar.bz2` can be created using the download script on any machine with internet access. Copying the archive along with this repo into the airgapped master node and using the new `build.py` script will allow non-internet connected systems to install code-server, extensions, and run post-install tasks. 
 
 The `--airgapped` flag launches a local webserver on port 8000 before starting docker build. The Dockerfile build-arg `AIRGAPPED` is set, which will download the `downloads.tar.bz2` file in the RUN layer and remove it when installation has completed.
+
+
+## Upgrading
+
+As VSCode is currently implemented as a custom image, it is important to
+ensure customer specific customizations persist across AE5
+upgrades. There are two places where customizations can be expected:
+
+* The `manifest.yml`: this details the VSCode extensions to be installed
+  for this customer, the version of code-server used as well as possible
+  support packages (such as additional RPMs). Examples of `manifest.yml`
+  files used by customers can be found in the `examples/` directory.
+  
+* The `vscode/admin_settings.json` file. This file applies default
+  settings recommended by Anaconda but customers are free to introduce
+  their own administrator level settings.
+
+Before upgrading it is important to make a backup of the existing
+`manifest.yml` and `vscode/admin_settings.json` files before the upgrade
+and to check whether Services hours have been expended to update the
+VSCode image for the relevant customer. If no updates have been
+requested, these two files should be reused, otherwise the latest
+versions of the files need to be in place.
+
+Of particular importance, the most recent version of the manifest.yml
+for the relevant customer should be in the `examples/` directory. Check
+for changes by diffing the existing `manifest.yml` for the given
+customer with the version in `examples/` and double check no newer
+version should have been made available from Services (i.e. check
+whether the customer has requested any updates to the VSCode editor image).
+
+In addition, it is important to use the latest available
+`vscode/admin_settings.json` file. In the case where no additional
+Services hours have been expended, this will simply be the version of
+the file pre-upgrade. As with the `manifest.yml`, make sure to diff the
+file pre-upgrade with the version in either `vscode/admin_settings.json`
+(default) or in `examples/` to see if any special customizations have
+been applied.
+
+With the appropriate versions of these two files in place, the
+'Installation' instructions above can be followed, using the
+`--airgapped` flag of the build script as necessary.
