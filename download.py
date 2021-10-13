@@ -34,7 +34,10 @@ import shutil
 import hashlib
 
 import os
-import yaml
+try:
+    import yaml
+except ImportError:
+    import ruamel_yaml as yaml
 
 try:
     import requests

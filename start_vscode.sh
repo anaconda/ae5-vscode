@@ -2,44 +2,81 @@
 
 echo "+-- START: AE5 VSCode Launcher ---"
 
-OC=/opt/continuum
+export TOOL_HOME=$(dirname "${BASH_SOURCE[0]}")
+OC=$HOME
+
+echo "| Tool home: $TOOL_HOME"
+echo "| User home: $OC"
+
 OCV=$OC/.vscode
+OCC=$OC/.config
 OCA=$OC/anaconda
 OCP=$OC/project
-OCAB=$OCA/bin
-OCCC=$OC/.config/code-server
-OCLL=$OCA/envs/lab_launch
+OCCC=$OCC/code-server
 OCLB=$OCLL/bin
-TV=/tools/vscode
 
 SETTINGS="/var/run/secrets/user_credentials/vscode_settings"
 
+# Determine the conda environment specified by the project
+
 export CONDA_EXE=$OCA/bin/conda
-export CONDA_DESIRED_ENV=$(cd $OCP && $OCLB/anaconda-project list-env-specs </dev/null | grep -A1 ^= | tail -1)
-ENV_PREFIX=$(source activate $CONDA_DESIRED_ENV && echo $CONDA_PREFIX)
+export CONDA_DESIRED_ENV=$(cd $OCP && $OCA/condabin/anaconda-project list-env-specs </dev/null | grep -A1 ^= | tail -1)
+ENV_PREFIX=$(source $OCA/bin/activate $CONDA_DESIRED_ENV && echo $CONDA_PREFIX)
+[ -d "$ENV_PREFIX" ] || ENV_PREFIX=$OCA/envs/lab_launch
 echo "| Prefix: $ENV_PREFIX"
 
-echo "| Copying skeleton into $OC/.vscode (w/o clobbering)"
-cp -prn $TV/vscode/. $OCV/ || :
-(cd $OCV && find .) | sed 's@^@| @'
-
-sed -E -i 's@("python.pythonPath":\s*")[^"]*(")@\1'"$ENV_PREFIX/bin/python"'\2@' $OCV/project.code-workspace
-echo "| Workspace Settings file $OCV/project.code-workspace:"
-echo "|---"
-sed 's@^@|  @' $OCV/project.code-workspace
-echo "|---"
+#
+# Build the configuration files in ~/.config/code-server
+# These must not live in persistent storage so that users
+# can have multiple running sessions.
+#
 
 mkdir -p $OCCC
-sed -E 's@lab_launch@'"$CONDA_DESIRED_ENV"'@' $TV/activate-env-spec.sh > $OCCC/activate-env-spec.sh
-chmod +x $OCCC/activate-env-spec.sh
+if [ "$(readlink $OCV/code-server 2>&1)" != "$OCCC" ]; then
+    echo "| Fixing code-server configuration directory link"
+    rm -rf $OCV/code-server 2>&1 || :
+    ln -s $OCCC $OCV/
+    ls -l $OCV/code-server | sed 's@^@| @'
+fi
+echo "| Creating configuration files"
+write_file() {
+    echo "| $1:"
+    echo "|----"
+    tee $OCCC/$1 | sed 's@^@| @'
+    echo "|----"
+}
+write_file project.code-workspace <<EOD
+{"folders": [{"path": "$OCP"}],
+ "settings": {"python.pythonPath": "$ENV_PREFIX"}}
+EOD
+write_file coder.json <<EOD
+{"lastVisited": {
+    "path": "$OCCC/project.code-workspace",
+    "workspace": true,
+    "url": "$OCCC/project.code-workspace"
+}}
+EOD
 
-python $TV/merge_vscode_settings.py $SETTINGS
+#
+# Build the user settings file in ~/.vscode/User/settings.json.
+# Because some of those settings should not be changed by users,
+# we put them in $TOOL_HOME/admin_settings.json and merge them
+# into the settings JSON on session startup.
+#
 
-export NODE_EXTRA_CA_CERTS=$OCLL/ssl/cacert.pem
+mkdir -p $OCV/User
+python $TOOL_HOME/merge_settings.py $SETTINGS | sed 's@^@| @'
+
+# Final environment tweaks
+
+export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-chain.pem
 export BOKEH_ALLOW_WS_ORIGIN=$TOOL_HOST          ## allows bokeh apps to work with proxy
 export XDG_DATA_HOME=$OCV                        ## implement last-visited in coder.json
 
-args=($TV/bin/code-server --auth none --user-data-dir $OCV --extensions-dir $TV/extensions --disable-telemetry)
+# Build the command line
+
+args=($TOOL_HOME/bin/code-server --auth none --user-data-dir $OCV)
+args+=(--extensions-dir $TOOL_HOME/extensions --disable-telemetry)
 [[ $TOOL_PORT ]] && args+=(--port $TOOL_PORT)
 [[ $TOOL_ADDRESS ]] && args+=(--host $TOOL_ADDRESS)
 
