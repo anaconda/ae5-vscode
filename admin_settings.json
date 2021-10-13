@@ -10,5 +10,13 @@
   "workbench.startupEditor": "none",
   "terminal.integrated.inheritEnv": false,
   "terminal.integrated.shellArgs.linux": ["--init-file", "/tools/vscode/activate.sh"],
-  "python.terminal.activateEnvironment": false
+  "python.terminal.activateEnvironment": false,
+  "_comments": [
+    "The file ~/.vscode/User/settings.json (where you are likely reading",
+    "this) contains VSCode settings that you may have modified using the",
+    "VSCode Settings panel. It also contains a number of settings that",
+    "AE5 has hardcoded to ensure that VSCode operates correctly within",
+    "its unique environment. The file /tools/vscode/admin_settings.json",
+    "contains those overrides (including this comment!)"
+  ]
 }
