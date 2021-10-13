@@ -2,7 +2,7 @@
 
 echo "+-- START: AE5 VSCode Launcher ---"
 
-export TOOL_HOME=$(dirname "${BASH_SOURCE[0]}")
+TOOL_HOME=$(dirname "${BASH_SOURCE[0]}")
 OC=$HOME
 
 echo "| Tool home: $TOOL_HOME"
@@ -20,9 +20,9 @@ SETTINGS="/var/run/secrets/user_credentials/vscode_settings"
 # Determine the conda environment specified by the project
 
 export CONDA_EXE=$OCA/bin/conda
-export CONDA_DESIRED_ENV=$(cd $OCP && $OCA/condabin/anaconda-project list-env-specs </dev/null | grep -A1 ^= | tail -1)
+export CONDA_DESIRED_ENV=$($OCA/bin/python $TOOL_HOME/default_env.py $OCP)
 ENV_PREFIX=$(source $OCA/bin/activate $CONDA_DESIRED_ENV && echo $CONDA_PREFIX)
-[ -d "$ENV_PREFIX" ] || ENV_PREFIX=$OCA/envs/lab_launch
+[ -d "$ENV_PREFIX" ] || ENV_PREFIX=$OCA
 echo "| Prefix: $ENV_PREFIX"
 
 #
@@ -51,9 +51,9 @@ write_file project.code-workspace <<EOD
 EOD
 write_file coder.json <<EOD
 {"lastVisited": {
-    "path": "$OCCC/project.code-workspace",
-    "workspace": true,
-    "url": "$OCCC/project.code-workspace"
+ "path": "$OCCC/project.code-workspace",
+ "workspace": true,
+ "url": "$OCCC/project.code-workspace"
 }}
 EOD
 
