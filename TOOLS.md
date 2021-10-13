@@ -379,4 +379,3 @@ cluster with no maintenance window:
    ```
 3. Download the archive and deliver to its desired destination.
 4. Delete the archive `ae5-vscode.tar.gz` from the project session.
-
