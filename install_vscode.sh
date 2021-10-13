@@ -71,6 +71,7 @@ rmdir code-server-*
 echo "- Installing extensions"
 mkdir -p $STAGING_PREFIX/extensions
 for ext in downloads/extensions/*.vsix; do \
+    echo "- $ext"
     $STAGING_PREFIX/bin/code-server --extensions-dir=$STAGING_PREFIX/extensions --install-extension $ext
 done
 
