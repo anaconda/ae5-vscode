@@ -24,7 +24,7 @@ The requirements for the tool volume are:
 * It must be accessible to all AE5 nodes.
 * It must be group writable by a fixed group ID (GID). Any value of
   the GID, including 0, is acceptable.
-* For Graivty-based clusters, it must be an NFS volume.
+* For Gravity-based clusters, it must be an NFS volume.
 * For BYOK8s clusters, you can use NFS or any `PersistentVolume`
   with `ReadWriteOnce` or `ReadWriteMany` semantics.
   
@@ -218,7 +218,7 @@ The standard install requires a live  internet connection retrieve the
 `code-server` package and associated extensions. If you do not have such
 a connection from AE5, you will have to manually obtain the files.
 
-1. Place the files `download.py` and `manifest.xml` onto a machine with
+1. Place the files `download.py` and `manifest.yml` onto a machine with
    a Python 3 interpreter and internet access.
 2. Run the command
    ```
@@ -235,17 +235,15 @@ a connection from AE5, you will have to manually obtain the files.
 ### Archive install
 
 1. Upload the archive into the project.
-2. Launch a terminal within the session.
-3. Make sure that the directory `/tools/vscode` exists, and is empty:
+2. Make sure that the directory `/tools/vscode` exists, and is empty:
    ```
    mkdir -p /tools/vscode && rm -rf /tools/vscode/*
    ```
-4. Unpack the archive into position:
+3. Unpack the archive into position:
    ```
    tar xfz -C /tools/vscode ae5-vscode.tar.gz
    ```
    substituting, if necessary, the correct name of the archive file.
-5. Complete the post-installation steps below.
 
 ## Step 4. Perform post installation steps
 
