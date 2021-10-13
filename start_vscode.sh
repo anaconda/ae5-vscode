@@ -50,11 +50,8 @@ write_file project.code-workspace <<EOD
  "settings": {"python.pythonPath": "$ENV_PREFIX"}}
 EOD
 write_file coder.json <<EOD
-{"lastVisited": {
- "path": "$OCCC/project.code-workspace",
- "workspace": true,
- "url": "$OCCC/project.code-workspace"
-}}
+{"query": {"folder": "$OCP"},
+ "lastVisited": {"url": "$OCP", "workspace": false}}
 EOD
 
 #
