@@ -18,7 +18,7 @@ proceeding with the instructions here.
 
 ## Installation
 
-We have broken up the installation process into four steps below:
+We have broken up the installation process into the steps below:
 
 1. _Set the tool volume to read-write._
 2. _Pre-installation steps._
@@ -206,7 +206,7 @@ VSCode test session.
 1. Edit the `anaconda-platform.yml` ConfigMap. On Gravity clusters,
    this is most easily performed in the Ops Center.
 2. Search for the `/tools:` volume specification.
-3. Change `readOnly: true` to `readOnly: false`.
+3. Change `readOnly: false` to `readOnly: true`.
 4. Save the changed configuration, and exit the editor.
 5. Restart the workspace pod:
    ```
