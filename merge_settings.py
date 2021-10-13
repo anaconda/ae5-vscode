@@ -58,10 +58,10 @@ user_settings = _read_json(user_settings_path, 'user', False) if user_settings_p
 merged_settings = {}
 if existing_settings:
    merged_settings.update(existing_settings)
-if admin_settings:
-   merged_settings.update(admin_settings)
 if user_settings:
    merged_settings.update(user_settings)
+if admin_settings:
+   merged_settings.update(admin_settings)
 
 if existing_settings == merged_settings:
    print('Merged settings unchanged, skipping the write step')
