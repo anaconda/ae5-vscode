@@ -82,8 +82,11 @@ echo "- Run the Python extension patcher"
 $PYTHON_EXE patch_python_extension.py $STAGING_PREFIX
 
 echo "- Installing support scripts"
-cp activate.sh start_vscode.sh merge_settings.py patch_python_extension.py $STAGING_PREFIX
-sed "s@/tools/vscode/@$PREFIX/@" admin_settings.json > $STAGING_PREFIX/admin_settings.json
+cp admin_settings.json activate.sh start_vscode.sh merge_settings.py \
+    patch_python_extension.py default_env.py $STAGING_PREFIX
+if [ "$PREFIX" != "/tools/vscode" ]; then
+    sed -i.bak "s@/tools/vscode/@$PREFIX/@" $STAGING_PREFIX/{admin_settings.json,activate.sh}
+fi
 chmod +x $STAGING_PREFIX/{activate.sh,start_vscode.sh}
 
 echo "- Installed. You can shut down this session, and/or remove downloaded files."
