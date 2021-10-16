@@ -6,7 +6,12 @@ if ! grep -q /tools/ /opt/continuum/scripts/start_user.sh; then
     echo "ERROR: This version of the VSCode installer requires AE5.5.1 or later."
     exit -1
 fi
-    
+
+echorun() {
+  echo "> $@"
+  "$@" | sed 's@^@| @'
+}
+
 CURRENT_DIR=$PWD
 SOURCE_DIR=$(dirname "${BASH_SOURCE[0]}")
 missing=
@@ -27,8 +32,8 @@ fi
 # them in another.
 [ $PREFIX ] || PREFIX=/tools/vscode
 [ $STAGING_PREFIX ] || STAGING_PREFIX=$PREFIX
-echo "- Install prefix: ${PREFIX}"
-echo "- Staging prefix: ${STAGING_PREFIX}"
+echo "| Install prefix: ${PREFIX}"
+echo "| Staging prefix: ${STAGING_PREFIX}"
 if [ ! -d $STAGING_PREFIX ]; then
     parent=$(dirname $STAGING_PREFIX)
     if [[ $PREFIX == $STAGING_PREFIX && ! -d $parent ]]; then
@@ -50,36 +55,32 @@ elif [ ! -z "$(ls -A $STAGING_PREFIX)" ]; then
 fi
 
 PYTHON_EXE=/opt/continuum/anaconda/bin/python
-if [ -f downloads/code-server-* ]; then
-    echo "- Using existing downloads directory"
-elif [ -f downloads.tar.bz2 ]; then
+if [ -f downloads.tar.bz2 ]; then
     echo "- Unpacking downloads tarball"
-    tar xfj downloads.tar.bz2
+    echorun tar xfj downloads.tar.bz2
 elif [ -f downloads.tar.gz ]; then
     echo "- Unpacking downloads tarball"
-    tar xfz downloads.tar.gz
+    echorun tar xfz downloads.tar.gz
 else
     echo "- Retrieving packages from manifest"
-    $PYTHON_EXE download.py
+    echorun $PYTHON_EXE download.py
 fi
 
 echo "- Installing code-server"
-tar xfz downloads/code-server.tar.gz
-mv code-server-*/* $STAGING_PREFIX
-rmdir code-server-*
+echorun tar xfz downloads/code-server.tar.gz --strip-components 1 -C $STAGING_PREFIX
 
 echo "- Installing extensions"
 mkdir -p $STAGING_PREFIX/extensions
-for ext in downloads/extensions/*.vsix; do \
-    echo "- $ext"
-    $STAGING_PREFIX/bin/code-server --extensions-dir=$STAGING_PREFIX/extensions --install-extension $ext
+for ext in $(grep -A 9999 extensions: manifest.yml | sed -n 's@.*url: .*/@@p'); do
+    (cd downloads/extensions && echorun $STAGING_PREFIX/bin/code-server \
+        --extensions-dir=$STAGING_PREFIX/extensions --install-extension=$ext)
 done
 
 echo "- Run the post-install scripts"
-$PYTHON_EXE download.py --post-install
+echorun $PYTHON_EXE download.py --post-install
 
 echo "- Run the Python extension patcher"
-$PYTHON_EXE patch_python_extension.py $STAGING_PREFIX
+echorun $PYTHON_EXE patch_python_extension.py $STAGING_PREFIX
 
 echo "- Installing support scripts"
 cp admin_settings.json activate.sh start_vscode.sh merge_settings.py \
@@ -97,5 +98,3 @@ if [ "$PREFIX" != "$STAGING_PREFIX" ]; then
     echo "- To install the tarball at the destination; upload and run:"
     echo "-    tar xfz ae5-vscode.tar.gz -C $PREFIX"
 fi
-
-

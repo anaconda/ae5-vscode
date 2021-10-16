@@ -118,16 +118,28 @@ There are three installation approaches that you can consider:
    
 #### Archive install
 
+If you have direct access to the `/tools` volume on the file server:
+
+1. Transfer the archive to the fileserver.
+2. Unpack the archive:
+   ```
+   tar xfz -C <PATH_TO_TOOLS> ae5-vscode.tar.gz
+   ```
+   where `<PATH_TO_TOOLS>` is the server directory exported to `/tools`.
+
+If you do not, return to the AE5 working session, and:
+
 1. Upload the archive into the project.
-2. Make sure that the directory `/tools/vscode` exists, and is empty:
+2. Unpack the archive into position:
    ```
-   mkdir -p /tools/vscode && rm -rf /tools/vscode/*
-   ```
-3. Unpack the archive into position:
-   ```
-   tar xfz -C /tools/vscode ae5-vscode.tar.gz
+   tar xfz -C /tools ae5-vscode.tar.gz
    ```
    substituting, if necessary, the correct name of the archive file.
+
+Note that these instructions assume that the archive was built with the
+`vscode` subdirectory included within the archive manifest. If you are
+building an archive to be installed in this manner, make sure to follow
+the instructiopns given in *Creating an archived installation* below.
 
 ### Step 4. Post-installation steps
 
@@ -375,7 +387,7 @@ cluster with no maintenance window:
 1. Launch a terminal within any session.
 2. Run the command:
    ```
-   tar cfz ae5-vscode.tar.gz /tools/vscode .
+   tar cfz ae5-vscode.tar.gz /tools vscode
    ```
 3. Download the archive and deliver to its desired destination.
 4. Delete the archive `ae5-vscode.tar.gz` from the project session.
