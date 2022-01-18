@@ -17,7 +17,7 @@ OCUHV=$OC/user/home/vscode
 
 SETTINGS="/var/run/secrets/user_credentials/vscode_settings"
 PYTHON=$OCA/bin/python
-CONFIG=$OC/.config/code-server
+CONFIG=$OC/.local/code-server
 CONFIG_U=$CONFIG/User
 
 # Determine the conda environment specified by the project
@@ -34,6 +34,7 @@ echo "| Prefix: $ENV_PREFIX"
 # can have multiple running sessions.
 #
 
+rm -rf $CONFIG 2>/dev/null
 if [[ ! -d $OCV && -d $OCUH ]]; then
     # Persist ~/.vscode if possible
     mkdir -p $OCUHV

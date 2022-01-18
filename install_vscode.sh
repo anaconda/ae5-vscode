@@ -1,6 +1,10 @@
 #!/bin/bash
 
-echo "- AE5 VSCode Installer"
+echo "+----------------------+"
+echo "| AE5 VSCode Installer |"
+echo "+----------------------+"
+
+TOOL_HOME=$(dirname "${BASH_SOURCE[0]}")
 
 if ! grep -q /tools/ /opt/continuum/scripts/start_user.sh; then
     echo "ERROR: This version of the VSCode installer requires AE5.5.1 or later."
@@ -15,13 +19,29 @@ echorun() {
 CURRENT_DIR=$PWD
 SOURCE_DIR=$(dirname "${BASH_SOURCE[0]}")
 missing=
-for sfile in activate.sh admin_settings.json merge_settings.py start_vscode.sh; do
+for sfile in MANIFEST activate.sh admin_settings.json merge_settings.py patch_python_extension.py start_vscode.sh; do
     spath=$CURRENT_DIR/$sfile
     [ -f $spath ] || spath=$SOURCE_DIR/$sfile
     [ -f $spath ] || missing="$missing $sfile"
 done
 if [ ! -z "$missing" ]; then
     echo "ERROR: missing support files:$missing"
+    exit -1
+fi
+
+missing=
+vscode_fname=$(sed -nE 's@(.*/)?(code-server-.*)@\2@p' MANIFEST)
+if [ -z "$vscode_fname" ]; then
+    echo "ERROR: could not find the code-server binary in the MANIFEST"
+    exit -1
+fi
+[ -f "downloads/$vscode_fname" ] || missing="$missing $vscode_fname"
+for fname in $(sed -nE 's@(.*/)?([^/]*.vsix)@\2@p' MANIFEST); do
+    [ -f "downloads/$fname" ] || missing="$missing $fname"
+done
+if [ ! -z "$missing" ]; then
+    echo "ERROR: missing files:$missing"
+    echo "(Have you run download_vscode.sh?)"
     exit -1
 fi
 
@@ -55,29 +75,17 @@ elif [ ! -z "$(ls -A $STAGING_PREFIX)" ]; then
 fi
 
 PYTHON_EXE=/opt/continuum/anaconda/bin/python
-if [ -f downloads.tar.bz2 ]; then
-    echo "- Unpacking downloads tarball"
-    echorun tar xfj downloads.tar.bz2
-elif [ -f downloads.tar.gz ]; then
-    echo "- Unpacking downloads tarball"
-    echorun tar xfz downloads.tar.gz
-else
-    echo "- Retrieving packages from manifest"
-    echorun $PYTHON_EXE download.py
-fi
 
 echo "- Installing code-server"
-echorun tar xfz downloads/code-server.tar.gz --strip-components 1 -C $STAGING_PREFIX
+
+echorun tar xfz downloads/$vscode_fname --strip-components 1 -C $STAGING_PREFIX
 
 echo "- Installing extensions"
 mkdir -p $STAGING_PREFIX/extensions
-for ext in $(grep -A 9999 extensions: manifest.yml | sed -n 's@.*url: .*/@@p'); do
-    (cd downloads/extensions && echorun $STAGING_PREFIX/bin/code-server \
-        --extensions-dir=$STAGING_PREFIX/extensions --install-extension=$ext)
+for ext in $(sed -nE 's@(.*/)?([^/]*.vsix)@\2@p' MANIFEST); do
+    echorun $STAGING_PREFIX/bin/code-server \
+        --extensions-dir=$STAGING_PREFIX/extensions --install-extension=downloads/$ext
 done
-
-echo "- Run the post-install scripts"
-echorun $PYTHON_EXE download.py --post-install
 
 echo "- Run the Python extension patcher"
 echorun $PYTHON_EXE patch_python_extension.py $STAGING_PREFIX

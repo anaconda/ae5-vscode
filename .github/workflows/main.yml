@@ -1,0 +1,51 @@
+name: Build project
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  project:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Retrieve the source code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Build the archive
+      run: |
+        source $CONDA/bin/activate
+        conda install -y anaconda-project nodejs
+        npm install -g mdpdf
+        sed -i.bak -E 's@(extensions:.*)@simpleLineBreaks: false, \1@' $(npm root -g)/mdpdf/src/index.js
+        echo ".markdown-body { font-size: 11pt; }" > ../style.css
+        mdpdf README.md --format=letter --style=../style.css --gh-style
+        curl -OL https://raw.githubusercontent.com/Anaconda-Platform/ae5-rstudio/master/TOOLS.md
+        mdpdf TOOLS.md --format=letter --style=../style.css --gh-style
+        anaconda-project archive vscode-installer.tar.bz2
+    - name: Upload archive
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{secrets.AWS_DEFAULT_REGION}}
+      run: |
+        SUFFFIX2="no"
+        if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+          SUFFIX=-$GITHUB_REF_NAME
+          SUFFIX2=""
+        elif [ -z "$GITHUB_HEAD_REF" ]; then
+          SUFFIX=-dev
+        else
+          SUFFIX=-test
+        fi
+        URL=s3://airgap.svc.anaconda.com/misc
+        ARGS="--acl public-read --region $AWS_DEFAULT_REGION"
+        for sfx in "$SUFFIX" "$SUFFIX2"; do
+          aws s3 cp vscode-installer.tar.bz2 $URL/vscode-installer$sfx.tar.bz2 $ARGS
+          aws s3 cp README.pdf $URL/vscode-install$sfx.pdf $ARGS
+          if [ "$SUFFIX2" = "no" ]; then break; fi
+        done

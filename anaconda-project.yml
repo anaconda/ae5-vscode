@@ -1,0 +1,4 @@
+name: VSCode Installer
+description: A project for installing VSCode into AE5.
+env_specs:
+  lab_launch: {}

@@ -2,6 +2,17 @@
 
 ## Introduction
 
+> **NOTE**: there is an as-yet-unsolved issue that causes a
+> UI issue with VSCode when running inside the AE5 iframe.
+> Specifically, the "new file" and "new 
+> [operating-system issue](https://bugzilla.redhat.com/show_bug.cgi?id=1909037) 
+> that prevents some R environments from working with RStudio.
+> This has been corrected in AE5.5.2. For AE5.5.1, there is a
+> simple workaround: add the conda package `openldap=2.4` to
+> the environment in question (and, if appropriate, your 
+> `anaconda-project.yml` specification) *before* switching
+> to the RStudio editor.
+
 This repository allows AE5 customers to install VSCode and use it
 within AE5. Technically, the stock Microsoft version of VSCode does
 not run in a browser-based environment such as this, so instead we
@@ -9,34 +20,59 @@ rely upon [`code-server`](https://coder.com/docs/code-server/latest),
 a patched version of VSCode that enables in-browser execution but
 otherwise preserves VSCode behavior, including the use of extensions.
 
-Auxiliary tools such as VSCode, RStudio, or Zeppelin are installed
-into a shared volume provisioned just for this purpose. If VSCode
+These instructions are intended to be followed by the customer
+and can be applied to AE 5.5.1 or later. Installation introduces
+minimal disruption to the cluster, and can easily be reverted if
+issues arise. The Anaconda team is happy to assist if necessary.
+
+Auxiliary tools such as RStudio, VSCode, or Zeppelin are installed
+into a shared volume provisioned just for this purpose. If RStudio
 is the first tool being installed, those instructions will need
 to be followed first. See the document [TOOLS.md](TOOLS.md) for
 more details, and make sure that work is completed before
 proceeding with the instructions here.
 
+The latest approved versions of the RStudio support files can
+always be found at these links.
+
+- This file, in PDF form: [vscode-install.pdf](http://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-install.pdf)
+- Tools volume documentation: [tools-volume.pdf](http://airgap.svc.anaconda.com.s3.amazonaws.com/misc/tools-volume.pdf)
+- Installer project: [vscode-installer.tar.bz2](http://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-installer.tar.bz2)
+
 ## Installation
 
 We have broken up the installation process into the steps below:
 
-1. _Set the tool volume to read-write._
-2. _Pre-installation steps._
-3. _Install VSCode._
-4. _Post-installation steps._
-5. _Enable the VSCode option._
+1. _Set the tool volume to read-write._ **(5.5.1 only)**
+2. _Launch the RStudio installation project._
+3. _Perform the basic installation._
+4. _Enable the VSCode editor option._
+5. _Verify the installation._
 6. _Further customize VSCode._
-7. _Set the tool volume to read-only._
+7. _Set the tool volume to read-only._ **(5.5.1 only)**
 
-None of these steps affect existing sessions, deployments, and jobs.
-However, once Step 1 is complete, any new sessions will have read-write
-access to the `/tools` volume. This is deliberate, because we will
-use a session to perform the installation. But this means any *other*
-users will have read-write access, too. For this reason, we recommend
-executing these steps during a maintenance interval, during which users
-should not create new sessions.
+The steps will have the following impact on the behavior of the cluster:
 
-### Step 1. Set the tool volume to read-write
+- No *existing* sessions or deployments will be affected. Users
+  can continue to work in existing sessions without interruption.
+- During Steps 1, 4, and 7, there will be brief (<30 second)
+  interruptions in the function of main UI.
+- While Steps 2 through 6 are in progress, the `/tools` volume
+  will be mounted into any new sessions, deployments, and jobs
+  in a read-write fashion.
+  
+Overall, we recommend executing these steps during a maintenance
+interval, during which users should not create new sessions. But
+you do not need to ask your users to halt existing sessions
+or deployments.
+
+***NOTE:*** if you are performing this work on AE 5.5.2 or later,
+the steps have been simplified. Look for annotations marked
+*"5.5.1"* or *"5.5.2+"* for steps that are specific to each version.
+
+### Step 1. Set the tool volume to read-write (5.5.1)
+
+***5.5.2+:*** skip this step and proceed directly to step 2.
 
 1. Edit the `anaconda-platform.yml` ConfigMap. On Gravity clusters,
    this is most easily performed in the Ops Center.
@@ -50,114 +86,79 @@ should not create new sessions.
 6. Monitor the new workspace pod using `kubectl get pods` and
    wait for it to stabilize.
 
-### Step 2. Pre-installation steps
+### Step 2. Launch the VSCode installer project
  
 As mentioned above, installation will proceed from within a standard
 AE5 session. So to begin the process, we complete the following steps:
 
-1. Create a blank Python project using any "New Project" template.
-   The Python version is not relevant.
-2. (Recommended) Before launching a session, go to the new project's
-   Settings tab and select the JupyterLab editor. Save that change.
-3. Launch the session.
-4. If you are doing a *Standard* or *Airgapped* installation (see below),
-   contents of this installation repository into the project. The easiest
-   way to do so is to use JupyterLab's upload functionality, and select
-   all of the relevant files simultaneously. This step is optional for
-   the *Archive* install method.
-5. Launch a Terminal window to run the commands offered in each step below.
+1. ***5.5.2+:*** log into AE5 as the 
+   storage manager user, typically `anaconda-enterprise`.
+   This is the user that is given read-write access to the
+   `/tools` volume.
+2. Download the installer project and save it to the machine
+   from which you are accessing AE5. A link is provided
+   in the top section of this document.
+3. In a new browser window, log into AE5, and use the
+   "Create+ / Upload Project" dialog to upload the VSCode
+   Installation project archive that has been provided to you.
+4. We recommend using the JupyterLab editor for this project. To
+   change this, click on the project's name to be taken to the settings
+   page, change the Default Editor, and Save.
+5. Launch a session for this project.
    
-### Step 3. Install VSCode
+### Step 3. Perform the basic installation
 
-There are three installation approaches that you can consider:
+The VSCode installer project contains the basic set of files needed
+to install the latest tested version of `code-server`, as well as the
+Microsoft Python and Jupyter Notebook extensions.
 
-- _Standard install_. In this approach, the `code-server` package,
-  the desired extensions, and support scripts are installed in a multi-step
-  process. This provides the greatest ability to control and customize
-  the installation.
-- _Airgapped install_. For this approach, the `code-server` package
-  and associated extensions are manually downloaded and delivered
-  to the installation session. This is a valid option in cases where
-  the cluster itself is not connected to the internet.
-- _Archive install_. In this approach, the full contents of the `/tools/vscode`
-  directory will be contained in an archive (tarball). This archive can
-  be created, for instance, from a successful VSCode installation on
-  another server. Anaconda periodically constructs just such an archive,
-  containing a recent version of `code-server` and several common VSCode
-  extensions. Feel free to ask support for a copy of this archive.
-  
-#### Standard install
-
-1. If desired, examine the `manifest.yml` file. If you have already
-   identified new versions of the listed files, or you wish to add or
-   remove extensions, modify the file now. That said, you will be able
-   to modify the installed extension set in a later step, so it is likely
-   simpler to just proceed with the defaults at this time.
-2. If necessary, set any temporary proxy settings you may need to access
-   the external sites listed in the manfiest.
-3. Run the installation script:
-   ```
-   bash install_vscode.sh
-   ```
-
-#### Airgapped install
-
-1. Place the files `download.py` and `manifest.yml` onto a machine with
-   a Python 3 interpreter and internet access.
-2. Run the command
-   ```
-   python download.py --archive
-   ```
-   This will create a file called `downloads.tar.bz2`.
-3. Move this archive into the airgapped environment.  
-4. Upload the archive into the running AE5 session.
-5. Run the installation script:
-   ```
-   bash install_vscode.sh
-   ```
-   
-#### Archive install
-
-If you have direct access to the `/tools` volume on the file server:
-
-1. Transfer the archive to the fileserver.
-2. Unpack the archive:
-   ```
-   tar xfz -C <PATH_TO_TOOLS> ae5-vscode.tar.gz
-   ```
-   where `<PATH_TO_TOOLS>` is the server directory exported to `/tools`.
-
-If you do not, return to the AE5 working session, and:
-
-1. Upload the archive into the project.
-2. Unpack the archive into position:
-   ```
-   tar xfz -C /tools ae5-vscode.tar.gz
-   ```
-   substituting, if necessary, the correct name of the archive file.
-
-Note that these instructions assume that the archive was built with the
-`vscode` subdirectory included within the archive manifest. If you are
-building an archive to be installed in this manner, make sure to follow
-the instructiopns given in *Creating an archived installation* below.
-
-### Step 4. Post-installation steps
-
-1. Perform a simple verification of installation by running the script
-   ```
-   /tools/vscode/start_vscode.sh
-   ```
-   _This should exit with an error_, specifically an “Address already
+1. Launch a terminal window, or return to an existing one.
+2. If you have previously installed content into `/tools/vscode`,
+   remove it now. The script will not proceed if there is any
+   content in that directory. For simplicity, you can remove
+   the entire directory; e.g., `rm -r /tools/vscode `.
+3. Run the command `bash install_vscode.sh`. Before performing
+   any modifications, the script verifies that all of its
+   prerequisites are met.
+4. Perform a basic verification of installation by running the script
+   `/tools/vscode/start_vscode.sh`.
+   _This should exit with an error_, specifically an “address already
    in use” error of some sort. The key is to verify that this error
-   actually came from VSCode itself, which confirms that it is visible
-   by Anaconda Enterprise.
-2. Delete the archive, or the `downloads/` folder, from the project, if
-   you wish to save space.
-3. Shut down the session.
-4. You can delete the work project if you wish, but it is reasonable to
-   keep it to use in future installations.
+   actually came from RStudio itself, which confirms that the
+   application is visible to Anaconda Enterprise.
 
-### Step 5. Enable the VSCode option
+The output of the installer script should look like this:
+
+```
++----------------------+
+| AE5 VSCode Installer |
++----------------------+
+| Install prefix: /tools/vscode
+| Staging prefix: /tools/vscode
+- Installing code-server
+> tar xfz downloads/code-server-4.0.1-linux-amd64.tar.gz --strip-components 1 -C /tools/vscode
+- Installing extensions
+> /tools/vscode/bin/code-server --extensions-dir=/tools/vscode/extensions --install-extension=downloads/ae5-session-0.3.1.vsix
+| Installing extensions...
+| Extension 'ae5-session-0.3.1.vsix' was successfully installed.
+> /tools/vscode/bin/code-server --extensions-dir=/tools/vscode/extensions --install-extension=downloads/ms-python.python-2021.12.1559732655.vsix
+| Installing extensions...
+| Extension 'ms-python.python-2021.12.1559732655.vsix' was successfully installed.
+> /tools/vscode/bin/code-server --extensions-dir=/tools/vscode/extensions --install-extension=downloads/ms-toolsai.jupyter-2022.1.1001615337.vsix
+| Installing extensions...
+Unable to install extension 'ms-toolsai.jupyter' as it is not compatible with VS Code '1.63.0'.
+Failed Installing Extensions: file:///opt/continuum/project/downloads/ms-toolsai.jupyter-2022.1.1001615337.vsix
+- Run the Python extension patcher
+> /opt/continuum/anaconda/bin/python patch_python_extension.py /tools/vscode
+| AE5 Microsoft Python Extension patcher
+| /tools/vscode/extensions/ms-python.python-2021.12.1559732655
+| - Activation event list ... patching
+| - Extension messaging ... patching
+- Installing support scripts
+- Installed. You can shut down this session, and/or remove downloaded files.
+```
+
+### Step 4. Enable the VSCode editor option
 
 The next step is to add VSCode to the editor selection list presented
 by the UI.
@@ -198,22 +199,37 @@ Step 5 is completed.
 
 ![screenshot](screenshot.png)
 
-### Step 6. Customize VSCode settings and extensions
+### Step 5. Verify the installation
 
-At this stage, VSCode should be operational. Verify this by launching
-a new session after selecting the Visual Studio Code option in that
-project's settings. The editor should appear in the AE5 window, with
-the file browser open to `/opt/continuum/project`. In the default
-configuration, the Python module will immediately begin to initiailize.
+1. Return to the project grid page.
+2. Create a new project from the sample gallery. We recommend the
+   "Plot Notebook" sample, which contains a simple Jupyter notebook.
+3. Go to the project Settings page.
+4. Select "Visual Studio Code" in the Default Editor dropdown, and click Save.
+5. Start a new session and wait for the editor to launch.
+6. A pop-up will appear in the bottom-right hand corner of the VSCode UI,
+   saying "The project environment is ready." Click Dismiss.
+7. Double-click on `plot.ipynb` in the file browser to open the notebook.
+8. Click the "Run All" button at the top of the notebook. VSCode will ask
+   which environment you wish to use to run the code. The environment listed
+   in `anaconda-project.yml` will be at the top, so select that.
+
+Attached below is a screenshot of AE5 after completing these steps.
+
+![screenshot](screenshot2.png)
+
+### Step 6. Customize VSCode settings and extensions
 
 If the installation is successful, you can now consider installing
 additional extensions at this time. See the sections *Installing or
 upgrading extensions* and *Modifying global settings* for more details.
+It is best to do this customization while your users are not using VSCode
+as an aditor.
 
-Once you have completed this step, make sure to stop this
-VSCode test session.
+Once you have completed this step, make sure to stop the
+VSCode test session, and the installer session as well.
 
-### Step 7. Set the tool volume to read-only
+### Step 7. Set the tool volume to read-only (5.5.1)
 
 1. Edit the `anaconda-platform.yml` ConfigMap. On Gravity clusters,
    this is most easily performed in the Ops Center.
@@ -243,28 +259,24 @@ Removing VSCode is a relatively simple process.
 
 This removes VSCode as an editor option for new projects, but
 existing projects will still be able to use the existing installation.
+
 If you need to permanently remove `/tools/vscode`, take the following
 additional steps:
 
-4. Instruct users that they must modify all of their VSCode projects
+1. Stop all sessions that are currently running VSCode.
+2. Instruct users that they must modify all of their VSCode projects
    to use a different editor (e.g., JupyterLab) instead. If they fail
    to do so, sessions will fail to fully start.
-5. Remove the `/tools/vscode` directory. If this can be performed
+3. Remove the `/tools/vscode` directory. If this can be performed
    outside of an AE5 session, this will likely be the most convenient
    approach. Otherwise, you must:
-   - Execute Step 1 to set the volume to read-write;
-   - Remove `/tools/vscode` from within an AE5 session;
-   - Execute Step 7 to set the volume back to read-only.
+   - ***5.5.1:*** Execute Step 1 to set the volume to read-write
+   - ***5.5.2+:*** log into a session as the storage manager user
+   - Remove `/tools/rstudio` from within an AE5 session
+   - ***5.5.1:*** Execute Step 7 to set the volume back to read-only.
 
-Removing the `/tools` volume altogether is even more involved:
-
-6. Shut down *all* sessions, deployments, and jobs, whether or not
-   they are using the given editor. Unfortunately, removing the volume
-   will disrupt the operation of all user pods that were created with
-   the volume in place.
-7. Edit the ConfigMap and remove the volume from the `volumes:` section.
-8. Restart the workspace and deploy pods.
-9. Restart any deployments and jobs at the AE5 level.   
+Removing the `/tools` volume altogether is very distruptive, so we
+strongly recommend against it. See `TOOLS.md` for more details.
 
 ## Managing and upgrading
 
@@ -323,7 +335,10 @@ maintenance interval:
 
 1. If you are removing or upgrading existing extensions, instruct all
    VSCode users to terminate their sessions.
-2. Run Step 1 above to make set the `/tools` volume to read-write.
+2. **5.5.1** Execute Step 1 of the standard installation
+   instructions to ensure that the `/tools` volume has been
+   properly configured and set to read-write.<br/>
+   **5.5.2+** Log in as the storage manager user.
 3. Launch a session using the VSCode editor.
 4. If you do not have a direct connection to the Open VSX Registry
    from your cluster, you will need to download the desired `*.visx`
@@ -343,10 +358,11 @@ maintenance interval:
    when running inside of AE5. To do this, launch a terminal window and
    run the following command:
    ```
-   python /tools/vscode/patch_python_ext.py
+   python /tools/vscode/patch_python_extension.py
    ```
-10. Once you are satisifed with the results, run Step 2 to
-    return the `/tools` volume to read-only status.
+10. **5.5.1** Execute Step 7 of the standard installation instructions
+    to ensure that the `/tools` volume is set back to read-only.<br/>
+    **5.5.2** Log out as the storage manager.
    
 *NOTE:* Do not select "Enable Auto Updating Extensions". This must remain a
 manual, scheduled process.
@@ -364,31 +380,61 @@ You are free to modify this file (when, naturally, the `/tools` volume
 is read-write) to add or modify these settings yourself. We recommend
 the following workflow:
 
-1. Start a VSCode session.
-2. Modify the settings using the standard VSCode settings UI,
-3. Once you are satisfied, examine the file `~/.vscode/User/settings.json`.
-4. Create a new file `new_admin_settings.json` by copying the file
+1. **5.5.1** Execute Step 1 of the standard installation
+   instructions to ensure that the `/tools` volume has been
+   properly configured and set to read-write.<br/>
+   **5.5.2+** Log in as the storage manager user.
+2. Start a VSCode session.
+3. Modify the settings using the standard VSCode settings UI,
+4. Once you are satisfied, examine the file `~/.vscode/User/settings.json`.
+5. Create a new file `new_admin_settings.json` by copying the file
    `/tools/vscode/admin_settings.json`, and modify it by copying any
    desired settings from `~/.vscode/User/settings.json`.
-5. With the `/tools` volume set to read-write access, copy this new
+6. With the `/tools` volume set to read-write access, copy this new
    file into place: `/tools/vscode/admin_settings.json`.
+7. **5.5.1** Execute Step 7 of the standard installation instructions
+   to ensure that the `/tools` volume is set back to read-only.<br/>
+   **5.5.2** Log out as the storage manager.
    
 All VSCode sessions created from that point forward will adopt the
 new settings.
 
-### Creating an archived installation
+### Installing VSCode on additional AE5 instances
 
-The archive installation process is particularly useful if you have
-built a customized VSCode installation that you would like to transfer
-to another installation of AE5. Fortunately, the process of building
-the archive is rather simple, and can be performed on an operating
-cluster with no maintenance window:
+Once an initial, successful installation of VSCode has been achieved,
+installing it on an additional instance of AE5 can be greatly simplified.
+The basic principle is that the directory `/tools/vscode` is *portable*,
+and can simply be transferred to another instance. So the bulk of
+the installation work is unnecessary.
 
-1. Launch a terminal within any session.
-2. Run the command:
-   ```
-   tar cfz ae5-vscode.tar.gz /tools vscode
-   ```
-3. Download the archive and deliver to its desired destination.
-4. Delete the archive `ae5-vscode.tar.gz` from the project session.
+First, create an archive of an existing installation:
 
+1. Log into an instance of AE5 with a running VSCode installation.
+2. Launch a session, preferably using the JupyterLab editor.
+3. Launch a terminal window.
+4. Run the command: `tar cfz vscode -C /tools vscode`
+5. Download this file to your desktop. Once you have done so, you 
+   can remove the file from your AE5 session.
+
+Now move this archive to a new system:
+
+1. **5.5.1** Execute Step 1 of the standard installation
+   instructions to ensure that the `/tools` volume has been
+   properly configured and set to read-write.<br/>
+   **5.5.2+** Log in as the storage manager user.
+2. Launch any session, preferably using the JupterLab editor.
+3. Upload the archive `vscode.tar.gz` into the project.
+4. Launch a terminal window.
+5. If an existing VSCode installation is present, move it aside;
+   e.g., `mv /tools/vscode /tools/vscode.old`.
+6. Run the command: `tar xfz vscode.tar.gz -C /tools`
+7. Run the script `/tools/vscode/start_vscode.sh` to verify installation.
+   As in Step 4 of the main installation sequence, an `Address already in use`
+   error is expected here.
+8. If this is the first installation of VSCode on the new system, repeat
+   Steps 5 and 6 above to enable the VSCode option and verify its operation.
+9. Once verified, you may remove `vscode.tar.gz` from the session
+   as well as `/tools/rstudio.old`, if created.
+10. **5.5.1** Execute Step 7 of the standard installation instructions
+    to ensure that the `/tools` volume is set back to read-only.<br/>
+    **5.5.2** Log out as the storage manager.
