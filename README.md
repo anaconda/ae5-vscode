@@ -4,7 +4,7 @@
 
 > **NOTE**: there is an as-yet-unsolved issue that causes a
 > UI issue with VSCode when running inside the AE5 iframe.
-> Specifically, the "new file" and "new 
+> Specifically, the "new file" and "new folder"
 > [operating-system issue](https://bugzilla.redhat.com/show_bug.cgi?id=1909037) 
 > that prevents some R environments from working with RStudio.
 > This has been corrected in AE5.5.2. For AE5.5.1, there is a
@@ -97,7 +97,11 @@ AE5 session. So to begin the process, we complete the following steps:
    `/tools` volume.
 2. Download the installer project and save it to the machine
    from which you are accessing AE5. A link is provided
-   in the top section of this document.
+   in the top section of this document.<br/> ***NOTE***: This
+   project is significantly larger than a typical AE5 project,
+   so the project creation process will take longer than normal.
+   For instance, one test cluster took *20 seconds* for the upload
+   step, and an *additional 60 seconds* to finish.
 3. In a new browser window, log into AE5, and use the
    "Create+ / Upload Project" dialog to upload the VSCode
    Installation project archive that has been provided to you.
