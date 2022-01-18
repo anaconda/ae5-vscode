@@ -1,0 +1,28 @@
+# Blank lines and lines beginning with a hash symbol are ignored.
+# Each URL is followed by its SHA256 checksum. This must be supplied.
+# All downloads are placed in the "downloads" subdirectory.
+
+# code-server
+https://github.com/coder/code-server/releases/download/v4.0.1/code-server-4.0.1-linux-amd64.tar.gz
+5fe6d26e9d19e685946f0f392d9c822e5303a800cac3ac54a6a2c26104d239fd
+
+# ae5-session
+https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.1.vsix
+412264942db710e52506974ca9e4c99dd681be3fb6707fb55a4cfabf1f941167
+
+# python extension
+https://open-vsx.org/api/ms-python/python/2021.12.1559732655/file/ms-python.python-2021.12.1559732655.vsix
+8574d567b81bbb6df8cf2020d19ad93d4a3aa142c1f7c6a9c5eefd536c901c3e
+
+# jupyter extension
+# NOTE: the python extension must appear above this extension in the list,
+# and note not all versions of these two extensions are compatible with each other.
+https://open-vsx.org/api/ms-toolsai/jupyter/2022.1.1001615337/file/ms-toolsai.jupyter-2022.1.1001615337.vsix
+53d9966563ddfcdc470d0bcf69b055eebbbc09426c05d7d328935c933fbd6602
+
+# If you have additional extensions, you may put them here, following the
+# same format. The download_vscode.sh script will download them, and the
+# install_vscode.sh script will install them. If one extension depends
+# upon another, it must appear earlier in this list. If you are manually
+# populating the data/ directory with the files, just put the bare filename
+# here instead.
