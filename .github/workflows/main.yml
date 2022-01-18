@@ -34,10 +34,13 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{secrets.AWS_DEFAULT_REGION}}
       run: |
-        SUFFFIX2="no"
+        SUFFIX2="no"
+        echo "GITHUB_REF: $GITHUB_REF"
+        echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
+        echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
         if [[ "$GITHUB_REF" == refs/tags/* ]]; then
           SUFFIX=-$GITHUB_REF_NAME
-          SUFFIX2=""
+          SUFFIX2="yes"
         elif [ -z "$GITHUB_HEAD_REF" ]; then
           SUFFIX=-dev
         else
