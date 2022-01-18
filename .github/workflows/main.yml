@@ -26,6 +26,7 @@ jobs:
         mdpdf README.md --format=letter --style=../style.css --gh-style
         curl -OL https://raw.githubusercontent.com/Anaconda-Platform/ae5-rstudio/master/TOOLS.md
         mdpdf TOOLS.md --format=letter --style=../style.css --gh-style
+        bash download_vscode.sh
         anaconda-project archive vscode-installer.tar.bz2
     - name: Upload archive
       env:
