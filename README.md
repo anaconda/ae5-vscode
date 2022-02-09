@@ -4,14 +4,20 @@
 
 > **NOTE**: there is an as-yet-unsolved issue that causes a
 > UI issue with VSCode when running inside the AE5 iframe.
-> Specifically, the "new file" and "new folder"
-> [operating-system issue](https://bugzilla.redhat.com/show_bug.cgi?id=1909037) 
-> that prevents some R environments from working with RStudio.
-> This has been corrected in AE5.5.2. For AE5.5.1, there is a
-> simple workaround: add the conda package `openldap=2.4` to
-> the environment in question (and, if appropriate, your 
-> `anaconda-project.yml` specification) *before* switching
-> to the RStudio editor.
+> Specifically, the "new file" and "new folder" actions
+> inside the file explorer are periodically interrupted,
+> preventing them from working properly. There are two
+> workarounds:
+> 1. Remove VSCode from the surrounding AE5 IFrame. To
+>    do this, select the "File -> Window" option in the
+>    VSCode menu, then *close the original window*.
+> 2. Instead of using the file explorer UI, use the
+>    "File -> New File" menu option to create a new file.
+>    When you save this new file for the first time, you
+>    will be able to provide the filename without interruption.
+> 
+> Anaconda is working with the upstream developers to help
+> them diagnose the issue.
 
 This repository allows AE5 customers to install VSCode and use it
 within AE5. Technically, the stock Microsoft version of VSCode does
