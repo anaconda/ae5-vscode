@@ -50,7 +50,7 @@ always be found at these links.
 We have broken up the installation process into the steps below:
 
 1. _Set the tool volume to read-write._ **(5.5.1 only)**
-2. _Launch the RStudio installation project._
+2. _Launch the VSCode installation project._
 3. _Perform the basic installation._
 4. _Enable the VSCode editor option._
 5. _Verify the installation._
