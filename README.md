@@ -32,13 +32,13 @@ minimal disruption to the cluster, and can easily be reverted if
 issues arise. The Anaconda team is happy to assist if necessary.
 
 Auxiliary tools such as RStudio, VSCode, or Zeppelin are installed
-into a shared volume provisioned just for this purpose. If RStudio
+into a shared volume provisioned just for this purpose. If VSCode
 is the first tool being installed, those instructions will need
 to be followed first. See the document [TOOLS.md](TOOLS.md) for
 more details, and make sure that work is completed before
 proceeding with the instructions here.
 
-The latest approved versions of the RStudio support files can
+The latest approved versions of the VSCode support files can
 always be found at these links.
 
 - This file, in PDF form: [vscode-install.pdf](http://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-install.pdf)
@@ -134,7 +134,7 @@ Microsoft Python and Jupyter Notebook extensions.
    `/tools/vscode/start_vscode.sh`.
    _This should exit with an error_, specifically an “address already
    in use” error of some sort. The key is to verify that this error
-   actually came from RStudio itself, which confirms that the
+   actually came from VSCode itself, which confirms that the
    application is visible to Anaconda Enterprise.
 
 The output of the installer script should look like this:
