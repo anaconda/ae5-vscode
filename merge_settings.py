@@ -11,7 +11,7 @@ User settings mode:
    The merged JSON file is written to ~/.vscode/User/settings.json
 Project settings mode:
    merge_vscode_settings.py project [<python_path>]
-   Modifies the python.pythonPath setting for the project
+   Modifies the python.defaultInterpreterPath setting for the project
    The merged JSON file is written to ~/project/.vscode/settings.json
 
 If there is a JSON parse error in either mode, the corresponding error
@@ -88,7 +88,7 @@ def merge_python_path(python_path):
    if existing_settings:
       merged_settings.update(existing_settings)
    if python_path:
-      merged_settings['python.pythonPath'] = '{}/bin/python'.format(python_path)
+      merged_settings['python.defaultInterpreterPath'] = '{}/bin/python'.format(python_path)
 
    _write_if(existing_settings, merged_settings, merged_settings_path)
 

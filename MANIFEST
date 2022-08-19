@@ -3,22 +3,26 @@
 # All downloads are placed in the "downloads" subdirectory.
 
 # code-server
-https://github.com/coder/code-server/releases/download/v4.0.1/code-server-4.0.1-linux-amd64.tar.gz
-5fe6d26e9d19e685946f0f392d9c822e5303a800cac3ac54a6a2c26104d239fd
+https://github.com/coder/code-server/releases/download/v4.5.2/code-server-4.5.2-linux-amd64.tar.gz
+9de1d55afcd4793519e26a52a1f6efc9f5f3ac7a46680e8125d03e02a63e8d91
 
 # ae5-session
-https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.1.vsix
-412264942db710e52506974ca9e4c99dd681be3fb6707fb55a4cfabf1f941167
+https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.2.vsix
+352fd515c975556ac8a4fa0c71b51388a21d0a93e2876332ac20b02a7092b594
 
 # python extension
-https://open-vsx.org/api/ms-python/python/2021.12.1559732655/file/ms-python.python-2021.12.1559732655.vsix
-8574d567b81bbb6df8cf2020d19ad93d4a3aa142c1f7c6a9c5eefd536c901c3e
+https://open-vsx.org/api/ms-python/python/2022.12.1/file/ms-python.python-2022.12.1.vsix
+4d0653321c44dbda301dc56e2f73f24b98486d576bbbe350a83f463347e0cdcc
 
 # jupyter extension
 # NOTE: the python extension must appear above this extension in the list,
 # and note not all versions of these two extensions are compatible with each other.
-https://open-vsx.org/api/ms-toolsai/jupyter/2022.1.1001615337/file/ms-toolsai.jupyter-2022.1.1001615337.vsix
-53d9966563ddfcdc470d0bcf69b055eebbbc09426c05d7d328935c933fbd6602
+https://open-vsx.org/api/ms-toolsai/jupyter/2022.5.1001610507/file/ms-toolsai.jupyter-2022.5.1001610507.vsix
+88813b8f43d24445874fb3e9ae41f32f5fe9638be06f733bfb71126c2570604f
+
+# yaml extension by redhat
+https://open-vsx.org/api/redhat/vscode-yaml/1.9.1/file/redhat.vscode-yaml-1.9.1.vsix
+5c583a2fe0d886aedc99b9d83e445a6492b9ccf4e9e32790476e1f0a9506a782
 
 # If you have additional extensions, you may put them here, following the
 # same format. The download_vscode.sh script will download them, and the

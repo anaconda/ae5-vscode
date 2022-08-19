@@ -26,8 +26,11 @@ jobs:
         mdpdf README.md --format=letter --style=../style.css --gh-style
         curl -OL https://raw.githubusercontent.com/Anaconda-Platform/ae5-rstudio/master/TOOLS.md
         mdpdf TOOLS.md --format=letter --style=../style.css --gh-style
-        bash download_vscode.sh
         anaconda-project archive vscode-installer.tar.bz2
+        bash download_vscode.sh
+        tar cfj vscode-blobs.tar.bz2 downloads
+        STAGING_PREFIX=staging/vscode bash install_vscode.sh
+        tar cfz vscode.tar.gz -C staging vscode
     - name: Upload archive
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -46,10 +49,12 @@ jobs:
         else
           SUFFIX=-test
         fi
-        URL=s3://airgap.svc.anaconda.com/misc
+        URL=s3://airgap-svc/misc
         ARGS="--acl public-read --region $AWS_DEFAULT_REGION"
         for sfx in "$SUFFIX" "$SUFFIX2"; do
           aws s3 cp vscode-installer.tar.bz2 $URL/vscode-installer$sfx.tar.bz2 $ARGS
+          aws s3 cp vscode-blobs.tar.bz2 $URL/vscode-blobs$sfx.tar.bz2 $ARGS
           aws s3 cp README.pdf $URL/vscode-install$sfx.pdf $ARGS
+          aws s3 cp vscode.tar.gz $URL/vscode$sfx.tar.gz $ARGS
           if [ "$SUFFIX2" = "no" ]; then break; fi
         done

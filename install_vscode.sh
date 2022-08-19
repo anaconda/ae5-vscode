@@ -6,11 +6,6 @@ echo "+----------------------+"
 
 TOOL_HOME=$(dirname "${BASH_SOURCE[0]}")
 
-if ! grep -q /tools/ /opt/continuum/scripts/start_user.sh; then
-    echo "ERROR: This version of the VSCode installer requires AE5.5.1 or later."
-    exit -1
-fi
-
 echorun() {
   echo "> $@"
   "$@" | sed 's@^@| @'
@@ -52,6 +47,15 @@ fi
 # them in another.
 [ $PREFIX ] || PREFIX=/tools/vscode
 [ $STAGING_PREFIX ] || STAGING_PREFIX=$PREFIX
+if [ $(basename "$PREFIX") != $(basename "$STAGING_PREFIX") ]; then
+    echo "ERROR: in order to facilitate proper distribution, the"
+    echo "basename of PREFIX and STAGING_PREFIX must be identical."
+    echo "- PREFIX: $PREFIX"
+    echo "- STAGING_PREFIX: $STAGING_PREFIX"
+    echo "Please choose a different STAGING_PREFIX value and retry."
+    exit -1
+fi
+
 echo "| Install prefix: ${PREFIX}"
 echo "| Staging prefix: ${STAGING_PREFIX}"
 if [ ! -d $STAGING_PREFIX ]; then
@@ -75,6 +79,9 @@ elif [ ! -z "$(ls -A $STAGING_PREFIX)" ]; then
 fi
 
 PYTHON_EXE=/opt/continuum/anaconda/bin/python
+if [ ! -f $PYTHON_EXE ]; then
+    PYTHON_EXE=$CONDA_PREFIX/bin/python
+fi
 
 echo "- Installing code-server"
 
@@ -98,11 +105,12 @@ if [ "$PREFIX" != "/tools/vscode" ]; then
 fi
 chmod +x $STAGING_PREFIX/{activate.sh,start_vscode.sh}
 
-echo "- Installed. You can shut down this session, and/or remove downloaded files."
+echo "Installed. You can shut down this session, and/or remove downloaded files."
 
 if [ "$PREFIX" != "$STAGING_PREFIX" ]; then
-    echo "- To build the tarball for delivery; run this command:"
-    echo "-    tar cfz ae5-vscode.tar.gz -C $STAGING_PREFIX ."
-    echo "- To install the tarball at the destination; upload and run:"
-    echo "-    tar xfz ae5-vscode.tar.gz -C $PREFIX"
+    echo "To build as tarball for delivery; run this command:"
+    echo "   tar cfz ae5-vscode.tar.gz -C $(dirname $STAGING_PREFIX) $(basename $STAGING_PREFIX)"
+    echo "To install the tarball at the destination, run:"
+    echo "   mkdir -p $(dirname $PREFIX)"
+    echo "   tar xfz ae5-vscode.tar.gz -C $(dirname $PREFIX)"
 fi
