@@ -6,11 +6,6 @@ echo "+----------------------+"
 
 TOOL_HOME=$(dirname "${BASH_SOURCE[0]}")
 
-if ! grep -q /tools/ /opt/continuum/scripts/start_user.sh; then
-    echo "ERROR: This version of the VSCode installer requires AE5.5.1 or later."
-    exit -1
-fi
-
 echorun() {
   echo "> $@"
   "$@" | sed 's@^@| @'
@@ -84,6 +79,9 @@ elif [ ! -z "$(ls -A $STAGING_PREFIX)" ]; then
 fi
 
 PYTHON_EXE=/opt/continuum/anaconda/bin/python
+if [ ! -f $PYTHON_EXE ]; then
+    PYTHON_EXE=$CONDA_PREFIX/bin/python
+fi
 
 echo "- Installing code-server"
 

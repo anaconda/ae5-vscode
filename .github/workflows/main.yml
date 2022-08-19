@@ -29,7 +29,7 @@ jobs:
         anaconda-project archive vscode-installer.tar.bz2
         bash download_vscode.sh
         tar cfj vscode-blobs.tar.bz2 downloads
-        STAGING_DIR=staging/vscode bash install_vscode.sh
+        STAGING_PREFIX=staging/vscode bash install_vscode.sh
         tar cfz vscode.tar.gz -C staging vscode
     - name: Upload archive
       env:
@@ -49,7 +49,7 @@ jobs:
         else
           SUFFIX=-test
         fi
-        URL=s3://airgap.svc.anaconda.com/misc
+        URL=s3://airgap-svc/misc
         ARGS="--acl public-read --region $AWS_DEFAULT_REGION"
         for sfx in "$SUFFIX" "$SUFFIX2"; do
           aws s3 cp vscode-installer.tar.bz2 $URL/vscode-installer$sfx.tar.bz2 $ARGS
