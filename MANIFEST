@@ -12,13 +12,13 @@ https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.2.vsix
 
 # python extension
 https://open-vsx.org/api/ms-python/python/2022.12.1/file/ms-python.python-2022.12.1.vsix
-88813b8f43d24445874fb3e9ae41f32f5fe9638be06f733bfb71126c2570604f
+4d0653321c44dbda301dc56e2f73f24b98486d576bbbe350a83f463347e0cdcc
 
 # jupyter extension
 # NOTE: the python extension must appear above this extension in the list,
 # and note not all versions of these two extensions are compatible with each other.
 https://open-vsx.org/api/ms-toolsai/jupyter/2022.5.1001610507/file/ms-toolsai.jupyter-2022.5.1001610507.vsix
-10042507d1a1ceea482b7c3e1f813162401223a843ef5ff02535eab4a5e26f1b
+88813b8f43d24445874fb3e9ae41f32f5fe9638be06f733bfb71126c2570604f
 
 # yaml extension by redhat
 https://open-vsx.org/api/redhat/vscode-yaml/1.9.1/file/redhat.vscode-yaml-1.9.1.vsix
