@@ -14,7 +14,7 @@ and can be applied to AE 5.5.1 or later. Installation introduces
 minimal disruption to the cluster, and can easily be reverted if
 issues arise. The Anaconda team is happy to assist if necessary.
 
-Auxiliary tools such as RStudio, VSCode, or Zeppelin are installed
+Auxiliary tools such as RStudio, VSCode, Zeppelin, and Java are installed
 into a shared volume provisioned just for this purpose. If VSCode
 is the first tool being installed, those instructions will need
 to be followed first. See the document [TOOLS.md](TOOLS.md) for
@@ -22,12 +22,13 @@ more details, and make sure that work is completed before
 proceeding with the instructions here.
 
 The latest approved versions of the VSCode support files can
-always be found at these links.
+always be found at these links. First, we have this documentation:
 
 - This file, in PDF form: [vscode-install.pdf](https://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-install.pdf)
 - Tools volume documentation: [tools-volume.pdf](https://airgap.svc.anaconda.com.s3.amazonaws.com/misc/tools-volume.pdf)
 - Installer project: [vscode-installer.tar.bz2](https://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-installer.tar.bz2)
 - Installer binaries: [vscode-blobs.tar.bz2](https://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-blobs.tar.bz2)
+- Preinstalled bundle: [vscode.tar.bz2](https://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode.tar.bz2)
 
 ## Installation
 
@@ -99,7 +100,7 @@ AE5 session. So to begin the process, we complete the following steps:
   
 ### Step 3. Obtain the VSCode binaries.
 
-There are two approaches to obtaining the binaries for VSCode,
+We have two approaches for obtaining the binaries for VSCode,
 including the primary `code-server` binary as well as our recommended
 set of extensions.
 
@@ -427,7 +428,7 @@ First, create an archive of an existing installation:
 1. Log into an instance of AE5 with a running VSCode installation.
 2. Launch a session, preferably using the JupyterLab editor.
 3. Launch a terminal window.
-4. Run the command: `tar cfz vscode -C /tools vscode`
+4. Run the command: `tar cfz vscode.tar.gz -C /tools vscode`
 5. Download this file to your desktop. Once you have done so, you 
    can remove the file from your AE5 session.
 
