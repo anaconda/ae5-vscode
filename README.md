@@ -2,23 +2,6 @@
 
 ## Introduction
 
-> **NOTE**: there is an as-yet-unsolved issue that causes a
-> UI issue with VSCode when running inside the AE5 iframe.
-> Specifically, the "new file" and "new folder" actions
-> inside the file explorer are periodically interrupted,
-> preventing them from working properly. There are two
-> workarounds:
-> 1. Remove VSCode from the surrounding AE5 IFrame. To
->    do this, select the "File -> Window" option in the
->    VSCode menu, then *close the original window*.
-> 2. Instead of using the file explorer UI, use the
->    "File -> New File" menu option to create a new file.
->    When you save this new file for the first time, you
->    will be able to provide the filename without interruption.
-> 
-> Anaconda is working with the upstream developers to help
-> them diagnose the issue.
-
 This repository allows AE5 customers to install VSCode and use it
 within AE5. Technically, the stock Microsoft version of VSCode does
 not run in a browser-based environment such as this, so instead we
@@ -41,9 +24,10 @@ proceeding with the instructions here.
 The latest approved versions of the VSCode support files can
 always be found at these links.
 
-- This file, in PDF form: [vscode-install.pdf](http://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-install.pdf)
-- Tools volume documentation: [tools-volume.pdf](http://airgap.svc.anaconda.com.s3.amazonaws.com/misc/tools-volume.pdf)
-- Installer project: [vscode-installer.tar.bz2](http://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-installer.tar.bz2)
+- This file, in PDF form: [vscode-install.pdf](https://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-install.pdf)
+- Tools volume documentation: [tools-volume.pdf](https://airgap.svc.anaconda.com.s3.amazonaws.com/misc/tools-volume.pdf)
+- Installer project: [vscode-installer.tar.bz2](https://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-installer.tar.bz2)
+- Installer binaries: [vscode-blobs.tar.bz2](https://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-blobs.tar.bz2)
 
 ## Installation
 
@@ -51,19 +35,20 @@ We have broken up the installation process into the steps below:
 
 1. _Set the tool volume to read-write._ **(5.5.1 only)**
 2. _Launch the VSCode installation project._
-3. _Perform the basic installation._
-4. _Enable the VSCode editor option._
-5. _Verify the installation._
-6. _Further customize VSCode._
-7. _Set the tool volume to read-only._ **(5.5.1 only)**
+3. _Obtain the VSCode binaries._
+4. _Perform the basic installation._
+5. _Enable the VSCode editor option._
+6. _Verify the installation._
+7. _Further customize VSCode._
+8. _Set the tool volume to read-only._ **(5.5.1 only)**
 
 The steps will have the following impact on the behavior of the cluster:
 
 - No *existing* sessions or deployments will be affected. Users
   can continue to work in existing sessions without interruption.
-- During Steps 1, 4, and 7, there will be brief (<30 second)
+- During Steps 1, 5, and 8, there will be brief (<30 second)
   interruptions in the function of main UI.
-- While Steps 2 through 6 are in progress, the `/tools` volume
+- While Steps 2 through 7 are in progress, the `/tools` volume
   will be mounted into any new sessions, deployments, and jobs
   in a read-write fashion.
   
@@ -101,13 +86,9 @@ AE5 session. So to begin the process, we complete the following steps:
    storage manager user, typically `anaconda-enterprise`.
    This is the user that is given read-write access to the
    `/tools` volume.
-2. Download the installer project and save it to the machine
-   from which you are accessing AE5. A link is provided
-   in the top section of this document.<br/> ***NOTE***: This
-   project is significantly larger than a typical AE5 project,
-   so the project creation process will take longer than normal.
-   For instance, one test cluster took *20 seconds* for the upload
-   step, and an *additional 60 seconds* to finish.
+2. Download the [installer project tarball](https://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-installer.tar.bz2) 
+   and save it to the machine from which you are accessing AE5.
+   The link is also provided in the top section of this document.
 3. In a new browser window, log into AE5, and use the
    "Create+ / Upload Project" dialog to upload the VSCode
    Installation project archive that has been provided to you.
@@ -115,8 +96,32 @@ AE5 session. So to begin the process, we complete the following steps:
    change this, click on the project's name to be taken to the settings
    page, change the Default Editor, and Save.
 5. Launch a session for this project.
-   
-### Step 3. Perform the basic installation
+  
+### Step 3. Obtain the VSCode binaries.
+
+There are two approaches to obtaining the binaries for VSCode,
+including the primary `code-server` binary as well as our recommended
+set of extensions.
+
+*If your AE5 installation has direct access to the internet:*
+
+1. Open a terminal window in the session.
+2. Run the command `bash download_vscode.sh`. This will download
+   each of the binaries from their source locations, and ensure that
+   their checksums match the values indicated in the `MANIFEST` file.
+
+*If your AE5 installation does not have direct access to the internet*:
+
+1. Download the [installer binaries tarball](https://airgap.svc.anaconda.com.s3.amazonaws.com/misc/vscode-blobs.tar.bz2) 
+   and save it to the machine from which you are accessing AE5.
+   The link is also provided in the top section of this document.
+2. Use the "upload" function in JupyterLab to upload the tarball
+   into your project.
+3. Open a terminal window.
+4. Run the command `tar xfz vscode-blobs.tar.bz2` to extract the
+   individual extensions into their proper location.
+
+### Step 4. Perform the basic installation
 
 The VSCode installer project contains the basic set of files needed
 to install the latest tested version of `code-server`, as well as the
@@ -168,7 +173,7 @@ Failed Installing Extensions: file:///opt/continuum/project/downloads/ms-toolsai
 - Installed. You can shut down this session, and/or remove downloaded files.
 ```
 
-### Step 4. Enable the VSCode editor option
+### Step 5. Enable the VSCode editor option
 
 The next step is to add VSCode to the editor selection list presented
 by the UI.
@@ -205,11 +210,11 @@ project settings page.
 
 To help clarify the desired result in this step, we have attached below
 a screenshot of the Op Center for a typical cluster immediately after
-Step 5 is completed.
+Step 6 is completed.
 
 ![screenshot](screenshot.png)
 
-### Step 5. Verify the installation
+### Step 6. Verify the installation
 
 1. Return to the project grid page.
 2. Create a new project from the sample gallery. We recommend the

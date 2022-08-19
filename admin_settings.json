@@ -1,4 +1,6 @@
 {
+  "redhat.telemetry.enabled": false,
+  "security.workspace.trust.enabled": false,
   "python.condaPath": "/opt/continuum/anaconda/bin/conda",
   "python.defaultInterpreterPath": "/opt/continuum/anaconda/bin/python",
   "python.disableInstallationCheck": true,
@@ -17,6 +19,7 @@
         "args": ["--init-file", "/tools/vscode/activate.sh"]
      }
   },
+  "workbench.startupEditor": "none",
   "workbench.editorAssociations": {
         "*.ipynb": "jupyter-notebook"
   },
