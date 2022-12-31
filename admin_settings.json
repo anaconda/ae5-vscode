@@ -24,7 +24,7 @@
         "*.ipynb": "jupyter-notebook"
   },
   "_comments": [
-    "The file ~/.vscode/User/settings.json (where you are likely reading",
+    "The file ~/.vscode/settings.json (where you are likely reading",
     "this) contains VSCode settings that you may have modified using the",
     "VSCode Settings panel. It also contains a number of settings that",
     "AE5 has hardcoded to ensure that VSCode operates correctly within",
