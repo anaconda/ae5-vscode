@@ -13,7 +13,7 @@ OCA=$OC/anaconda
 OCP=$OC/project
 OCD=$OC/data
 OCUH=$OC/user/home
-OCUHV=$OC/user/home/vscode
+OCUHV=$OC/user/home/.vscode
 
 SETTINGS="/var/run/secrets/user_credentials/vscode_settings"
 PYTHON=$OCA/bin/python
