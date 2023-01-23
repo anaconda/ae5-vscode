@@ -51,7 +51,7 @@ jobs:
         fi
         URL=s3://airgap-svc/misc
         ARGS="--acl public-read --region $AWS_DEFAULT_REGION"
-        for sfx in "$SUFFIX" "$SUFFIX2"; do
+        for sfx in "$SUFFIX" ""; do
           aws s3 cp vscode-installer.tar.bz2 $URL/vscode-installer$sfx.tar.bz2 $ARGS
           aws s3 cp vscode-blobs.tar.bz2 $URL/vscode-blobs$sfx.tar.bz2 $ARGS
           aws s3 cp README.pdf $URL/vscode-install$sfx.pdf $ARGS
