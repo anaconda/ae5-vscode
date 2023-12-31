@@ -6,6 +6,12 @@ echo "+-----------------------+"
 
 TOOL_HOME=$(dirname "${BASH_SOURCE[0]}")
 
+if [ $(uname) = Darwin ]; then
+    SHA="shasum -a 256"
+else
+    SHA=sha256sum
+fi
+
 if [ ! -f MANIFEST ]; then
     echo "ERROR: file MANIFEST not found"
     exit -1
@@ -38,7 +44,7 @@ while read -r line; do
     sha=$line
     if [ -f $fpath ]; then
         echo -n "  checksum: "
-        actual_sha=$(sha256sum $fpath | cut -d ' ' -f 1)
+        actual_sha=$($SHA $fpath | cut -d ' ' -f 1)
         echo "$actual_sha"
         if [ "$actual_sha" == "$sha" ]; then
             echo "  verified; skipping download"
@@ -54,7 +60,7 @@ while read -r line; do
     fi
     url=
     echo -n "  checksum: "
-    actual_sha=$(sha256sum $fpath | cut -d ' ' -f 1)
+    actual_sha=$($SHA $fpath | cut -d ' ' -f 1)
     echo " $actual_sha"
     if [ "$actual_sha" != "$sha" ]; then
         echo " mismatch: $sha; please check manifest"
