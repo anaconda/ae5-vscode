@@ -11,8 +11,8 @@ https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.2.vsix
 352fd515c975556ac8a4fa0c71b51388a21d0a93e2876332ac20b02a7092b594
 
 # python extension
-https://open-vsx.org/api/ms-python/python/2023.20.0/file/ms-python.python-2023.20.0.vsix
-c20e4748fa7cfe99bfb3134f734717c3fe130dfa45ccaa333375d573aa16bfcf
+https://open-vsx.org/api/ms-python/python/2023.22.1/file/ms-python.python-2023.22.1.vsix
+aa73601f8ae5e96a453d2a21dd3b4fdae09a92e09ccab6e5a00179d4919c18a3
 
 # jupyter extension
 # NOTE: the python extension must appear above this extension in the list,
