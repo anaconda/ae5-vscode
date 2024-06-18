@@ -3,8 +3,8 @@
 # All downloads are placed in the "downloads" subdirectory.
 
 # code-server
-https://github.com/coder/code-server/releases/download/v4.90.1/code-server-4.90.1-linux-amd64.tar.gz
-7a804a7510e8427303575c6d2918690b59e4be2f9749021e9475337ebd6ba1f2
+https://github.com/coder/code-server/releases/download/v4.90.2/code-server-4.90.2-linux-amd64.tar.gz
+c66b57759e41c66c28577eaefa4cce106f7b5ad5fb3ab394baea5eaa5b604cce
 
 # ae5-session
 https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.2.vsix
