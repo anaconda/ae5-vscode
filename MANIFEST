@@ -7,7 +7,7 @@ https://github.com/coder/code-server/releases/download/v4.98.2/code-server-4.98.
 592acabf2f16210f4aec62d0390b2e3a392b7013068f97de72a14ce87d4279ff
 
 # ae5-session
-https://ae5-vscode.s3.amazonaws.com/ae5-session-0.3.2.vsix
+https://airgap-svc.s3.us-east-1.amazonaws.com/ae5/ae5-session-0.3.2.vsix
 352fd515c975556ac8a4fa0c71b51388a21d0a93e2876332ac20b02a7092b594
 
 # python extension
