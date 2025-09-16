@@ -3,8 +3,8 @@
 # All downloads are placed in the "downloads" subdirectory.
 
 # code-server
-https://github.com/coder/code-server/releases/download/v4.103.2/code-server-4.103.2-linux-amd64.tar.gz
-9c686a6aacd64d86a4731257f18acef80edd765fda54b80767f7fac8e00c735b
+https://github.com/coder/code-server/releases/download/v4.104.0/code-server-4.104.0-linux-amd64.tar.gz
+51109c82229beaf29a488218cf5cb9d96191558ea7854b56e3c6e2b3671ffd5c
 
 # ae5-session
 https://airgap-svc.s3.us-east-1.amazonaws.com/ae5/ae5-session-0.3.2.vsix
@@ -17,8 +17,8 @@ d561d57f5820c0bdbc2b822f417e524afba256c60b28a9a1670f7923b1bddabc
 # jupyter extension
 # NOTE: the python extension must appear above this extension in the list,
 # and note not all versions of these two extensions are compatible with each other.
-https://open-vsx.org/api/ms-toolsai/jupyter/2025.7.0/file/ms-toolsai.jupyter-2025.7.0.vsix
-aa051fc2e5d292c35121a3cb2b369116406e0a72dd5215b4b659af367e019b6a
+https://open-vsx.org/api/ms-toolsai/jupyter/2025.8.0/file/ms-toolsai.jupyter-2025.8.0.vsix
+3e0373fe1b309660e6e53189ab7ad34f7e374d3c7a76b8e4621d6a5b93d4caae
 
 # yaml extension by redhat
 https://open-vsx.org/api/redhat/vscode-yaml/1.18.0/file/redhat.vscode-yaml-1.18.0.vsix
