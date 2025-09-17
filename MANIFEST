@@ -7,8 +7,8 @@ https://github.com/coder/code-server/releases/download/v4.104.0/code-server-4.10
 51109c82229beaf29a488218cf5cb9d96191558ea7854b56e3c6e2b3671ffd5c
 
 # ae5-session
-https://airgap-svc.s3.us-east-1.amazonaws.com/ae5/ae5-session-0.3.2.vsix
-352fd515c975556ac8a4fa0c71b51388a21d0a93e2876332ac20b02a7092b594
+https://airgap-svc.s3.us-east-1.amazonaws.com/ae5/ae5-session-0.3.3.vsix
+4e64188e369e4ba41168d471689c04e9db6fa5b0b295d3cd4a75f7da5bb9bc6a
 
 # python extension
 https://open-vsx.org/api/ms-python/python/2025.14.0/file/ms-python.python-2025.14.0.vsix
