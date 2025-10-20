@@ -12,6 +12,7 @@
   "extensions.ignoreRecommendations": true,
   "terminal.integrated.inheritEnv": false,
   "terminal.integrated.defaultProfile.linux": "bash",
+  "chat.agent.enabled": false,
   "terminal.integrated.profiles.linux": {
      "bash": {
         "path": "bash",
