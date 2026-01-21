@@ -3,16 +3,16 @@
 # All downloads are placed in the "downloads" subdirectory.
 
 # code-server
-https://github.com/coder/code-server/releases/download/v4.106.3/code-server-4.106.3-linux-amd64.tar.gz
-338be5e3820a1dda8578cf75015b79042aed80a8c32012840d92001f48d41d8a
+https://github.com/coder/code-server/releases/download/v4.108.1/code-server-4.108.1-linux-amd64.tar.gz
+5a191adde4d34d403d180bf29f13424b34961e80d31411b2112a18102f3b55f3
 
 # ae5-session
 https://airgap-svc.s3.us-east-1.amazonaws.com/ae5/ae5-session-0.3.3.vsix
 4e64188e369e4ba41168d471689c04e9db6fa5b0b295d3cd4a75f7da5bb9bc6a
 
 # python extension
-https://open-vsx.org/api/ms-python/python/2025.16.0/file/ms-python.python-2025.16.0.vsix
-5f637008811eb0b08a8d152ffe8c3787a72e209bd1994652c3490d749ab9dbbf
+https://open-vsx.org/api/ms-python/python/2026.0.0/file/ms-python.python-2026.0.0.vsix
+e396d253fc3ef967bd11b1df5e827c2cbb6b30af6e7f56c1a0cfa5f933410465
 
 # jupyter extension
 # NOTE: the python extension must appear above this extension in the list,
