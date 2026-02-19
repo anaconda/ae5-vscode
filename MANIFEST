@@ -3,8 +3,8 @@
 # All downloads are placed in the "downloads" subdirectory.
 
 # code-server
-https://github.com/coder/code-server/releases/download/v4.108.1/code-server-4.108.1-linux-amd64.tar.gz
-5a191adde4d34d403d180bf29f13424b34961e80d31411b2112a18102f3b55f3
+https://github.com/coder/code-server/releases/download/v4.109.2/code-server-4.109.2-linux-amd64.tar.gz
+3e54f91b4f7e2ccf2fe14e30fdcef88317c83ddbe06d1af2a5b8532996ffbe1e
 
 # ae5-session
 https://airgap-svc.s3.us-east-1.amazonaws.com/ae5/ae5-session-0.3.3.vsix
@@ -21,8 +21,8 @@ https://open-vsx.org/api/ms-toolsai/jupyter/2025.9.1/file/ms-toolsai.jupyter-202
 110660656944c4ab0ff687db488c2e8c59c67ec121dcf09bcaa54b6edd9ce71f
 
 # yaml extension by redhat
-https://open-vsx.org/api/redhat/vscode-yaml/1.19.1/file/redhat.vscode-yaml-1.19.1.vsix
-64bb86b41ec38c856b718a26730a6dc09c469888f3d15bb57c216a61bd972e4e
+https://open-vsx.org/api/redhat/vscode-yaml/1.20.2026021408/file/redhat.vscode-yaml-1.20.2026021408.vsix
+a182f50bb01b006cb9638423aeec2ea340c3b1a41a0457934e09a44bc8d61185
 
 # If you have additional extensions, you may put them here, following the
 # same format. The download_vscode.sh script will download them, and the
