@@ -19,7 +19,7 @@ jobs:
     - name: Build the archive
       run: |
         source $CONDA/bin/activate
-        conda install -y anaconda-project nodejs
+        conda install -y -c ae-dev python=3.12 anaconda-project nodejs
         npm install -g mdpdf
         sed -i.bak -E 's@simpleLineBreaks,@simpleLineBreaks: false,@' $(npm root -g)/mdpdf/dist/src/index.js
         echo ".markdown-body { font-size: 11pt; }" > ../style.css
