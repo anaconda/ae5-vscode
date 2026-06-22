@@ -3,8 +3,8 @@
 # All downloads are placed in the "downloads" subdirectory.
 
 # code-server
-https://github.com/coder/code-server/releases/download/v4.118.0/code-server-4.118.0-linux-amd64.tar.gz
-ab4dee01cacc20eb500c96660477d8ba755f69f402cc9cbab3a8496b4690f2fd
+https://github.com/coder/code-server/releases/download/v4.124.2/code-server-4.124.2-linux-amd64.tar.gz
+44dea689b7b6bb05296c911abd0884b262c604dfdfd796365080479a675ab7d2
 
 # ae5-session
 https://airgap-svc.s3.us-east-1.amazonaws.com/ae5/ae5-session-0.3.3.vsix
