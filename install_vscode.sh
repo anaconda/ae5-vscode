@@ -13,6 +13,13 @@ echorun() {
 
 CURRENT_DIR=$PWD
 SOURCE_DIR=$(dirname "${BASH_SOURCE[0]}")
+
+# Determine the architecture so we select the matching code-server binary.
+# The MANIFEST lists both amd64 and arm64.
+case $(uname -m) in
+    arm64|aarch64) ARCH=arm64 ;;
+    *)             ARCH=amd64 ;;
+esac
 missing=
 for sfile in MANIFEST activate.sh admin_settings.json merge_settings.py patch_python_extension.py start_vscode.sh; do
     spath=$CURRENT_DIR/$sfile
@@ -25,7 +32,7 @@ if [ ! -z "$missing" ]; then
 fi
 
 missing=
-vscode_fname=$(sed -nE 's@(.*/)?(code-server-.*)@\2@p' MANIFEST)
+vscode_fname=$(sed -nE "s@(.*/)?(code-server-.*-$ARCH\.tar\.gz)@\2@p" MANIFEST)
 if [ -z "$vscode_fname" ]; then
     echo "ERROR: could not find the code-server binary in the MANIFEST"
     exit -1

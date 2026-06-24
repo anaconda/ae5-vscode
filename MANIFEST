@@ -3,8 +3,12 @@
 # All downloads are placed in the "downloads" subdirectory.
 
 # code-server
+# Both architectures are listed; the download and install scripts will
+# automatically select the one matching the current platform and skip the other.
 https://github.com/coder/code-server/releases/download/v4.124.2/code-server-4.124.2-linux-amd64.tar.gz
 44dea689b7b6bb05296c911abd0884b262c604dfdfd796365080479a675ab7d2
+https://github.com/coder/code-server/releases/download/v4.124.2/code-server-4.124.2-linux-arm64.tar.gz
+c9183c04133c7e62a3ea468aa17ae6bd5ea2c7abb091beab109cd51b26cbde8d
 
 # ae5-session
 https://airgap-svc.s3.us-east-1.amazonaws.com/ae5/ae5-session-0.3.3.vsix
