@@ -12,6 +12,13 @@ else
     SHA=sha256sum
 fi
 
+# Determine the architecture so we can skip the code-server binary that does
+# not match this platform. The MANIFEST lists both amd64 and arm64.
+case $(uname -m) in
+    arm64|aarch64) ARCH=arm64; OTHER_ARCH=amd64 ;;
+    *)             ARCH=amd64; OTHER_ARCH=arm64 ;;
+esac
+
 if [ ! -f MANIFEST ]; then
     echo "ERROR: file MANIFEST not found"
     exit -1
@@ -28,6 +35,12 @@ while read -r line; do
     [ "$line" ] || continue
     if [[ "$line" == *"/"* ]]; then
         if [ -z "$url" ]; then
+            # Skip the code-server binary for the other architecture.
+            if [[ "$line" == *"$OTHER_ARCH"* ]]; then
+                echo "${line##*/} (skipping: not $ARCH)"
+                skip=1
+                continue
+            fi
             url=$line
             fname=${url##*/}
             fpath=downloads/$fname
@@ -36,6 +49,10 @@ while read -r line; do
             echo "- ERROR: sha256 not supplied"
             exit -1
         fi
+        continue
+    elif [ -n "$skip" ]; then
+        # Consume the checksum line belonging to the skipped URL.
+        skip=
         continue
     elif [ -z "$url" ]; then
         echo "ERROR: unexpected data: $line"
