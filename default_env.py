@@ -24,8 +24,13 @@ def _ordered_environment_set(pdir):
         print('Could not parse pixi.toml/anaconda-project.yml.', file=sys.stderr)
     root = os.environ.get('CONDA_ROOT')
     if sys.prefix != root:
-        _add(sys.prefix)
+        _add(os.path.basename(sys.prefix))
     _add('base')
     return env_names
 
-print(_ordered_environment_set(PROJECT_DIR)[0])
+result = _ordered_environment_set(PROJECT_DIR)
+if len(sys.argv) > 2:
+    # for debugging
+    print(result)
+else:
+    print(result[0])
