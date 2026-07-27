@@ -19,13 +19,7 @@ jobs:
     - name: Build the archive
       run: |
         source $CONDA/bin/activate
-        conda install -y -c ae-dev python=3.12 anaconda-project nodejs
-        npm install -g mdpdf
-        sed -i.bak -E 's@simpleLineBreaks,@simpleLineBreaks: false,@' $(npm root -g)/mdpdf/dist/src/index.js
-        echo ".markdown-body { font-size: 11pt; }" > ../style.css
-        mdpdf README.md --format=letter --style=../style.css --gh-style
-        curl -OL https://raw.githubusercontent.com/Anaconda-Platform/ae5-rstudio/master/TOOLS.md
-        mdpdf TOOLS.md --format=letter --style=../style.css --gh-style
+        conda install -y ae-dev::anaconda-project
         anaconda-project archive vscode-installer.tar.bz2
         bash download_vscode.sh
         tar cfj vscode-blobs.tar.bz2 downloads
