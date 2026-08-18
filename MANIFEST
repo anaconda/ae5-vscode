@@ -5,10 +5,10 @@
 # code-server
 # Both architectures are listed; the download and install scripts will
 # automatically select the one matching the current platform and skip the other.
-https://github.com/coder/code-server/releases/download/v4.129.0/code-server-4.129.0-linux-amd64.tar.gz
-889b09ff3a167a293f53cb68a5a7f38dbab6bd2b50d7a5951c757e56ba51a2b0
-https://github.com/coder/code-server/releases/download/v4.129.0/code-server-4.129.0-linux-arm64.tar.gz
-62f7886018923a18cc16112ccfbcd51aee80f8e0c1bb7abc48773d1fd32a7617
+https://github.com/coder/code-server/releases/download/v4.133.0/code-server-4.133.0-linux-amd64.tar.gz
+a4e0f8f8c76e7de8e7424289f74e507af4c97bfe104c3e8ee272b8cc7b46c6f1
+https://github.com/coder/code-server/releases/download/v4.133.0/code-server-4.133.0-linux-arm64.tar.gz
+d999d8b0256e5537f3b62e6c09f624220026e19107a04a876c0cef62d1c71147
 
 # ae5-session
 https://airgap-svc.s3.us-east-1.amazonaws.com/ae5/ae5-session-0.3.3.vsix
@@ -25,8 +25,8 @@ https://open-vsx.org/api/ms-toolsai/jupyter/2025.9.1/file/ms-toolsai.jupyter-202
 110660656944c4ab0ff687db488c2e8c59c67ec121dcf09bcaa54b6edd9ce71f
 
 # yaml extension by redhat
-https://open-vsx.org/api/redhat/vscode-yaml/1.25.2026072308/file/redhat.vscode-yaml-1.25.2026072308.vsix
-c0f2e5a7b48d089e7004a2354c337557f52aeba99611588e066233990c3c0a44
+https://open-vsx.org/api/redhat/vscode-yaml/1.25.2026081408/file/redhat.vscode-yaml-1.25.2026081408.vsix
+17ab2ed22247823819492b7a84b42776661d8225668aafd4978be322c131ca57
 
 # If you have additional extensions, you may put them here, following the
 # same format. The download_vscode.sh script will download them, and the
