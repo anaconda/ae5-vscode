@@ -103,7 +103,7 @@ fi
 # and the Python environment, and compare it against expectation. To keep the Docker logs
 # continuous we're capturing the node output in a variable, grabbing the rest of the
 # logs, and then we'll print the output of the attempt.
-capture_attempt=$(node capture.mjs "$expected_version" "$expected_env" 1>&2 && echo "@@success@@" || :)
+capture_attempt=$(node capture.mjs "$expected_version" "$expected_env" 2>&1 && echo "@@success@@" || :)
 
 docker logs "$container_name" --since="$timestamp" | sed 1d
 

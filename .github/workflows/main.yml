@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:
+      contents: read
       pull-requests: write
     steps:
     - name: Retrieve the source code
@@ -133,8 +134,10 @@ jobs:
           echo "PR merged to main; updating untagged and -latest"
           suffixes+=("" "-latest")
           current="$(sed -nE 's@.*/code-server-([^-]*)-linux-amd64.tar.gz@\1@p' MANIFEST)"
-          previous="$(git show "$BEFORE_SHA":MANIFEST | sed -nE 's@.*/code-server-([^-]*)-linux-amd64.tar.gz@\1@p')"
-          if [ "$current" != "$previous" ]; then
+          previous="$(git show "$BEFORE_SHA":MANIFEST 2>/dev/null | sed -nE 's@.*/code-server-([^-]*)-linux-amd64.tar.gz@\1@p' || true)"
+          if [ -z "$previous" ]; then
+            echo "Could not read previous MANIFEST from ${BEFORE_SHA:-unset}; skipping auto-tag"
+          elif [ "$current" != "$previous" ]; then
             create_tag="$(git show -s --format=%cI | sed 's@T.*@@;s@-@@g')"
             echo "VSCode version update detected: $previous -> $current"
             echo "Also auto-generating new tag: $create_tag"
