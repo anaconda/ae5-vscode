@@ -23,7 +23,7 @@ async function runScript() {
   const page = await browser.newPage();
   await page.goto('http://localhost:8086');
   await expect(page.getByText('route_chord.ipynb')).toBeVisible({ timeout: 10000 });
-  await page.getByRole('button',{name:'Toggle Secondary Side Bar (⌥⌘B)'}).click();
+  await page.getByRole('button', { name: /Toggle Secondary Side Bar/ }).click();
   await page.waitForTimeout(500);
   await page.getByText('route_chord.ipynb').click();
   await page.waitForTimeout(500);
@@ -37,9 +37,9 @@ async function runScript() {
   await waitForTextAnywhere(page, 'Salt Lake City');
   await page.locator('.menubar-menu-button').click();
   await page.waitForTimeout(500);
-  await page.getByRole('menuitem',{name:'Help'}).click();
+  await page.getByRole('menuitem', { name: 'Help' }).click();
   await page.waitForTimeout(500);
-  await page.getByRole('menuitem',{name:'About'}).click();
+  await page.getByRole('menuitem', { name: 'About' }).click();
   await expect(page.getByText('code-server: v' + expected_version)).toBeVisible({ timeout: 5000 });
   await page.screenshot({path: './test_screenshot.png', scale: 'css', type: 'png'});
   await browser.close();
