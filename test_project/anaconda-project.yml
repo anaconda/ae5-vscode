@@ -1,0 +1,20 @@
+name: route_chord
+description: https://holoviews.org/gallery/demos/bokeh/route_chord.html
+channels:
+- conda-forge
+packages:
+- ipykernel
+- bokeh_sampledata
+- notebook
+- holoviews
+- matplotlib
+- numpy
+- pandas
+- param
+commands:
+  notebook:
+    notebook: route_chord.ipynb
+platforms:
+- linux-64
+- linux-aarch64
+- osx-arm64
