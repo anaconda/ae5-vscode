@@ -1,0 +1,27 @@
+name: VSCode version bump
+on:
+  schedule:
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+concurrency:
+  group: vscode-version-bump
+  cancel-in-progress: false
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+    # PAT (not GITHUB_TOKEN) so the bump PR triggers full pull_request CI.
+    # GITHUB_TOKEN-created pushes/PRs do not run other workflows.
+    - name: Retrieve the source code
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        ref: master
+        fetch-depth: 0
+        token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+    - name: Check upstream MANIFEST versions
+      env:
+        GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      run: bash ./version-bump.sh
