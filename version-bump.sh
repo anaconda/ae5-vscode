@@ -86,7 +86,13 @@ max_match_version() {
 }
 
 fetch_body() {
-    curl -fsSL -A 'ae5-vscode-version-bump' "$1"
+    local url=$1
+    case "$url" in
+        https://airgap.svc.anaconda.com/\?*)
+            url="https://airgap-svc.s3.us-east-1.amazonaws.com/?${url#*\?}"
+            ;;
+    esac
+    curl -fsSL -A 'ae5-vscode-version-bump' "$url"
 }
 
 is_prerelease() {
@@ -224,10 +230,10 @@ apply_bumps() {
 }
 
 new_manifest=$(mktemp)
+trap 'rm -f "$new_manifest"' EXIT
 apply_bumps MANIFEST "$new_manifest"
 if cmp -s MANIFEST "$new_manifest"; then
     echo "MANIFEST unchanged"
-    rm -f "$new_manifest"
 else
     mv "$new_manifest" MANIFEST
     echo "Wrote MANIFEST"

@@ -13,7 +13,7 @@ https://github.com/coder/code-server/releases/download/v4.133.0/code-server-4.13
 d999d8b0256e5537f3b62e6c09f624220026e19107a04a876c0cef62d1c71147
 
 # ae5-session
-# check: https://airgap-svc.s3.us-east-1.amazonaws.com/?prefix=ae5/
+# check: https://airgap.svc.anaconda.com/?prefix=ae5/
 # match: ae5-session-([0-9.]+)\.vsix
 https://airgap.svc.anaconda.com/ae5/ae5-session-0.3.3.vsix
 4e64188e369e4ba41168d471689c04e9db6fa5b0b295d3cd4a75f7da5bb9bc6a

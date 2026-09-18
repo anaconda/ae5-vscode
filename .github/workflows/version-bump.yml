@@ -6,6 +6,8 @@ on:
 concurrency:
   group: vscode-version-bump
   cancel-in-progress: false
+# GITHUB_TOKEN stays read-only. Writes use secrets.GH_PERSONAL_ACCESS_TOKEN
+# (checkout token + GH_TOKEN), so tightening this block does not reduce access.
 permissions:
   contents: read
   pull-requests: read
