@@ -1,19 +1,21 @@
 import { chromium } from 'playwright';
 import { expect } from 'playwright/test';
 
-async function waitForTextAnywhere(page, needle, timeout = 90_000) {
+async function waitForTextAnywhere(page, needles, timeout = 90_000) {
+  const wanted = Array.isArray(needles) ? needles : [needles];
   const deadline = Date.now() + timeout;
   while (Date.now() < deadline) {
     for (const frame of page.frames()) {
       try {
         if (await frame.evaluate(
-          s => document.documentElement.outerHTML.includes(s), needle
+          list => list.some(s => document.documentElement.outerHTML.includes(s)),
+          wanted
         )) return frame;
       } catch {}
     }
     await page.waitForTimeout(250);
   }
-  throw new Error(`Timed out ${timeout}ms waiting for ${JSON.stringify(needle)}`);
+  throw new Error(`Timed out ${timeout}ms waiting for any of ${JSON.stringify(wanted)}`);
 }
 
 async function runScript() {
@@ -37,7 +39,10 @@ async function runScript() {
     await page.getByText(expected_env).click();
     await page.waitForTimeout(500);
     await page.getByText('Run All').click();
-    await waitForTextAnywhere(page, 'Salt Lake City');
+    await waitForTextAnywhere(page, [
+      'Salt Lake City', 'Seattle', 'Houston', 'Washington',
+      'Los Angeles', 'San Francisco', 'Detroit', 'Fort Worth',
+    ]);
     await page.locator('.menubar-menu-button').click();
     await page.waitForTimeout(500);
     await page.getByRole('menuitem', { name: 'Help' }).click();
