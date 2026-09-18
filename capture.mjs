@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 import { expect } from 'playwright/test';
 
-async function waitForTextAnywhere(page, needle, timeout = 30_000) {
+async function waitForTextAnywhere(page, needle, timeout = 90_000) {
   const deadline = Date.now() + timeout;
   while (Date.now() < deadline) {
     for (const frame of page.frames()) {
