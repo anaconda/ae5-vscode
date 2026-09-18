@@ -7,10 +7,10 @@
 # automatically select the one matching the current platform and skip the other.
 # check: https://github.com/coder/code-server/releases
 # match: v([0-9]+\.[0-9]+\.[0-9]+)
-https://github.com/coder/code-server/releases/download/v4.133.0/code-server-4.133.0-linux-amd64.tar.gz
-a4e0f8f8c76e7de8e7424289f74e507af4c97bfe104c3e8ee272b8cc7b46c6f1
-https://github.com/coder/code-server/releases/download/v4.133.0/code-server-4.133.0-linux-arm64.tar.gz
-d999d8b0256e5537f3b62e6c09f624220026e19107a04a876c0cef62d1c71147
+https://github.com/coder/code-server/releases/download/v4.137.0/code-server-4.137.0-linux-amd64.tar.gz
+9303165b7fd43532091922f77e2f119ff2fa109c6b6f1c3c966fb02f3d6d9c8b
+https://github.com/coder/code-server/releases/download/v4.137.0/code-server-4.137.0-linux-arm64.tar.gz
+0fba760298fe06480d940e218f0873a645ba1e7e3ac4b527059af82d85a90462
 
 # ae5-session
 # check: https://airgap.svc.anaconda.com/?prefix=ae5/
