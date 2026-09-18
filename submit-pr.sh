@@ -1,0 +1,68 @@
+#!/bin/bash
+set -euo pipefail
+
+usage() {
+    cat <<'EOF'
+Usage: submit-pr.sh
+
+If MANIFEST differs from HEAD, commit it on bot/vscode-version, force-push,
+and open or update the single bump PR. If MANIFEST is unchanged, close that
+PR when one is open.
+EOF
+}
+
+for arg in "$@"; do
+    case "$arg" in
+        -h|--help) usage; exit 0 ;;
+        *)
+            echo "Unknown argument: $arg" >&2
+            usage >&2
+            exit 1
+            ;;
+    esac
+done
+
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+BOT_BRANCH=bot/vscode-version
+owner="${GITHUB_REPOSITORY_OWNER:-}"
+if [ -z "$owner" ]; then
+    origin_url=$(git remote get-url origin)
+    owner=$(printf '%s\n' "$origin_url" | sed -n 's/.*github.com[:/]\([^/]*\)\/.*/\1/p')
+fi
+if [ -z "$owner" ]; then
+    echo "Could not determine GitHub repository owner" >&2
+    exit 1
+fi
+
+pr_number=$(gh pr list --head "${owner}:${BOT_BRANCH}" --state open --json number --jq '.[0].number // empty')
+if git diff --quiet MANIFEST; then
+    if [ -n "$pr_number" ]; then
+        echo "Closing PR #$pr_number: master already has these MANIFEST versions."
+        gh pr close "$pr_number" --comment "master already has these MANIFEST versions. Closing."
+    else
+        echo "No bump needed"
+    fi
+    exit 0
+fi
+
+if [ "${GITHUB_ACTIONS:-}" = true ]; then
+    git config user.name "github-actions[bot]"
+    git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+fi
+git checkout --no-track -B "$BOT_BRANCH"
+printf '%s\n' 'chore: bump vscode MANIFEST' > /tmp/commit-msg.txt
+git add MANIFEST
+git commit -F /tmp/commit-msg.txt
+git push --force origin "$BOT_BRANCH"
+{
+    echo 'Automated VSCode MANIFEST version bump.'
+    echo
+    echo 'Main CI will run `download_vscode.sh` / bringup against this MANIFEST.'
+} > /tmp/pr-body.md
+if [ -n "$pr_number" ]; then
+    gh pr edit "$pr_number" --title "chore: bump vscode MANIFEST" --body-file /tmp/pr-body.md
+    echo "Updated PR #$pr_number"
+else
+    gh pr create --base master --head "$BOT_BRANCH" --title "chore: bump vscode MANIFEST" --body-file /tmp/pr-body.md
+fi

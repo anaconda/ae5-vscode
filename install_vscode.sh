@@ -38,7 +38,7 @@ if [ -z "$vscode_fname" ]; then
     exit -1
 fi
 [ -f "downloads/$vscode_fname" ] || missing="$missing $vscode_fname"
-for fname in $(sed -nE 's@(.*/)?([^/]*.vsix)@\2@p' MANIFEST); do
+for fname in $(sed -nE '/^[[:space:]]*#/d; s@(.*/)?([^/]*.vsix)@\2@p' MANIFEST); do
     [ -f "downloads/$fname" ] || missing="$missing $fname"
 done
 if [ ! -z "$missing" ]; then
@@ -96,7 +96,7 @@ echorun tar xfz downloads/$vscode_fname --strip-components 1 -C $STAGING_PREFIX
 
 echo "- Installing extensions"
 mkdir -p $STAGING_PREFIX/extensions
-for ext in $(sed -nE 's@(.*/)?([^/]*.vsix)@\2@p' MANIFEST); do
+for ext in $(sed -nE '/^[[:space:]]*#/d; s@(.*/)?([^/]*.vsix)@\2@p' MANIFEST); do
     echorun $STAGING_PREFIX/bin/code-server \
         --extensions-dir=$STAGING_PREFIX/extensions --install-extension=downloads/$ext
 done
