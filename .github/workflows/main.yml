@@ -9,46 +9,155 @@ on:
     branches:
       - master
 jobs:
-  project:
+  bringup:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
     - name: Retrieve the source code
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         fetch-depth: 0
+    - name: Log in to gcr.io
+      uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f  # v4.6.0
+      with:
+        registry: gcr.io
+        username: _json_key
+        password: ${{ secrets.AE_GCR_KEY }}
+    - name: Set up Node.js
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020  # v7.0.0
+      with:
+        node-version: '24'
+    - name: Install Playwright
+      run: |
+        npm install @playwright/test@^1.63.0
+        npx playwright install --with-deps chromium
+    - name: Run VSCode bringup test
+      id: bringup
+      env:
+        AE_GCR_KEY: ${{ secrets.AE_GCR_KEY }}
+      run: bash ./ci_test.sh
+    - name: Upload screenshot artifact
+      if: always() && hashFiles('test_screenshot.png') != ''
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+      with:
+        name: vscode-bringup-screenshot
+        path: test_screenshot.png
+    - name: Post screenshot comment
+      if: always() && github.event_name == 'pull_request'
+      env:
+        GH_TOKEN: ${{ github.token }}
+        UPLOAD_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        REPO_ID: ${{ github.repository_id }}
+        IMAGE_VER: ${{ steps.bringup.outputs.image_ver }}
+        VSCODE_VER: ${{ steps.bringup.outputs.expected_version }}
+        RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      run: |
+        set -euo pipefail
+        img_md=""
+        if [ -f test_screenshot.png ]; then
+          upload_json=$(curl -fsS -X POST \
+            -H "Authorization: Bearer ${UPLOAD_TOKEN}" \
+            -H "Accept: application/json" \
+            --data-binary @test_screenshot.png \
+            "https://uploads.github.com/user-attachments/assets?name=test_screenshot.png&content_type=image/png&repository_id=${REPO_ID}" \
+            || true)
+          asset_url=$(printf '%s' "$upload_json" | jq -r '.href // .url // empty' 2>/dev/null || true)
+          if [ -n "$asset_url" ]; then
+            img_md="![VSCode bringup](${asset_url})"
+          else
+            echo "Screenshot upload failed: ${upload_json}" >&2
+          fi
+        fi
+        body_file=$(mktemp)
+        {
+          echo '<!-- vscode-bringup-screenshot -->'
+          echo '## VSCode bringup'
+          echo
+          echo "Image: \`ae-editor-base:${IMAGE_VER:-unknown}\` · VSCode \`${VSCODE_VER:-unknown}\` · [run](${RUN_URL})"
+          echo
+          if [ -n "$img_md" ]; then
+            echo "$img_md"
+          elif [ -f test_screenshot.png ]; then
+            echo "Screenshot captured but could not attach inline. See the [run artifact](${RUN_URL})."
+          else
+            echo 'Bringup **failed** before a screenshot was captured.'
+          fi
+        } > "$body_file"
+        old_ids=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" --paginate \
+          --jq '.[] | select(.body | contains("<!-- vscode-bringup-screenshot -->")) | .id' \
+          || true)
+        gh issue comment "$PR_NUMBER" --body-file "$body_file"
+        for id in $old_ids; do
+          gh api --method DELETE "repos/${GITHUB_REPOSITORY}/issues/comments/${id}" || true
+        done
+        if [ -f test_screenshot.png ] && [ -z "$img_md" ]; then
+          exit 1
+        fi
+
+  publish:
+    needs: [bringup]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Retrieve the tested source code
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        fetch-depth: 0
     - name: Build the archive
       run: |
-        source $CONDA/bin/activate
+        source "$CONDA/bin/activate"
         conda install -y ae-dev::anaconda-project
         anaconda-project archive vscode-installer.tar.bz2
         bash download_vscode.sh
         tar cfj vscode-blobs.tar.bz2 downloads
         STAGING_PREFIX=staging/vscode bash install_vscode.sh
         tar cfz vscode.tar.gz -C staging vscode
-    - name: Upload archive
+    - name: Determine the suffixes and upload the content
       env:
+        BEFORE_SHA: ${{ github.event.before }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{secrets.AWS_DEFAULT_REGION}}
       run: |
-        SUFFIX2="no"
-        echo "GITHUB_REF: $GITHUB_REF"
-        echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
-        echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
-        if [[ "$GITHUB_REF" == refs/tags/* ]]; then
-          SUFFIX=-$GITHUB_REF_NAME
-          SUFFIX2="yes"
-        elif [ -z "$GITHUB_HEAD_REF" ]; then
-          SUFFIX=-dev
+        set -euo pipefail
+        suffixes=()
+        create_tag=""
+        if [[ "$GITHUB_REF_TYPE" = tag ]]; then
+          echo "Manual tag event; just adding the tagged release"
+          suffixes+=("-$GITHUB_REF_NAME")
+        elif [[ "$GITHUB_EVENT_NAME" = push && "$GITHUB_REF" = "refs/heads/master" ]]; then
+          echo "PR merged to main; updating untagged and -latest"
+          suffixes+=("" "-latest")
+          current="$(sed -nE 's@.*/code-server-([^-]*)-linux-amd64.tar.gz@\1@p' MANIFEST)"
+          previous="$(git show "$BEFORE_SHA":MANIFEST 2>/dev/null | sed -nE 's@.*/code-server-([^-]*)-linux-amd64.tar.gz@\1@p' || true)"
+          if [ -z "$previous" ]; then
+            echo "Could not read previous MANIFEST from ${BEFORE_SHA:-unset}; skipping auto-tag"
+          elif [ "$current" != "$previous" ]; then
+            create_tag="$(git show -s --format=%cI | sed 's@T.*@@;s@-@@g')"
+            echo "VSCode version update detected: $previous -> $current"
+            echo "Also auto-generating new tag: $create_tag"
+            suffixes+=(-"$create_tag")
+          fi
         else
-          SUFFIX=-test
+          echo "Uploading a development build only"
+          suffixes+=("-dev")
         fi
-        URL=s3://airgap-svc/misc
-        ARGS="--acl public-read --region $AWS_DEFAULT_REGION"
-        for sfx in "$SUFFIX" ""; do
-          aws s3 cp vscode-installer.tar.bz2 $URL/vscode-installer$sfx.tar.bz2 $ARGS
-          aws s3 cp vscode-blobs.tar.bz2 $URL/vscode-blobs$sfx.tar.bz2 $ARGS
-          aws s3 cp README.pdf $URL/vscode-install$sfx.pdf $ARGS
-          aws s3 cp vscode.tar.gz $URL/vscode$sfx.tar.gz $ARGS
-          if [ "$SUFFIX2" = "no" ]; then break; fi
+        for suffix in "${suffixes[@]}"; do
+          for fpair in vscode-installer.tar.bz2 vscode-blobs.tar.bz2 README.pdf/vscode-install.pdf vscode.tar.gz; do
+            fname="${fpair%/*}"
+            dname="$(echo "${fpair#*/}" | sed -E "s@.(tar.bz2|tar.gz|pdf)\$@${suffix}.\1@")"
+            echo "$fname -> s3://airgap-svc/misc/$dname"
+            aws s3 cp --quiet "$fname" "s3://airgap-svc/misc/$dname" --acl public-read --region "$AWS_DEFAULT_REGION"
+          done
         done
+        if [ -n "$create_tag" ]; then
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$create_tag" -m release
+          git push origin "refs/tags/$create_tag" --force
+        fi

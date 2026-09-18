@@ -1,2 +1,8 @@
 examples/
 .github/
+
+# CI bringup harness (not part of the installer)
+ci_test.sh
+capture.mjs
+test_screenshot.png
+test_project/
