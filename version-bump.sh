@@ -3,22 +3,17 @@ set -euo pipefail
 
 usage() {
     cat <<'EOF'
-Usage: version-bump.sh [--dry-run]
+Usage: version-bump.sh
 
-Compare origin/master MANIFEST to upstream versions declared by
-# check: / # match: comments and open, update, or close the single
-bot/vscode-version PR as needed.
-
-  --dry-run   Rewrite MANIFEST in place if versions changed; report the
-              PR action that would be taken. Do not create, close, or
-              modify a PR, and do not commit or push.
+Rewrite MANIFEST in place with the latest upstream version of each
+section that has # check: / # match: comments, including checksums.
+Sections without those comments are left alone. Open-VSX JSON with
+preRelease:true is not bumped.
 EOF
 }
 
-DRY_RUN=0
 for arg in "$@"; do
     case "$arg" in
-        --dry-run) DRY_RUN=1 ;;
         -h|--help) usage; exit 0 ;;
         *)
             echo "Unknown argument: $arg" >&2
@@ -29,20 +24,6 @@ for arg in "$@"; do
 done
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
-
-BOT_BRANCH=bot/vscode-version
-CHANGES_FILE=/tmp/vscode-bump-changes.txt
-: > "$CHANGES_FILE"
-
-owner="${GITHUB_REPOSITORY_OWNER:-}"
-if [ -z "$owner" ]; then
-    origin_url=$(git remote get-url origin)
-    owner=$(printf '%s\n' "$origin_url" | sed -n 's/.*github.com[:/]\([^/]*\)\/.*/\1/p')
-fi
-if [ -z "$owner" ]; then
-    echo "Could not determine GitHub repository owner" >&2
-    exit 1
-fi
 
 version_le() {
     local IFS='.'
@@ -102,14 +83,6 @@ max_match_version() {
     done < "$tmp"
     rm -f "$tmp"
     printf '%s' "$max"
-}
-
-record_change() {
-    local title=$1 old=$2 new=$3 src=$4
-    if grep -F "${title}	" "$CHANGES_FILE" >/dev/null 2>&1; then
-        return 0
-    fi
-    printf '%s\t%s\t%s\t%s\n' "$title" "$old" "$new" "$src" >> "$CHANGES_FILE"
 }
 
 fetch_body() {
@@ -225,7 +198,6 @@ apply_bumps() {
                             echo "Failed to hash $new_url" >&2
                             exit 1
                         fi
-                        record_change "${title:-unknown}" "$current" "$upstream" "$check"
                         line=$new_url
                         pending_sha=$sha
                     else
@@ -251,134 +223,12 @@ apply_bumps() {
     fi
 }
 
-pr_title_from_changes() {
-    local n title old new src
-    n=$(grep -c . "$CHANGES_FILE" || true)
-    if [ "$n" -eq 1 ]; then
-        IFS='	' read -r title old new src < "$CHANGES_FILE"
-        printf 'chore: bump %s to %s\n' "$title" "$new"
-    else
-        printf 'chore: bump vscode MANIFEST\n'
-    fi
-}
-
-write_pr_body() {
-    local title old new src
-    {
-        echo 'Automated VSCode MANIFEST version bump.'
-        echo
-        while IFS='	' read -r title old new src; do
-            [ -n "$title" ] || continue
-            echo "- ${title}: \`${old}\` → \`${new}\`"
-            echo "  Source: ${src}"
-        done < "$CHANGES_FILE"
-        echo
-        echo 'Main CI will run `download_vscode.sh` / bringup against this MANIFEST.'
-    } > /tmp/pr-body.md
-}
-
-close_pr() {
-    local reason=$1
-    if [ "$DRY_RUN" -eq 1 ]; then
-        echo "DRY-RUN: would close PR #$pr_number: $reason"
-        pr_number=
-        return
-    fi
-    echo "Closing PR #$pr_number: $reason"
-    gh pr close "$pr_number" --comment "$reason"
-    pr_number=
-}
-
-# --- apply ---
-
 new_manifest=$(mktemp)
-if [ "$DRY_RUN" -eq 1 ]; then
-    apply_bumps MANIFEST "$new_manifest"
-    if cmp -s MANIFEST "$new_manifest"; then
-        echo "MANIFEST unchanged"
-        rm -f "$new_manifest"
-    else
-        mv "$new_manifest" MANIFEST
-        echo "Wrote MANIFEST"
-    fi
+apply_bumps MANIFEST "$new_manifest"
+if cmp -s MANIFEST "$new_manifest"; then
+    echo "MANIFEST unchanged"
+    rm -f "$new_manifest"
 else
-    git fetch origin master
-    git fetch origin "${BOT_BRANCH}:refs/remotes/origin/${BOT_BRANCH}" 2>/dev/null || true
-    git show origin/master:MANIFEST > /tmp/master-MANIFEST
-    apply_bumps /tmp/master-MANIFEST "$new_manifest"
-fi
-
-git fetch origin master
-git fetch origin "${BOT_BRANCH}:refs/remotes/origin/${BOT_BRANCH}" 2>/dev/null || true
-
-pr_number=$(gh pr list --head "${owner}:${BOT_BRANCH}" --state open --json number --jq '.[0].number // empty')
-if [ -n "$pr_number" ]; then
-    echo "Open bump PR #$pr_number"
-fi
-
-if [ "$DRY_RUN" -eq 1 ]; then
-    generated=MANIFEST
-else
-    generated=$new_manifest
-fi
-
-master_manifest=$(mktemp)
-git show origin/master:MANIFEST > "$master_manifest"
-
-if cmp -s "$generated" "$master_manifest"; then
-    if [ -n "$pr_number" ]; then
-        close_pr "master already has these MANIFEST versions. Closing."
-    else
-        echo "No bump needed: generated MANIFEST matches origin/master"
-    fi
-    rm -f "$master_manifest"
-    [ "$DRY_RUN" -eq 1 ] || rm -f "$new_manifest"
-    exit 0
-fi
-
-if [ -n "$pr_number" ] && git rev-parse --verify "origin/${BOT_BRANCH}" >/dev/null 2>&1; then
-    pr_manifest=$(mktemp)
-    if git show "origin/${BOT_BRANCH}:MANIFEST" > "$pr_manifest" 2>/dev/null; then
-        if cmp -s "$generated" "$pr_manifest"; then
-            echo "Open PR #$pr_number already has this MANIFEST"
-            rm -f "$pr_manifest" "$master_manifest"
-            [ "$DRY_RUN" -eq 1 ] || rm -f "$new_manifest"
-            exit 0
-        fi
-    fi
-    rm -f "$pr_manifest"
-fi
-
-title=$(pr_title_from_changes)
-if [ "$DRY_RUN" -eq 1 ]; then
-    if [ -n "$pr_number" ]; then
-        echo "DRY-RUN: would update PR #$pr_number: $title"
-    else
-        echo "DRY-RUN: would create PR '$title'"
-    fi
-    rm -f "$master_manifest"
-    exit 0
-fi
-
-git config user.name "github-actions[bot]"
-git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-git checkout --no-track -B "$BOT_BRANCH" origin/master
-cp "$new_manifest" MANIFEST
-rm -f "$new_manifest" "$master_manifest"
-if git diff --quiet MANIFEST; then
-    echo "No change after bump; unexpected" >&2
-    exit 1
-fi
-
-printf '%s\n' "$title" > /tmp/commit-msg.txt
-git add MANIFEST
-git commit -F /tmp/commit-msg.txt
-git push --force origin "$BOT_BRANCH"
-
-write_pr_body
-if [ -n "$pr_number" ]; then
-    gh pr edit "$pr_number" --title "$title" --body-file /tmp/pr-body.md
-    echo "Updated PR #$pr_number"
-else
-    gh pr create --base master --head "$BOT_BRANCH" --title "$title" --body-file /tmp/pr-body.md
+    mv "$new_manifest" MANIFEST
+    echo "Wrote MANIFEST"
 fi
